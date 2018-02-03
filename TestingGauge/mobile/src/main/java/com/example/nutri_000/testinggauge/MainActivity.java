@@ -730,6 +730,11 @@ public class MainActivity extends AppCompatActivity {
         Log.v("BLUETOOTH", "DISCONNECTED");
     }
 
+    public void startUart(View v) {
+        Intent intent = new Intent(this, MainActivityUart.class);
+        startActivity(intent);
+    }
+
     public void startDetails(View v){
         Intent intent = new Intent(this, DetailsActivity.class);
         if (bleService.ankleGatt != null){

@@ -452,6 +452,21 @@
         custom:borderWidth="0dp"
         custom:fabSize="normal" />
 
+    <ImageButton
+        android:id="@+id/uartButton"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="bottom|right"
+        android:layout_marginBottom="15dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="35dp"
+        android:background="@drawable/rightarrow"
+        android:onClick="startUart"
+        android:visibility="visible"
+        app:backgroundTint="#ffffff"
+        custom:borderWidth="0dp"
+        custom:fabSize="normal" />
+
     <Button
         android:id="@+id/scanButton"
         android:layout_width="60dp"

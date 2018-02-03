@@ -13,10 +13,11 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.support.v7.app.AppCompatActivity;
 
 import java.lang.Thread;
 
-public class MainActivityUart extends Activity implements BluetoothLeUart.Callback {
+public class MainActivityUart extends AppCompatActivity implements BluetoothLeUart.Callback {
 
     // UI elements
     private TextView messages;
