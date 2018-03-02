@@ -4,10 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/TestingGauge.iml" filepath="$PROJECT_DIR$/TestingGauge.iml" />
       <module fileurl="file://$PROJECT_DIR$/mobile/mobile.iml" filepath="$PROJECT_DIR$/mobile/mobile.iml" />
-<<<<<<< HEAD
-=======
-      <module fileurl="file://C:\Users\faiza\Documents\GitHub\Upper-Limb-at-Home-Rehabilitation-System\TestingGauge\mobile\mobile.iml" filepath="C:\Users\faiza\Documents\GitHub\Upper-Limb-at-Home-Rehabilitation-System\TestingGauge\mobile\mobile.iml" />
->>>>>>> f74929b04e431f2347be2245076acd7615aaa0dc
+      <module fileurl="file://$PROJECT_DIR$/mobile/mobile.iml" filepath="$PROJECT_DIR$/mobile/mobile.iml" />
     </modules>
   </component>
 </project>
