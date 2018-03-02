@@ -12,19 +12,13 @@ import android.bluetooth.BluetoothGattService;
 import android.bluetooth.le.BluetoothLeScanner;
 import android.bluetooth.le.ScanCallback;
 import android.bluetooth.le.ScanResult;
-
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.os.Binder;
-import android.os.Bundle;
-import android.os.Handler;
 import android.os.IBinder;
-import android.os.Message;
-import android.os.Messenger;
-import android.os.RemoteException;
 import android.util.Log;
 
 import java.util.List;
@@ -36,9 +30,9 @@ import static com.example.nutri_000.testinggauge.MainActivity.getAppContext;
 public class BleService extends Service {
     private BluetoothAdapter adapter;
     public BluetoothLeScanner scanner;
-    public boolean searchingHip, searchingKnee, searchingAnkle = false;
+    public boolean searchingHip, searchingKnee, searchingAnkle, searchingHand = false;
     public boolean searchingPCM = true;
-    BluetoothGatt hipGatt, kneeGatt, ankleGatt, fireflyGatt;
+    BluetoothGatt hipGatt, kneeGatt, ankleGatt, fireflyGatt, handGatt;
     private int connected = 2;
     private int connecting = 1;
     private int disconnected = 0;

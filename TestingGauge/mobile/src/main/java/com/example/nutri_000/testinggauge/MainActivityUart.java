@@ -1,23 +1,20 @@
 package com.example.nutri_000.testinggauge;
 
 
+import android.app.Activity;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.app.Activity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.support.v7.app.AppCompatActivity;
 
-import java.lang.Thread;
-
-public class MainActivityUart extends AppCompatActivity implements BluetoothLeUart.Callback {
+public class MainActivityUart extends Activity implements BluetoothLeUart.Callback {
 
     // UI elements
     private TextView messages;
@@ -97,7 +94,7 @@ public class MainActivityUart extends AppCompatActivity implements BluetoothLeUa
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        //getMenuInflater().inflate(R.menu.main, menu);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
