@@ -77,6 +77,7 @@ public class BleService extends Service {
         approvedDevices[0] = sharedPreferences.getString("device1","000000");
         approvedDevices[1] = sharedPreferences.getString("device2","000000");
         approvedDevices[2] = sharedPreferences.getString("device3","000000");
+        approvedDevices[3] = sharedPreferences.getString("device4","000000");
     }
 
     public int onStartCommand(Intent intent, int flags, int startId){

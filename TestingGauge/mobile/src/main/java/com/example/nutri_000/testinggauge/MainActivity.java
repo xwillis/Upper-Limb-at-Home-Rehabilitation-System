@@ -820,7 +820,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void startUart(View v) {
-        Intent intent = new Intent(this, MainActivityUart.class);
+        //opens UART screen from Adafruit's App
+        Intent intent = new Intent(this, UartActivity.class);
         startActivity(intent);
 
         //Discover the available device name
@@ -943,7 +944,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 // Arm CAL BEGIN //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    
+
 
 
 
