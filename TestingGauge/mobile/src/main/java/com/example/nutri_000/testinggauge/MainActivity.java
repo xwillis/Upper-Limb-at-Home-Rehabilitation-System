@@ -105,8 +105,9 @@ public class MainActivity extends AppCompatActivity {
             // all UI components for main activity
             setContentView(R.layout.activity_main);
 
-            hipUI = new SensorUI(R.id.upperLegButton, R.id.progressBarTopRight, R.id.progressBarTopLeft, R.id.seekBarTopRight, R.id.seekBarTopLeft,
-                    R.id.topAngle, R.id.topAngleL,R.id.relativeHip, this );
+            hipUI = new SensorUI(R.id.upperLegButton, R.id.progressBarTopRight, R.id.progressBarTopRightY, R.id.progressBarTopRightZ, R.id.progressBarTopLeft, R.id.progressBarTopLeftY,
+                    R.id.progressBarTopLeftZ, R.id.seekBarTopRight, R.id.seekBarTopRightY, R.id.seekBarTopRightZ, R.id.seekBarTopLeft, R.id.seekBarTopLeftY, R.id.seekBarTopLeftZ,
+                    R.id.topAngle, R.id.topAngleL, R.id.topAngleY, R.id.topAngleLY, R.id.topAngleZ, R.id.topAngleLZ, R.id.relativeHip, this );
             hipUI.leftPB.setRotation(180);
 
             hipUI.green = R.drawable.chestgreen;
@@ -114,29 +115,34 @@ public class MainActivity extends AppCompatActivity {
             hipUI.white = R.drawable.chestwhite;
 
 
-            kneeUI = new SensorUI(R.id.lowerLegButton, R.id.progressBarMidRight, R.id.progressBarMidLeft, R.id.seekBarMidRight,R.id.seekBarMidLeft,
-                    R.id.midAngle, R.id.midAngleL, R.id.relativeKnee, this);
+            kneeUI = new SensorUI(R.id.lowerLegButton, R.id.progressBarMidRight, R.id.progressBarMidRightY, R.id.progressBarMidRightZ, R.id.progressBarMidLeft, R.id.progressBarMidLeftY,
+                    R.id.progressBarMidLeftZ, R.id.seekBarMidRight, R.id.seekBarMidRightY, R.id.seekBarMidRightZ, R.id.seekBarMidLeft, R.id.seekBarMidLeftY, R.id.seekBarMidLeftZ,
+                    R.id.midAngle, R.id.midAngleL, R.id.midAngleY, R.id.midAngleLY, R.id.midAngleZ, R.id.midAngleLZ, R.id.relativeKnee, this);
             kneeUI.leftPB.setRotation(180);
 
             kneeUI.green = R.drawable.armgreen;
             kneeUI.yellow = R.drawable.armyellow;
             kneeUI.white = R.drawable.armwhite;
 
-            ankleUI = new SensorUI(R.id.footButton,R.id.progressBarBottomRight,R.id.progressBarBottomLeft,R.id.seekBarBottomRight,R.id.seekBarBottomLeft,
-                    R.id.bottomAngle,R.id.bottomAngleL, R.id.relativeAnkle, this);
+            /*ankleUI = new SensorUI(R.id.footButton,R.id.progressBarBottomRight,R.id.progressBarBottomRightY,R.id.progressBarBottomRightZ,R.id.progressBarBottomLeft,R.id.progressBarBottomLeftY,
+                    R.id.progressBarBottomLeftZ,R.id.seekBarBottomRight,R.id.seekBarBottomRightY,R.id.seekBarBottomRightZ,R.id.seekBarBottomLeft,R.id.seekBarBottomLeftY,R.id.seekBarBottomLeftZ,
+                    R.id.bottomAngle,R.id.bottomAngleL, R.id.bottomAngleY,R.id.bottomAngleLY, R.id.bottomAngleZ,R.id.bottomAngleLZ,R.id.relativeAnkle, this);
             ankleUI.leftPB.setRotation(180);
 
             ankleUI.green = R.drawable.wristgreen;
             ankleUI.yellow = R.drawable.wristyellow;
             ankleUI.white = R.drawable.wristwhite;
 
-            handUI = new SensorUI(R.id.handButton,R.id.progressBarBottom2Right,R.id.progressBarBottom2Left,R.id.seekBarBottom2Right,R.id.seekBarBottom2Left,
-                    R.id.bottomAngle2,R.id.bottomAngleL2, R.id.relativeHand, this);
+            handUI = new SensorUI(R.id.handButton,R.id.progressBarBottom2Right,R.id.progressBarBottom2RightY,R.id.progressBarBottom2RightZ,R.id.progressBarBottom2Left,R.id.progressBarBottom2LeftY,
+                    R.id.progressBarBottom2LeftZ,R.id.seekBarBottom2Right,R.id.seekBarBottom2RightY,R.id.seekBarBottom2RightZ,R.id.seekBarBottom2Left,R.id.seekBarBottom2LeftY,R.id.seekBarBottom2LeftZ,
+                    R.id.bottomAngle2,R.id.bottomAngleL2,R.id.bottomAngle2Y,R.id.bottomAngleL2Y,R.id.bottomAngle2Z,R.id.bottomAngleL2Z,R.id.relativeHand, this);
             handUI.leftPB.setRotation(180);
 
             handUI.green = R.drawable.handgreen;
             handUI.yellow = R.drawable.handyellow;
             handUI.white = R.drawable.handwhite;
+            */
+
 
             stimButton = (FloatingActionButton) findViewById(R.id.stim_buton);
             sensorStatus = (TextView) findViewById(R.id.SensorStatus);
@@ -307,15 +313,41 @@ public class MainActivity extends AppCompatActivity {
                 timerHandler.postDelayed(fireflyDebounce,5000);
             }
         }
+        //check Y
+        if (value > sensor.rightSBY.getProgress() | (value*-1) > sensor.leftSBY.getProgress()){
+            if(!statusVariables.stimming) {
+                statusVariables.stimming = true;
+                Log.v(TAG, "Start command");
+                triggerFirefly(fireflyCommands.startStim);
+                timerHandler.postDelayed(fireflyStop, 1000);
+                timerHandler.postDelayed(fireflyDebounce,5000);
+            }
+        }
+        //end y
+
+        //check Z
+        if (value > sensor.rightSBZ.getProgress() | (value*-1) > sensor.leftSBZ.getProgress()){
+            if(!statusVariables.stimming) {
+                statusVariables.stimming = true;
+                Log.v(TAG, "Start command");
+                triggerFirefly(fireflyCommands.startStim);
+                timerHandler.postDelayed(fireflyStop, 1000);
+                timerHandler.postDelayed(fireflyDebounce,5000);
+            }
+        }
+        //end z
     }
     //GAUGE
-    public void setGaugeValue(final int value, final SensorUI sensor) {
+
+    //for X axis
+    public void setGaugeValueX(final int value, final SensorUI sensor) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 if(value < 0 & value > -90) {
                     sensor.leftPB.setProgress(-1*value);
                     sensor.rightPB.setProgress(0);
+
                     if(sensor == hipUI){
                         hipData.add( Integer.toString(value) + " ");
                         //hipCount++;
@@ -409,6 +441,214 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    //for y axis
+    public void setGaugeValueY(final int value, final SensorUI sensor) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if(value < 0 & value > -90) {
+                    sensor.leftPBY.setProgress(-1*value);
+                    sensor.rightPBY.setProgress(0);
+
+                    if(sensor == hipUI){
+                        hipData.add( Integer.toString(value) + " ");
+                        //hipCount++;
+                        hipData.add(Long.toString(System.currentTimeMillis()) + "\n");
+                        //hipCount++;
+                    }
+                    if(sensor == kneeUI){
+                        kneeData.add(Integer.toString(value)+ " ") ;
+                        //kneeCount++;
+                        kneeData.add(Long.toString(System.currentTimeMillis()) + "\n");
+                        //kneeCount++;
+                    }
+                    if(sensor == ankleUI){
+                        ankleData.add(Integer.toString(value)+ " ");
+                        //ankleCount++;
+                        ankleData.add(Long.toString(System.currentTimeMillis()) + "\n");
+                        //ankleCount++;
+                    }
+                    if(sensor == handUI){
+                        handData.add(Integer.toString(value)+ " ");
+                        //ankleCount++;
+                        handData.add(Long.toString(System.currentTimeMillis()) + "\n");
+                        //ankleCount++;
+                    }
+                    //writeFile(value, sensor);
+                }
+                else if(value > 0 & value < 90 ){
+                    sensor.leftPBY.setProgress(0);
+                    sensor.rightPBY.setProgress(value);
+                    if(sensor == hipUI){
+                        hipData.add( Integer.toString(value) + " ");
+                        //hipCount++;
+                        hipData.add(Long.toString(System.currentTimeMillis()) + "\n");
+                        //hipCount++;
+                    }
+                    if(sensor == kneeUI){
+                        kneeData.add(Integer.toString(value)+ " ") ;
+                        //kneeCount++;
+                        kneeData.add(Long.toString(System.currentTimeMillis()) + "\n");
+                        //kneeCount++;
+                    }
+                    if(sensor == ankleUI){
+                        ankleData.add(Integer.toString(value)+ " ");
+                        //ankleCount++;
+                        ankleData.add(Long.toString(System.currentTimeMillis()) + "\n");
+                        //ankleCount++;
+                    }
+                    if(sensor == handUI){
+                        handData.add(Integer.toString(value)+ " ");
+                        //ankleCount++;
+                        handData.add(Long.toString(System.currentTimeMillis()) + "\n");
+                        //ankleCount++;
+                    }
+                    //writeFile(value, sensor);
+                }
+                if (value > sensor.rightSBY.getProgress() & value < 90 ){
+                    sensor.relativeLayout.setBackgroundColor(Color.parseColor("#008542"));
+                    if(!writeDebounce){
+                        //writeFile(value, sensor);
+                        writeDebounce = true;
+                        timerHandler.postDelayed(debounceWrite, 1000);
+                    }
+
+                }
+                if ( (value*-1) > sensor.leftSB.getProgress() & (value*-1) < 90 ){
+                    sensor.relativeLayout.setBackgroundColor(Color.parseColor("#008542"));
+                    if(!writeDebounce){
+                        //writeFile(value, sensor);
+                        writeDebounce = true;
+                        timerHandler.postDelayed(debounceWrite, 1000);
+                    }
+
+                }
+
+                if (value < sensor.rightSBY.getProgress() & (value*-1) < sensor.leftSBY.getProgress()){
+
+                    sensor.relativeLayout.setBackgroundColor(Color.parseColor("#404040"));
+                    if(sensor == kneeUI){
+                        sensor.relativeLayout.setBackgroundColor(Color.parseColor("#333333"));
+                    }
+
+                }
+                if(value >= 0 ){
+                    sensor.rightTVY.setText(Integer.toString(value) + "/" + Integer.toString(sensor.rightSBY.getProgress()));
+                    sensor.leftTVY.setText("0/"+ Integer.toString(sensor.leftSBY.getProgress()));
+                }
+                if(value <= 0) {
+                    sensor.leftTVY.setText(Integer.toString(-1*value) + "/" + Integer.toString(sensor.leftSBY.getProgress()));
+                    sensor.rightTVY.setText("0/" + Integer.toString(sensor.rightSBY.getProgress()));
+                }
+            }
+        });
+    }
+    //end y
+
+    //for z axis
+    public void setGaugeValueZ(final int value, final SensorUI sensor) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if(value < 0 & value > -90) {
+                    sensor.leftPBZ.setProgress(-1*value);
+                    sensor.rightPBZ.setProgress(0);
+
+                    if(sensor == hipUI){
+                        hipData.add( Integer.toString(value) + " ");
+                        //hipCount++;
+                        hipData.add(Long.toString(System.currentTimeMillis()) + "\n");
+                        //hipCount++;
+                    }
+                    if(sensor == kneeUI){
+                        kneeData.add(Integer.toString(value)+ " ") ;
+                        //kneeCount++;
+                        kneeData.add(Long.toString(System.currentTimeMillis()) + "\n");
+                        //kneeCount++;
+                    }
+                    if(sensor == ankleUI){
+                        ankleData.add(Integer.toString(value)+ " ");
+                        //ankleCount++;
+                        ankleData.add(Long.toString(System.currentTimeMillis()) + "\n");
+                        //ankleCount++;
+                    }
+                    if(sensor == handUI){
+                        handData.add(Integer.toString(value)+ " ");
+                        //ankleCount++;
+                        handData.add(Long.toString(System.currentTimeMillis()) + "\n");
+                        //ankleCount++;
+                    }
+                    //writeFile(value, sensor);
+                }
+                else if(value > 0 & value < 90 ){
+                    sensor.leftPBZ.setProgress(0);
+                    sensor.rightPBZ.setProgress(value);
+                    if(sensor == hipUI){
+                        hipData.add( Integer.toString(value) + " ");
+                        //hipCount++;
+                        hipData.add(Long.toString(System.currentTimeMillis()) + "\n");
+                        //hipCount++;
+                    }
+                    if(sensor == kneeUI){
+                        kneeData.add(Integer.toString(value)+ " ") ;
+                        //kneeCount++;
+                        kneeData.add(Long.toString(System.currentTimeMillis()) + "\n");
+                        //kneeCount++;
+                    }
+                    if(sensor == ankleUI){
+                        ankleData.add(Integer.toString(value)+ " ");
+                        //ankleCount++;
+                        ankleData.add(Long.toString(System.currentTimeMillis()) + "\n");
+                        //ankleCount++;
+                    }
+                    if(sensor == handUI){
+                        handData.add(Integer.toString(value)+ " ");
+                        //ankleCount++;
+                        handData.add(Long.toString(System.currentTimeMillis()) + "\n");
+                        //ankleCount++;
+                    }
+                    //writeFile(value, sensor);
+                }
+                if (value > sensor.rightSBZ.getProgress() & value < 90 ){
+                    sensor.relativeLayout.setBackgroundColor(Color.parseColor("#008542"));
+                    if(!writeDebounce){
+                        //writeFile(value, sensor);
+                        writeDebounce = true;
+                        timerHandler.postDelayed(debounceWrite, 1000);
+                    }
+
+                }
+                if ( (value*-1) > sensor.leftSBZ.getProgress() & (value*-1) < 90 ){
+                    sensor.relativeLayout.setBackgroundColor(Color.parseColor("#008542"));
+                    if(!writeDebounce){
+                        //writeFile(value, sensor);
+                        writeDebounce = true;
+                        timerHandler.postDelayed(debounceWrite, 1000);
+                    }
+
+                }
+
+                if (value < sensor.rightSBZ.getProgress() & (value*-1) < sensor.leftSBZ.getProgress()){
+
+                    sensor.relativeLayout.setBackgroundColor(Color.parseColor("#404040"));
+                    if(sensor == kneeUI){
+                        sensor.relativeLayout.setBackgroundColor(Color.parseColor("#333333"));
+                    }
+
+                }
+                if(value >= 0 ){
+                    sensor.rightTVZ.setText(Integer.toString(value) + "/" + Integer.toString(sensor.rightSBZ.getProgress()));
+                    sensor.leftTVZ.setText("0/"+ Integer.toString(sensor.leftSBZ.getProgress()));
+                }
+                if(value <= 0) {
+                    sensor.leftTVZ.setText(Integer.toString(-1*value) + "/" + Integer.toString(sensor.leftSBZ.getProgress()));
+                    sensor.rightTVZ.setText("0/" + Integer.toString(sensor.rightSBZ.getProgress()));
+                }
+            }
+        });
+    }
+    //end z
 
 
     //SENSOR STATUS TEXT
@@ -759,13 +999,29 @@ public class MainActivity extends AppCompatActivity {
             if(eventType.equals("notification")){
                 BleNotification notification = intent.getParcelableExtra("notifyObject");
                 if(notification.gatt.equals("hip")){
-                    findGaugeValue(hipUI,notification.value);
+                    //find value x
+                    findGaugeValueX(hipUI,notification.value);
+                    //find value y
+                    findGaugeValueY(hipUI,notification.value);
+                    //find value z
+                    findGaugeValueZ(hipUI,notification.value);
+
                 }
                 else if(notification.gatt.equals("knee")){
-                    findGaugeValue(kneeUI,notification.value);
+                    //find value x
+                    findGaugeValueX(kneeUI,notification.value);
+                    //find value y
+                    findGaugeValueY(kneeUI,notification.value);
+                    //find value z
+                    findGaugeValueZ(kneeUI,notification.value);
                 }
                 else if(notification.gatt.equals("ankle")){
-                    findGaugeValue(ankleUI,notification.value);
+                    //find value x
+                    findGaugeValueX(ankleUI,notification.value);
+                    //find value y
+                    findGaugeValueY(ankleUI,notification.value);
+                    //find value z
+                    findGaugeValueZ(ankleUI,notification.value);
                 }
                 /*if(extras.getString("gatt").equals("hip")){
                     Float value = extras.getFloat("value");
@@ -820,8 +1076,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void startUart(View v) {
-        //opens UART screen from Adafruit's App
-        Intent intent = new Intent(this, UartActivity.class);
+        //opens Adafruit's App with only UART capabilities
+        Intent intent = new Intent(this, MainActivityA.class);
         startActivity(intent);
 
         //Discover the available device name
@@ -856,10 +1112,12 @@ public class MainActivity extends AppCompatActivity {
         }
         startActivity(intent);
     }
-    public void findGaugeValue(final SensorUI sensor, float gyroX){
+    public void findGaugeValueX(final SensorUI sensor, float gyroX){
         if(sensor.calibrate & sensor.calibrateCounter < 10){
             sensor.calibrateCounter++;
             sensor.average = sensor.average + gyroX;
+
+
         }
         else if (sensor.calibrate & sensor.calibrateCounter == 10){
             sensor.average = sensor.average/10;
@@ -868,35 +1126,149 @@ public class MainActivity extends AppCompatActivity {
         else if (sensor.calibrate & sensor.calibrateCounter > 10){
             if((sensor.average+90.0) <= 180 & (sensor.average - 90) >= -180){
                 checkValue((int)(gyroX + (-1*sensor.average)), sensor);
-                setGaugeValue((int)(gyroX + (-1*sensor.average)), sensor);
+                setGaugeValueX((int)(gyroX + (-1*sensor.average)), sensor);
                 int correctedValue = (int)(gyroX + (-1*sensor.average));
+
             }
             else if((sensor.average+90) > 180){
                 if (gyroX < 0 ){
                     checkValue((int)((180 - sensor.average) + (gyroX + 180)),sensor);
-                    setGaugeValue((int)((180 - sensor.average) + (gyroX + 180)),sensor);
+                    setGaugeValueX((int)((180 - sensor.average) + (gyroX + 180)),sensor);
                     int correctedValue = (int)((180 - sensor.average) + (gyroX + 180));
                 }
                 else if(gyroX > 0){
                     checkValue((int)(gyroX + (-1*sensor.average)), sensor);
-                    setGaugeValue((int)(gyroX + (-1*sensor.average)), sensor);
+                    setGaugeValueX((int)(gyroX + (-1*sensor.average)), sensor);
                     int correctedValue = (int)(gyroX + (-1*sensor.average));
                 }
+
+
+
             }
             else if((sensor.average-90) < -180){
                 if(gyroX < 0 ){
                     checkValue((int)(gyroX + (-1*sensor.average)), sensor);
-                    setGaugeValue((int)(gyroX + (-1*sensor.average)), sensor);
+                    setGaugeValueX((int)(gyroX + (-1*sensor.average)), sensor);
                     int correctedValue = (int)(gyroX + (-1*sensor.average));
                 }
                 if(gyroX > 0){
                     checkValue((int)((-180 - sensor.average) + (gyroX - 180)), sensor);
-                    setGaugeValue((int)((-180 - sensor.average) + (gyroX - 180)), sensor);
+                    setGaugeValueX((int)((-180 - sensor.average) + (gyroX - 180)), sensor);
                     int correctedValue = (int)((-180 - sensor.average) + (gyroX - 180));
                 }
+
+
             }
         }
     }
+
+    //find gyroY
+    public void findGaugeValueY(final SensorUI sensor, float gyroY){
+        if(sensor.calibrate & sensor.calibrateCounter < 10){
+            sensor.calibrateCounter++;
+            sensor.average = sensor.average + gyroY;
+
+
+        }
+        else if (sensor.calibrate & sensor.calibrateCounter == 10){
+            sensor.average = sensor.average/10;
+            sensor.calibrateCounter++;
+        }
+        else if (sensor.calibrate & sensor.calibrateCounter > 10){
+            if((sensor.average+90.0) <= 180 & (sensor.average - 90) >= -180){
+                checkValue((int)(gyroY + (-1*sensor.average)), sensor);
+                setGaugeValueY((int)(gyroY + (-1*sensor.average)), sensor);
+                int correctedValue = (int)(gyroY + (-1*sensor.average));
+
+            }
+            else if((sensor.average+90) > 180){
+                if (gyroY < 0 ){
+                    checkValue((int)((180 - sensor.average) + (gyroY + 180)),sensor);
+                    setGaugeValueY((int)((180 - sensor.average) + (gyroY + 180)),sensor);
+                    int correctedValue = (int)((180 - sensor.average) + (gyroY + 180));
+                }
+                else if(gyroY > 0){
+                    checkValue((int)(gyroY + (-1*sensor.average)), sensor);
+                    setGaugeValueY((int)(gyroY + (-1*sensor.average)), sensor);
+                    int correctedValue = (int)(gyroY + (-1*sensor.average));
+                }
+
+
+
+            }
+            else if((sensor.average-90) < -180){
+                if(gyroY < 0 ){
+                    checkValue((int)(gyroY + (-1*sensor.average)), sensor);
+                    setGaugeValueY((int)(gyroY + (-1*sensor.average)), sensor);
+                    int correctedValue = (int)(gyroY + (-1*sensor.average));
+                }
+                if(gyroY > 0){
+                    checkValue((int)((-180 - sensor.average) + (gyroY - 180)), sensor);
+                    setGaugeValueY((int)((-180 - sensor.average) + (gyroY - 180)), sensor);
+                    int correctedValue = (int)((-180 - sensor.average) + (gyroY - 180));
+                }
+
+
+            }
+        }
+    }
+    //end of gyroY
+
+    //find gyroZ
+    public void findGaugeValueZ(final SensorUI sensor, float gyroZ){
+        if(sensor.calibrate & sensor.calibrateCounter < 10){
+            sensor.calibrateCounter++;
+            sensor.average = sensor.average + gyroZ;
+
+
+        }
+        else if (sensor.calibrate & sensor.calibrateCounter == 10){
+            sensor.average = sensor.average/10;
+            sensor.calibrateCounter++;
+        }
+        else if (sensor.calibrate & sensor.calibrateCounter > 10){
+            if((sensor.average+90.0) <= 180 & (sensor.average - 90) >= -180){
+                checkValue((int)(gyroZ + (-1*sensor.average)), sensor);
+                setGaugeValueZ((int)(gyroZ + (-1*sensor.average)), sensor);
+                int correctedValue = (int)(gyroZ + (-1*sensor.average));
+
+            }
+            else if((sensor.average+90) > 180){
+                if (gyroZ < 0 ){
+                    checkValue((int)((180 - sensor.average) + (gyroZ + 180)),sensor);
+                    setGaugeValueZ((int)((180 - sensor.average) + (gyroZ + 180)),sensor);
+                    int correctedValue = (int)((180 - sensor.average) + (gyroZ + 180));
+                }
+                else if(gyroZ > 0){
+                    checkValue((int)(gyroZ + (-1*sensor.average)), sensor);
+                    setGaugeValueZ((int)(gyroZ + (-1*sensor.average)), sensor);
+                    int correctedValue = (int)(gyroZ + (-1*sensor.average));
+                }
+
+
+
+            }
+            else if((sensor.average-90) < -180){
+                if(gyroZ < 0 ){
+                    checkValue((int)(gyroZ + (-1*sensor.average)), sensor);
+                    setGaugeValueZ((int)(gyroZ + (-1*sensor.average)), sensor);
+                    int correctedValue = (int)(gyroZ + (-1*sensor.average));
+                }
+                if(gyroZ > 0){
+                    checkValue((int)((-180 - sensor.average) + (gyroZ - 180)), sensor);
+                    setGaugeValueZ((int)((-180 - sensor.average) + (gyroZ - 180)), sensor);
+                    int correctedValue = (int)((-180 - sensor.average) + (gyroZ - 180));
+                }
+
+
+            }
+        }
+    }
+    //end of gyroZ
+
+
+
+
     public void writeFile(){
         try {
             if(!fileCreated){

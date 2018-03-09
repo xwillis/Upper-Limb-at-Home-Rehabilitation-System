@@ -13,6 +13,9 @@ android {
 
     useLibrary 'org.apache.http.legacy'     // TODO: remove Apache library and use HttpURLConnection (Apache is deprecated since Android 6.0)
 
+    aaptOptions {
+        noCompress "zip"
+    }
 
     buildTypes {
         release {
@@ -34,10 +37,11 @@ repositories {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     wearApp project(':wear')
-    compile 'com.android.support:appcompat-v7:23.3.0'
-    compile 'com.android.support:recyclerview-v7:23.3.0'
+    //noinspection GradleCompatible
+    compile 'com.android.support:appcompat-v7:25.4.0'
+    compile 'com.android.support:recyclerview-v7:25.4.0'
     compile 'com.google.android.gms:play-services:8.3.0'
-    compile 'com.android.support:design:23.1.1'
+    compile 'com.android.support:design:25.4.0'
     compile 'com.github.lzyzsd:circleprogress:1.1.0@aar'
     compile 'com.github.Triggertrap:SeekArc:v1.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'

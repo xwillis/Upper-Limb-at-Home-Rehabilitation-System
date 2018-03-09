@@ -74,7 +74,7 @@ public class BleService extends Service {
 
         //set up saved devices for future connections
         sharedPreferences = this.getSharedPreferences("savedDevices", Context.MODE_PRIVATE);
-        approvedDevices[0] = sharedPreferences.getString("device1","000000");
+        approvedDevices[0] = sharedPreferences.getString("device1","DD:70:D1:12:A3:21");
         approvedDevices[1] = sharedPreferences.getString("device2","000000");
         approvedDevices[2] = sharedPreferences.getString("device3","000000");
         approvedDevices[3] = sharedPreferences.getString("device4","000000");
@@ -247,6 +247,20 @@ public class BleService extends Service {
                     intent.putExtra("notifyObject", notification);
                     intent.putExtra("gatt","hip");
                     intent.putExtra("value", gyroX);
+
+                    //display gyroY
+                    BleNotification notificationY = new BleNotification(gyroY, "hip");
+                    intent.putExtra("notifyObject", notificationY);
+                    intent.putExtra("gatt","hip");
+                    intent.putExtra("value", gyroY);
+
+                    //display gyroZ
+                    BleNotification notificationZ = new BleNotification(gyroZ, "hip");
+                    intent.putExtra("notifyObject", notificationZ);
+                    intent.putExtra("gatt","hip");
+                    intent.putExtra("value", gyroZ);
+
+
                 }
                 else if(gatt == kneeGatt){
                     BleNotification notification = new BleNotification(gyroX, "knee");
