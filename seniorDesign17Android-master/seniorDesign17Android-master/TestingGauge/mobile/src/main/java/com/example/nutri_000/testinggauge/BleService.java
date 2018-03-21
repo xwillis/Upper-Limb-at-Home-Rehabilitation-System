@@ -244,7 +244,7 @@ public class BleService extends Service {
                 float gyroX = val * 0.0625f;
                 String bleEvent = "notification";
 
-
+//get all the values from the IMU, converted them to normal numbers
 
                 intent.putExtra("bleEvent", bleEvent);
                 if(gatt == hipGatt){

@@ -91,12 +91,14 @@
                         android:layout_centerInParent="true"
                         android:layout_toLeftOf="@+id/upperLegButton"
                         android:layout_weight="1"
-                        android:paddingBottom="25dp"
+                        android:paddingBottom="18dp"
                         android:textAlignment="center"
                         android:textColor="#ffffff"
                         android:textSize="18dp"
                         android:textStyle="bold"
                         android:visibility="visible" />
+
+
 
                     <TextView
                         android:id="@+id/topAngle"
@@ -105,12 +107,13 @@
                         android:layout_centerInParent="true"
                         android:layout_toRightOf="@+id/upperLegButton"
                         android:layout_weight="1"
-                        android:paddingBottom="25dp"
+                        android:paddingBottom="18dp"
                         android:textAlignment="center"
                         android:textColor="#ffffff"
                         android:textSize="18dp"
                         android:textStyle="bold"
                         android:visibility="visible" />
+
 
 
 
@@ -200,7 +203,7 @@
                     android:layout_below="@+id/progressBarThigh"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentEnd="true">
-                    <TextView
+                     <TextView
                         android:id="@+id/topAngleLY"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -309,7 +312,7 @@
                     android:layout_below="@+id/progressBarThighY"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentEnd="true">
-                    <TextView
+                     <TextView
                         android:id="@+id/topAngleLZ"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -413,7 +416,7 @@
 
             </RelativeLayout>
 
-
+<!-- end of first block, hip block -->
 
 
 
@@ -422,7 +425,7 @@
             <RelativeLayout
                 android:id="@+id/relativeKnee"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="5dp"
                 android:layout_weight="1">
 
                 <ImageButton
@@ -747,7 +750,7 @@
 
 
 
-
+<!-- end of second block, height shoudl be wrap content-->
 
 
 
@@ -756,7 +759,7 @@
             <RelativeLayout
                 android:id="@+id/relativeAnkle"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="5dp"
                 android:layout_weight="1"
                 android:background="#404040">
 
@@ -1072,7 +1075,7 @@
 
 
 
-
+<!--end of third block, height should be wrap content-->
 
 
             <ImageView
@@ -1085,6 +1088,7 @@
                 android:layout_marginBottom="3dp"
                 android:layout_weight="1"
                 custom:srcCompat="@drawable/txbdc" />
+            <!-- texas bdc logo at bottom-->
 
         </LinearLayout>
     </RelativeLayout>
@@ -1104,6 +1108,7 @@
         android:visibility="visible"
         app:borderWidth="0dp"
         app:fabSize="normal" />
+    <!-- stim button, blue-->
 
     <ImageButton
         android:id="@+id/detailsButton"
@@ -1119,7 +1124,7 @@
         app:backgroundTint="#ffffff"
         custom:borderWidth="0dp"
         custom:fabSize="normal" />
-
+<!--go to details button-->
     <Button
         android:id="@+id/scanButton"
         android:layout_width="60dp"
@@ -1133,10 +1138,12 @@
         android:textColorLink="#A59D95"
         android:textSize="15dp"
         android:visibility="invisible" />
+    <!-- invisible button-->
 
     <include
         android:id="@+id/include"
         layout="@layout/content_main" />
+    <!-- it's some sort of layout...possibly framework for the two invisible buttons-->
 
     <Button
         android:id="@+id/calibrate"
@@ -1151,6 +1158,7 @@
         android:visibility="invisible"
         app:layout_anchor="@+id/include"
         app:layout_anchorGravity="bottom|right" />
+    <!-- calibration button-->
 
 
 </android.support.design.widget.CoordinatorLayout>

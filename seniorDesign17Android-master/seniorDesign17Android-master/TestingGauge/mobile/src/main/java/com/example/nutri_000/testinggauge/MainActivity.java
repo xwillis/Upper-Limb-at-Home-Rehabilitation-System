@@ -213,6 +213,7 @@ public class MainActivity extends AppCompatActivity {
         writeFileAtStop("ankle = ", ankleUI);
         Log.v("onStop", "STOPPED");
     }
+    //this should be deleted
     @Override
     protected void onPause(){
         super.onPause();
@@ -914,22 +915,23 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             }
+            //notification when x value changes
             if(eventType.equals("notification")){
                 BleNotification notification = intent.getParcelableExtra("notifyObject");
                 if(notification.gatt.equals("hip")){
                     findGaugeValueX(hipUI,notification.value);
-                    findGaugeValueY(hipUI,notification.value);
-                    findGaugeValueZ(hipUI,notification.value);
+                    //findGaugeValueY(hipUI,notification.value);
+                    //findGaugeValueZ(hipUI,notification.value);
                 }
                 else if(notification.gatt.equals("knee")){
                     findGaugeValueX(kneeUI,notification.value);
-                    findGaugeValueY(kneeUI,notification.value);
-                    findGaugeValueZ(kneeUI,notification.value);
+                    //findGaugeValueY(kneeUI,notification.value);
+                    //findGaugeValueZ(kneeUI,notification.value);
                 }
                 else if(notification.gatt.equals("ankle")){
                     findGaugeValueX(ankleUI,notification.value);
-                    findGaugeValueY(ankleUI,notification.value);
-                    findGaugeValueZ(ankleUI,notification.value);
+                    //findGaugeValueY(ankleUI,notification.value);
+                    //findGaugeValueZ(ankleUI,notification.value);
                 }
                 /*if(extras.getString("gatt").equals("hip")){
                     Float value = extras.getFloat("value");
@@ -944,6 +946,45 @@ public class MainActivity extends AppCompatActivity {
                     findGaugeValue(ankleUI,value);
                 }*/
             }
+
+            //notification when y value changes
+            if(eventType.equals("notificationY")) {
+                BleNotification notificationY = intent.getParcelableExtra("notifyObjectY");
+                if (notificationY.gatt.equals("hip")) {
+                    //findGaugeValueX(hipUI,notificationY.value);
+                    findGaugeValueY(hipUI, notificationY.value);
+                    //findGaugeValueZ(hipUI,notification.value);
+                } else if (notificationY.gatt.equals("knee")) {
+                    //findGaugeValueX(kneeUI,notificationY.value);
+                    findGaugeValueY(kneeUI, notificationY.value);
+                    //findGaugeValueZ(kneeUI,notification.value);
+                } else if (notificationY.gatt.equals("ankle")) {
+                    //findGaugeValueX(ankleUI,notificationY.value);
+                    findGaugeValueY(ankleUI, notificationY.value);
+                    //findGaugeValueZ(ankleUI,notification.value);
+                }
+            }
+
+            //notification when z value changes
+                if(eventType.equals("notificationZ")) {
+                    BleNotification notificationZ = intent.getParcelableExtra("notifyObjectZ");
+                    if (notificationZ.gatt.equals("hip")) {
+                        //findGaugeValueX(hipUI,notification.value);
+                        //findGaugeValueY(hipUI,notification.value);
+                        findGaugeValueZ(hipUI, notificationZ.value);
+                    } else if (notificationZ.gatt.equals("knee")) {
+                        //findGaugeValueX(kneeUI,notification.value);
+                        //findGaugeValueY(kneeUI,notification.value);
+                        findGaugeValueZ(kneeUI, notificationZ.value);
+                    } else if (notificationZ.gatt.equals("ankle")) {
+                        //findGaugeValueX(ankleUI,notification.value);
+                        //findGaugeValueY(ankleUI,notification.value);
+                        findGaugeValueZ(ankleUI, notificationZ.value);
+                    }
+                }
+
+
+
             if(eventType.equals("fireflyConnected")){
                 runOnUiThread(new Runnable() {
                     @Override
