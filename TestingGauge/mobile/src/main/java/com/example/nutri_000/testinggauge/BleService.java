@@ -142,7 +142,7 @@ public class BleService extends Service {
         {
             Log.d(TAG, "LE Scan Failed: " + errorCode);
         }
-
+//connect IMU or stim unit devices
         private void processResult(ScanResult device)
         {
             Log.i(TAG, "New LE Device: " + device.getDevice().getName() + " @ " + device.getRssi() + " Address " + device.getDevice().getAddress());
@@ -210,7 +210,7 @@ public class BleService extends Service {
             }
         }
     };
-
+//start scanner
     public void initializeBle(){
         adapter = BluetoothAdapter.getDefaultAdapter();
         scanner = adapter.getBluetoothLeScanner();
@@ -221,6 +221,7 @@ public class BleService extends Service {
         public void onDescriptorWrite(BluetoothGatt gatt, BluetoothGattDescriptor descriptor, int status) {
 
         }
+        //read in values, convert to floats, send out notifications
         @Override
         public void onCharacteristicChanged(BluetoothGatt gatt, final BluetoothGattCharacteristic characteristic) {
             if(gatt == hipGatt | gatt == kneeGatt | gatt == ankleGatt) {
@@ -252,13 +253,13 @@ public class BleService extends Service {
                     BleNotification notificationY = new BleNotification(gyroY, "hip");
                     intent.putExtra("notifyObject", notificationY);
                     intent.putExtra("gatt","hip");
-                    intent.putExtra("value", gyroY);
+                    intent.putExtra("valueY", gyroY);
 
                     //display gyroZ
                     BleNotification notificationZ = new BleNotification(gyroZ, "hip");
                     intent.putExtra("notifyObject", notificationZ);
                     intent.putExtra("gatt","hip");
-                    intent.putExtra("value", gyroZ);
+                    intent.putExtra("valueZ", gyroZ);
 
 
                 }

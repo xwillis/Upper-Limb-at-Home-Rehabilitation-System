@@ -63,7 +63,7 @@ public class DetailsActivity extends AppCompatActivity {
             isBound = false;
         }
     };
-
+//link GUI elements to code elements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,18 +103,13 @@ public class DetailsActivity extends AppCompatActivity {
         String defaultValue = "000000";
 
     }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
-
+    //um run a logging thing or debugging thing?
     @Override
     protected void onStop() {
         super.onStop();
         bleService.detailsStopped();
     }
-
+//return back to home screen
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             Log.v("recycler click", String.valueOf(item));
@@ -123,7 +118,7 @@ public class DetailsActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
+//scanning method, same as one in main activity probably
     Runnable scanStop = new Runnable() {
         @Override
         public void run() {
@@ -140,7 +135,7 @@ public class DetailsActivity extends AppCompatActivity {
             recyclerView.setAdapter(mAdapter);
         }
     };
-
+//start/stop scan
     public void scanClicked(View v) {
         if (isBound) {
             Log.v("details", "service bound");
@@ -162,7 +157,7 @@ public class DetailsActivity extends AppCompatActivity {
             }
         }
     }
-
+//find new devices for approved devices list
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -172,7 +167,7 @@ public class DetailsActivity extends AppCompatActivity {
             setNewApprovedDevice(newApprovedDevice);
         }
     };
-
+//add new devices to approved devices list
     public void setNewApprovedDevice(final String newDevice) {
         if (approvedDevice1.getText().toString().equals("1")) {
             approvedDevice1.setText(newDevice);
@@ -191,7 +186,7 @@ public class DetailsActivity extends AppCompatActivity {
         bleService.approvedDevices[1] = approvedDevice2.getText().toString();
         bleService.approvedDevices[2] = approvedDevice3.getText().toString();
     }
-
+//set stimulation settings
     public void onClick(View v) {
 
         android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);

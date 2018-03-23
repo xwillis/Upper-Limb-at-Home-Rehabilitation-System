@@ -991,12 +991,12 @@ public class MainActivity extends AppCompatActivity {
             if(eventType.equals("notification")){
                 BleNotification notification = intent.getParcelableExtra("notifyObject");
                 if(notification.gatt.equals("hip")){
-                    //find value x
+                    //find value x, switched to different value coding
                     findGaugeValueX(hipUI,notification.value);
-                    //find value y
-                    findGaugeValueY(hipUI,notification.value);
-                    //find value z
-                    findGaugeValueZ(hipUI,notification.value);
+                    //find value y, switched to different value coding
+                    findGaugeValueY(hipUI,notification.valueY);
+                    //find value z, switched to different value coding
+                    findGaugeValueZ(hipUI,notification.valueZ);
 
                 }
                 else if(notification.gatt.equals("knee")){
