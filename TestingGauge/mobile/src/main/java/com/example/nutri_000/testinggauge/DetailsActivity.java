@@ -39,7 +39,7 @@ public class DetailsActivity extends AppCompatActivity {
     Button scanButton;
     TextView approvedDevice1, approvedDevice2, approvedDevice3;
     String newApprovedDevice;
-
+//open BT finding thing
     private ServiceConnection mServiceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {

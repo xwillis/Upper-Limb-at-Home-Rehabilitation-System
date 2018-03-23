@@ -894,7 +894,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-//do stuff when the BT broadcast tells it to
+//do stuff when the BT broadcast tells it to, this is where the find gauge value function and our problem likely is
     private BroadcastReceiver broadcastReceiver =  new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -1075,7 +1075,7 @@ public class MainActivity extends AppCompatActivity {
         //Discover the available device name
 
     }
-
+//display device addresses in the details page if applicable
     public void startDetails(View v){
         Intent intent = new Intent(this, DetailsActivity.class);
         if (bleService.ankleGatt != null){
@@ -1104,6 +1104,7 @@ public class MainActivity extends AppCompatActivity {
         }
         startActivity(intent);
     }
+//get 10 calibration data points then display the data
     public void findGaugeValueX(final SensorUI sensor, float gyroX){
         if(sensor.calibrate & sensor.calibrateCounter < 10){
             sensor.calibrateCounter++;
@@ -1260,7 +1261,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
+//log data values and etc in file, but in trycatch just in case
     public void writeFile(){
         try {
             if(!fileCreated){
@@ -1283,7 +1284,7 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-
+//flush stuff at close
     public void writeFileAtStop(String string, SensorUI sensor){
         try {
                 FileOutputStream outputStream = new FileOutputStream(fullPath, true);
