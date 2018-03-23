@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
     int handClickCount = 0;
     boolean fireflyFound = false;
 
-
+//open the ble binder
     private ServiceConnection mServiceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
     //ble connections for the sensor
     private TextView sensorStatus;
     private static final int PERMISSION_REQUEST_COARSE_LOCATION = 1;
-
+//auto android stuff, link GUI elements to code functions, start stuff, request permissions, etc
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -174,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-
+//close BT connections on destroy
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -205,6 +205,7 @@ public class MainActivity extends AppCompatActivity {
         }
         Log.v("onDestroy", "DESTROYED");
     }
+    //log that it stopped
     @Override
     protected void onStop() {
 
@@ -215,23 +216,13 @@ public class MainActivity extends AppCompatActivity {
         writeFileAtStop("ankle = ", handUI);
         Log.v("onStop", "STOPPED");
     }
-    @Override
-    protected void onPause(){
-        super.onPause();
-
-    }
-
-    public void onRestoreInstanceState(Bundle savedInstanceState){
-        super.onRestoreInstanceState(savedInstanceState);
-
-    }
-
+//deleted extraneous methods
+    //something about restoring
     public void onSaveInstanceState(Bundle savedInstanceState){
         super.onSaveInstanceState(savedInstanceState);
         int restore = 42;
         savedInstanceState.putInt("SOMETHING", restore);
     }
-
     //stim button clicked
     public void stimClicked(View v)
     {
@@ -260,7 +251,7 @@ public class MainActivity extends AppCompatActivity {
             timerHandler.postDelayed(scanStop, 1000);
         }
     }
-
+//handling permissions
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults)
@@ -299,10 +290,11 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-
+//is this necessary?
     public static Context getAppContext(){
         return MainActivity.context;
     }
+    //check if stimulation is needed or not
     public void checkValue(final int value, final SensorUI sensor){
         if (value > sensor.rightSB.getProgress() | (value*-1) > sensor.leftSB.getProgress()){
             if(!statusVariables.stimming) {
@@ -339,7 +331,7 @@ public class MainActivity extends AppCompatActivity {
     }
     //GAUGE
 
-    //for X axis
+    //set progress bar for X axis
     public void setGaugeValueX(final int value, final SensorUI sensor) {
         runOnUiThread(new Runnable() {
             @Override
@@ -682,7 +674,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     };
-
+//scan for BT devices function
     Runnable scanStop = new Runnable() {
         @Override
         public void run() {
@@ -902,7 +894,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-
+//do stuff when the BT broadcast tells it to
     private BroadcastReceiver broadcastReceiver =  new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
