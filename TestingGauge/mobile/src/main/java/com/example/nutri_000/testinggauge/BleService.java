@@ -244,11 +244,11 @@ public class BleService extends Service {
 
                 intent.putExtra("bleEvent", bleEvent);
                 if(gatt == hipGatt){
-                    BleNotification notification = new BleNotification(gyroX, "hip");
+                    BleNotification notification = new BleNotification(gyroX,gyroY,gyroZ, "hip");
                     intent.putExtra("notifyObject", notification);
                     intent.putExtra("gatt","hip");
                     intent.putExtra("value", gyroX);
-
+/*
                     //display gyroY
                     BleNotification notificationY = new BleNotification(gyroY, "hip");
                     intent.putExtra("notifyObject", notificationY);
@@ -260,7 +260,7 @@ public class BleService extends Service {
                     intent.putExtra("notifyObject", notificationZ);
                     intent.putExtra("gatt","hip");
                     intent.putExtra("valueZ", gyroZ);
-
+*/
 
                 }
                 else if(gatt == kneeGatt){

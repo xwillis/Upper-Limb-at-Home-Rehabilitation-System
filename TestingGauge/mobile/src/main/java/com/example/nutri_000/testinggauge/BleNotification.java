@@ -9,7 +9,9 @@ import android.os.Parcelable;
  */
 
 public class BleNotification implements Parcelable {
-    float value;
+    float valueX;
+    float valueY;
+    float valueZ;
     String gatt;
 
     @Override
@@ -19,7 +21,7 @@ public class BleNotification implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeFloat(value);
+        dest.writeFloat(valueX);
         dest.writeString(gatt);
     }
     public static final Parcelable.Creator<BleNotification> CREATOR
@@ -33,11 +35,17 @@ public class BleNotification implements Parcelable {
         }
     };
     private BleNotification(Parcel in) {
-        value = in.readFloat();
+        valueX = in.readFloat();
         gatt = in.readString();
     }
     public BleNotification(float value, String gatt){
-        this.value = value;
+        this.valueX = value;
         this.gatt = gatt;
+    }
+    public BleNotification(float valueX, float valueY, float valueZ, String gatt){
+        this.valueX = valueX;
+        this.valueY=valueY;
+        this.valueZ=valueZ;
+        this.gatt=gatt;
     }
 }

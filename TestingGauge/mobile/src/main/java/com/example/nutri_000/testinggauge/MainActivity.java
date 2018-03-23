@@ -992,7 +992,7 @@ public class MainActivity extends AppCompatActivity {
                 BleNotification notification = intent.getParcelableExtra("notifyObject");
                 if(notification.gatt.equals("hip")){
                     //find value x, switched to different value coding
-                    findGaugeValueX(hipUI,notification.value);
+                    findGaugeValueX(hipUI,notification.valueX);
                     //find value y, switched to different value coding
                     findGaugeValueY(hipUI,notification.valueY);
                     //find value z, switched to different value coding
@@ -1001,19 +1001,19 @@ public class MainActivity extends AppCompatActivity {
                 }
                 else if(notification.gatt.equals("knee")){
                     //find value x
-                    findGaugeValueX(kneeUI,notification.value);
+                    findGaugeValueX(kneeUI,notification.valueX);
                     //find value y
-                    findGaugeValueY(kneeUI,notification.value);
+                    findGaugeValueY(kneeUI,notification.valueY);
                     //find value z
-                    findGaugeValueZ(kneeUI,notification.value);
+                    findGaugeValueZ(kneeUI,notification.valueZ);
                 }
                 else if(notification.gatt.equals("ankle")){
                     //find value x
-                    findGaugeValueX(ankleUI,notification.value);
+                    findGaugeValueX(ankleUI,notification.valueX);
                     //find value y
-                    findGaugeValueY(ankleUI,notification.value);
+                    findGaugeValueY(ankleUI,notification.valueY);
                     //find value z
-                    findGaugeValueZ(ankleUI,notification.value);
+                    findGaugeValueZ(ankleUI,notification.valueZ);
                 }
                 /*if(extras.getString("gatt").equals("hip")){
                     Float value = extras.getFloat("value");
