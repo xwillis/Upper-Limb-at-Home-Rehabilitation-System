@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -22,13 +22,6 @@
             android:background="?attr/colorPrimary"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
     </android.support.design.widget.AppBarLayout>-->
-
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clipChildren="false"
-        android:gravity="center">
 
         <!-- <ImageView
             android:id="@+id/fireflyPic"
@@ -356,9 +349,9 @@
                 </LinearLayout>
 <!-- end Thigh Button -->
             </RelativeLayout>
-
+        </LinearLayout>
             <!-- Arm Button -->
-
+<!--
             <RelativeLayout
                 android:id="@+id/relativeKnee"
                 android:layout_width="match_parent"
@@ -635,11 +628,12 @@
 
                 </LinearLayout>
             </RelativeLayout>
+    -->
 
             <!-- End arm -->
 
 <!--Wrist Button -->
-
+<!--
             <RelativeLayout
                 android:id="@+id/relativeAnkle"
                 android:layout_width="match_parent"
@@ -906,7 +900,7 @@
 
             </RelativeLayout>
 
-
+-->
 <!-- start of fourth button -->
             <!--
         <RelativeLayout
@@ -1182,7 +1176,7 @@
             </RelativeLayout>
             -->
 
-
+<!--
             <ImageView
                 android:id="@+id/txbdc"
                 android:layout_width="match_parent"
@@ -1197,8 +1191,9 @@
         </LinearLayout>
 
     </RelativeLayout>
-
+-->
 <!--stim button -->
+    <!--
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/stim_buton"
         android:layout_width="wrap_content"
@@ -1213,7 +1208,9 @@
         android:visibility="visible"
         app:borderWidth="0dp"
         app:fabSize="normal" />
+        -->
 <!-- arrow to details activity screen-->
+    <!--
     <ImageButton
         android:id="@+id/detailsButton"
         android:layout_width="30dp"
@@ -1228,6 +1225,7 @@
         app:backgroundTint="#ffffff"
         custom:borderWidth="0dp"
         custom:fabSize="normal" />
+        -->
 <!--
     <ImageButton
         android:id="@+id/uartButton"
@@ -1277,4 +1275,4 @@
         app:layout_anchorGravity="bottom|right" />
 
 -->
-</android.support.design.widget.CoordinatorLayout>
+</RelativeLayout>

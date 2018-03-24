@@ -32,7 +32,7 @@ public class BleService extends Service {
     public BluetoothLeScanner scanner;
     public boolean searchingHip, searchingKnee, searchingAnkle, searchingHand = false;
     public boolean searchingPCM = true;
-    BluetoothGatt hipGatt, kneeGatt, ankleGatt, fireflyGatt, handGatt;
+    BluetoothGatt chestGatt, kneeGatt, ankleGatt, fireflyGatt, handGatt;
     private int connected = 2;
     private int connecting = 1;
     private int disconnected = 0;
@@ -178,7 +178,7 @@ public class BleService extends Service {
                                     BluetoothDevice sensor = device.getDevice();
                                     scanner.stopScan(mScanCallback);
                                     scanning = false;
-                                    hipGatt = sensor.connectGatt(getAppContext(),false,bleGattCallback);
+                                    chestGatt = sensor.connectGatt(getAppContext(),false,bleGattCallback);
                                 }
                                 else if(searchingKnee){
                                     BluetoothDevice sensor = device.getDevice();
@@ -224,7 +224,7 @@ public class BleService extends Service {
         //read in values, convert to floats, send out notifications
         @Override
         public void onCharacteristicChanged(BluetoothGatt gatt, final BluetoothGattCharacteristic characteristic) {
-            if(gatt == hipGatt | gatt == kneeGatt | gatt == ankleGatt) {
+            if(gatt == chestGatt | gatt == kneeGatt | gatt == ankleGatt) {
                 byte[] temp = characteristic.getValue();
                 int MSB = temp[1] << 8;
                 int LSB = temp[0] & 0x000000FF;
@@ -243,7 +243,7 @@ public class BleService extends Service {
 
 
                 intent.putExtra("bleEvent", bleEvent);
-                if(gatt == hipGatt){
+                if(gatt == chestGatt){
                     BleNotification notification = new BleNotification(gyroX,gyroY,gyroZ, "hip");
                     intent.putExtra("notifyObject", notification);
                     intent.putExtra("gatt","hip");
@@ -285,7 +285,7 @@ public class BleService extends Service {
             if(newState == disconnected) {
                 String bleEvent = "sensorDisconnected";
                 intent.putExtra("bleEvent", bleEvent);
-                if(gatt.equals(hipGatt)){
+                if(gatt.equals(chestGatt)){
                     intent.putExtra("gatt","hip");
                 }
                 else if(gatt.equals(kneeGatt)){
@@ -342,7 +342,7 @@ public class BleService extends Service {
                         String bleEvent = "sensorConnected";
                         intent.putExtra("bleEvent", bleEvent);
                         intent.putExtra("gatt", "undetermined");
-                        if(gatt == hipGatt){
+                        if(gatt == chestGatt){
                             intent.putExtra("gatt", "hip");
                         }
                         if(gatt == kneeGatt){
