@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<String> hipData = new ArrayList<String>();
     ArrayList<String>  kneeData= new ArrayList<String>();
     ArrayList<String>  ankleData= new ArrayList<String>();
-    ArrayList<String>  handData= new ArrayList<String>();
+   // ArrayList<String>  handData= new ArrayList<String>();
     int hipCount = 0;
     int kneeCount = 0;
     int ankleCount = 0;
@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
     int footClickCount = 0;
     int kneeClickCount = 0;
     int hipClickCount = 0;
-    int handClickCount = 0;
+    //int handClickCount = 0;
     boolean fireflyFound = false;
 
 //open the ble binder
@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
     SensorUI hipUI;
     SensorUI kneeUI;
     SensorUI ankleUI;
-    SensorUI handUI;
+   // SensorUI handUI;
 
     private static Context context;
 
@@ -105,9 +105,9 @@ public class MainActivity extends AppCompatActivity {
             // all UI components for main activity
             setContentView(R.layout.activity_main);
 
-            hipUI = new SensorUI(R.id.upperLegButton, R.id.progressBarTopRight, R.id.progressBarTopRightY, R.id.progressBarTopRightZ, R.id.progressBarTopLeft, R.id.progressBarTopLeftY,
-                    R.id.progressBarTopLeftZ, R.id.seekBarTopRight, R.id.seekBarTopRightY, R.id.seekBarTopRightZ, R.id.seekBarTopLeft, R.id.seekBarTopLeftY, R.id.seekBarTopLeftZ,
-                    R.id.topAngle, R.id.topAngleL, R.id.topAngleY, R.id.topAngleLY, R.id.topAngleZ, R.id.topAngleLZ, R.id.relativeHip, this );
+            hipUI = new SensorUI(R.id.chestButton, R.id.progressBarTopRight, R.id.progressBarTopRightY, R.id.progressBarTopRightZ, R.id.progressBarTopLeft, R.id.progressBarTopLeftY,
+                    R.id.progressBarTopLeftZ, R.id.seekBarChestXRight, R.id.seekBarChestYRight, R.id.seekBarChestZRight, R.id.seekBarChestXLeft, R.id.seekBarChestYLeft, R.id.seekBarChestZLeft,
+                    R.id.chestAngleXRight, R.id.chestAngleXLeft, R.id.chestAngleYRight, R.id.chestAngleYLeft, R.id.chestAngleZRight, R.id.chestAngleZLeft, R.id.relativeHip, this );
             hipUI.leftPB.setRotation(180);
 
             hipUI.green = R.drawable.chestgreen;
@@ -124,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
             kneeUI.yellow = R.drawable.armyellow;
             kneeUI.white = R.drawable.armwhite;
 
-            /*ankleUI = new SensorUI(R.id.footButton,R.id.progressBarBottomRight,R.id.progressBarBottomRightY,R.id.progressBarBottomRightZ,R.id.progressBarBottomLeft,R.id.progressBarBottomLeftY,
+            ankleUI = new SensorUI(R.id.footButton,R.id.progressBarBottomRight,R.id.progressBarBottomRightY,R.id.progressBarBottomRightZ,R.id.progressBarBottomLeft,R.id.progressBarBottomLeftY,
                     R.id.progressBarBottomLeftZ,R.id.seekBarBottomRight,R.id.seekBarBottomRightY,R.id.seekBarBottomRightZ,R.id.seekBarBottomLeft,R.id.seekBarBottomLeftY,R.id.seekBarBottomLeftZ,
                     R.id.bottomAngle,R.id.bottomAngleL, R.id.bottomAngleY,R.id.bottomAngleLY, R.id.bottomAngleZ,R.id.bottomAngleLZ,R.id.relativeAnkle, this);
             ankleUI.leftPB.setRotation(180);
@@ -132,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
             ankleUI.green = R.drawable.wristgreen;
             ankleUI.yellow = R.drawable.wristyellow;
             ankleUI.white = R.drawable.wristwhite;
-
+/*
             handUI = new SensorUI(R.id.handButton,R.id.progressBarBottom2Right,R.id.progressBarBottom2RightY,R.id.progressBarBottom2RightZ,R.id.progressBarBottom2Left,R.id.progressBarBottom2LeftY,
                     R.id.progressBarBottom2LeftZ,R.id.seekBarBottom2Right,R.id.seekBarBottom2RightY,R.id.seekBarBottom2RightZ,R.id.seekBarBottom2Left,R.id.seekBarBottom2LeftY,R.id.seekBarBottom2LeftZ,
                     R.id.bottomAngle2,R.id.bottomAngleL2,R.id.bottomAngle2Y,R.id.bottomAngleL2Y,R.id.bottomAngle2Z,R.id.bottomAngleL2Z,R.id.relativeHand, this);
@@ -213,7 +213,7 @@ public class MainActivity extends AppCompatActivity {
         writeFileAtStop("hip = ", hipUI);
         writeFileAtStop("knee = ", kneeUI);
         writeFileAtStop("ankle = ", ankleUI);
-        writeFileAtStop("ankle = ", handUI);
+        //writeFileAtStop("hand = ", handUI);
         Log.v("onStop", "STOPPED");
     }
 //deleted extraneous methods
@@ -358,12 +358,12 @@ public class MainActivity extends AppCompatActivity {
                         ankleData.add(Long.toString(System.currentTimeMillis()) + "\n");
                         //ankleCount++;
                     }
-                    if(sensor == handUI){
+                  /*  if(sensor == handUI){
                         handData.add(Integer.toString(value)+ " ");
                         //ankleCount++;
                         handData.add(Long.toString(System.currentTimeMillis()) + "\n");
                         //ankleCount++;
-                    }
+                    }*/
                     //writeFile(value, sensor);
                 }
                 else if(value > 0 & value < 90 ){
@@ -387,12 +387,12 @@ public class MainActivity extends AppCompatActivity {
                         ankleData.add(Long.toString(System.currentTimeMillis()) + "\n");
                         //ankleCount++;
                     }
-                    if(sensor == handUI){
+                   /* if(sensor == handUI){
                         handData.add(Integer.toString(value)+ " ");
                         //ankleCount++;
                         handData.add(Long.toString(System.currentTimeMillis()) + "\n");
                         //ankleCount++;
-                    }
+                    }*/
                     //writeFile(value, sensor);
                 }
                 if (value > sensor.rightSB.getProgress() & value < 90 ){
@@ -461,12 +461,12 @@ public class MainActivity extends AppCompatActivity {
                         ankleData.add(Long.toString(System.currentTimeMillis()) + "\n");
                         //ankleCount++;
                     }
-                    if(sensor == handUI){
+                    /*if(sensor == handUI){
                         handData.add(Integer.toString(value)+ " ");
                         //ankleCount++;
                         handData.add(Long.toString(System.currentTimeMillis()) + "\n");
                         //ankleCount++;
-                    }
+                    }*/
                     //writeFile(value, sensor);
                 }
                 else if(value > 0 & value < 90 ){
@@ -490,12 +490,12 @@ public class MainActivity extends AppCompatActivity {
                         ankleData.add(Long.toString(System.currentTimeMillis()) + "\n");
                         //ankleCount++;
                     }
-                    if(sensor == handUI){
+                    /*if(sensor == handUI){
                         handData.add(Integer.toString(value)+ " ");
                         //ankleCount++;
                         handData.add(Long.toString(System.currentTimeMillis()) + "\n");
                         //ankleCount++;
-                    }
+                    } */
                     //writeFile(value, sensor);
                 }
                 if (value > sensor.rightSBY.getProgress() & value < 90 ){
@@ -565,12 +565,12 @@ public class MainActivity extends AppCompatActivity {
                         ankleData.add(Long.toString(System.currentTimeMillis()) + "\n");
                         //ankleCount++;
                     }
-                    if(sensor == handUI){
+                 /*   if(sensor == handUI){
                         handData.add(Integer.toString(value)+ " ");
                         //ankleCount++;
                         handData.add(Long.toString(System.currentTimeMillis()) + "\n");
                         //ankleCount++;
-                    }
+                    }*/
                     //writeFile(value, sensor);
                 }
                 else if(value > 0 & value < 90 ){
@@ -594,12 +594,12 @@ public class MainActivity extends AppCompatActivity {
                         ankleData.add(Long.toString(System.currentTimeMillis()) + "\n");
                         //ankleCount++;
                     }
-                    if(sensor == handUI){
+                   /* if(sensor == handUI){
                         handData.add(Integer.toString(value)+ " ");
                         //ankleCount++;
                         handData.add(Long.toString(System.currentTimeMillis()) + "\n");
                         //ankleCount++;
-                    }
+                    }*/
                     //writeFile(value, sensor);
                 }
                 if (value > sensor.rightSBZ.getProgress() & value < 90 ){
@@ -693,7 +693,7 @@ public class MainActivity extends AppCompatActivity {
                             if(bleService.hipGatt == null){hipUI.connect.setBackgroundResource(R.drawable.chestwhite);}
                             if(bleService.kneeGatt ==  null){kneeUI.connect.setBackgroundResource(R.drawable.armwhite);}
                             if(bleService.ankleGatt ==  null){ankleUI.connect.setBackgroundResource(R.drawable.wristwhite);}
-                            if(bleService.handGatt ==  null){handUI.connect.setBackgroundResource(R.drawable.handwhite);}
+                        //    if(bleService.handGatt ==  null){handUI.connect.setBackgroundResource(R.drawable.handwhite);}
                         }
                     });
                 }
@@ -719,7 +719,7 @@ public class MainActivity extends AppCompatActivity {
             footClickCount = 0;
             kneeClickCount = 0;
             hipClickCount = 0;
-            handClickCount = 0;
+           // handClickCount = 0;
         }
     };
 
@@ -732,13 +732,13 @@ public class MainActivity extends AppCompatActivity {
                     hipUI.connect.setBackgroundResource(R.drawable.chestyellow);
                     if(bleService.kneeGatt ==  null){kneeUI.connect.setBackgroundResource(R.drawable.armwhite);}
                     if(bleService.ankleGatt ==  null){ankleUI.connect.setBackgroundResource(R.drawable.wristwhite);}
-                    if(bleService.handGatt ==  null){handUI.connect.setBackgroundResource(R.drawable.handwhite);}
+                  //  if(bleService.handGatt ==  null){handUI.connect.setBackgroundResource(R.drawable.handwhite);}
                 }
             });
             bleService.searchingHip = true;
             bleService.searchingKnee = false;
             bleService.searchingAnkle = false;
-            bleService.searchingHand = false;
+          //  bleService.searchingHand = false;
             bleService.searchingPCM = false;
             bleService.scanner.startScan(bleService.mScanCallback);
             scanCount = scanCount + 20;
@@ -774,7 +774,7 @@ public class MainActivity extends AppCompatActivity {
                     kneeUI.connect.setBackgroundResource(R.drawable.armyellow);
                     if(bleService.ankleGatt ==  null){ankleUI.connect.setBackgroundResource(R.drawable.wristwhite);}
                     if(bleService.hipGatt ==  null){hipUI.connect.setBackgroundResource(R.drawable.chestwhite);}
-                    if(bleService.handGatt ==  null){handUI.connect.setBackgroundResource(R.drawable.handwhite);}
+                   // if(bleService.handGatt ==  null){handUI.connect.setBackgroundResource(R.drawable.handwhite);}
                 }
             });
             bleService.searchingKnee = true;
@@ -852,7 +852,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void connectHand(View v){
+  /*  public void connectHand(View v){
         if(bleService.handGatt == null) {
             runOnUiThread(new Runnable() {
                 @Override
@@ -893,7 +893,7 @@ public class MainActivity extends AppCompatActivity {
                 handClickCount = 0;
             }
         }
-    }
+    }*/
 //do stuff when the BT broadcast tells it to, this is where the find gauge value function and our problem likely is
     private BroadcastReceiver broadcastReceiver =  new BroadcastReceiver() {
         @Override
@@ -931,7 +931,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
                 }
-                if(extras.getString("gatt").equals("hand")){
+               /* if(extras.getString("gatt").equals("hand")){
                     connectSensor(handUI);
                     handUI.connect.setOnLongClickListener(new View.OnLongClickListener(){
                         @Override
@@ -940,7 +940,7 @@ public class MainActivity extends AppCompatActivity {
                             return true;
                         }
                     });
-                }
+                } */
                 if(extras.getString("gatt").equals("firefly")){
                     runOnUiThread(new Runnable() {
                         @Override
