@@ -42,7 +42,7 @@
             android:id="@+id/repair"
             android:layout_width="match_parent"
             android:layout_height="80dp"
-            app:srcCompat ="@drawable/repairlogo" />
+            app:srcCompat="@drawable/repairlogo" />
 
         <TextView
             android:id="@+id/SensorStatus"
@@ -59,7 +59,7 @@
             android:textSize="20dp" />
 
         <LinearLayout
-            android:id="@+id/linearLayout"
+            android:id="@+id/linearLayoutChest"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentBottom="true"
@@ -83,47 +83,39 @@
                     android:background="@drawable/hipwhite"
                     android:onClick="connectThigh" />
 
+                <TextView
+                    android:id="@+id/topAngleL"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_toLeftOf="@+id/upperLegButton"
+                    android:layout_weight="1"
+                    android:paddingBottom="18dp"
+                    android:textAlignment="center"
+                    android:textColor="#ffffff"
+                    android:textSize="18dp"
+                    android:textStyle="bold"
+                    android:visibility="visible" />
 
-                    <TextView
-                        android:id="@+id/topAngleL"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:layout_toLeftOf="@+id/upperLegButton"
-                        android:layout_weight="1"
-                        android:paddingBottom="18dp"
-                        android:textAlignment="center"
-                        android:textColor="#ffffff"
-                        android:textSize="18dp"
-                        android:textStyle="bold"
-                        android:visibility="visible" />
-
-
-
-                    <TextView
-                        android:id="@+id/topAngle"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:layout_toRightOf="@+id/upperLegButton"
-                        android:layout_weight="1"
-                        android:paddingBottom="18dp"
-                        android:textAlignment="center"
-                        android:textColor="#ffffff"
-                        android:textSize="18dp"
-                        android:textStyle="bold"
-                        android:visibility="visible" />
-
-
-
-
+                <TextView
+                    android:id="@+id/topAngle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_toRightOf="@+id/upperLegButton"
+                    android:layout_weight="1"
+                    android:paddingBottom="18dp"
+                    android:textAlignment="center"
+                    android:textColor="#ffffff"
+                    android:textSize="18dp"
+                    android:textStyle="bold"
+                    android:visibility="visible" />
 
 
                 <LinearLayout
-                    android:id="@id/linearLayout"
+                    android:id="@+id/linearLayoutChestX"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/upperLegButton"
                     android:orientation="horizontal">
 
                     <SeekBar
@@ -150,7 +142,6 @@
                         android:thumb="@drawable/seek_arc_control_selector" />
 
                 </LinearLayout>
-
 
 
                 <LinearLayout
@@ -193,17 +184,220 @@
                         tools:visibility="visible" />
                 </LinearLayout>
 
+                <!-- End of X Value display -->
+                <TextView
+                    android:id="@+id/topAngleLY"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_toLeftOf="@+id/upperLegButton"
+                    android:layout_weight="1"
+                    android:paddingBottom="18dp"
+                    android:textAlignment="center"
+                    android:textColor="#ffffff"
+                    android:textSize="18dp"
+                    android:textStyle="bold"
+                    android:visibility="visible" />
+
+                <TextView
+                    android:id="@+id/topAngleY"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_toRightOf="@+id/upperLegButton"
+                    android:layout_weight="1"
+                    android:paddingBottom="18dp"
+                    android:textAlignment="center"
+                    android:textColor="#ffffff"
+                    android:textSize="18dp"
+                    android:textStyle="bold"
+                    android:visibility="visible" />
 
 
                 <LinearLayout
-                    android:id="@+id/yAxisValues"
-                    android:orientation="horizontal"
+                    android:id="@+id/linearLayoutChestY"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/progressBarThigh"
+                    android:orientation="horizontal">
+
+                    <SeekBar
+                        android:id="@+id/seekBarTopLeftY"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/upperLegButton"
+                        android:layout_weight="1"
+                        android:layoutDirection="rtl"
+                        android:max="100"
+                        android:progress="45"
+                        android:progressTint="#303030"
+                        android:thumb="@drawable/seek_arc_control_selector" />
+
+                    <SeekBar
+                        android:id="@+id/seekBarTopRightY"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/upperLegButton"
+                        android:layout_weight="1"
+                        android:max="100"
+                        android:progress="45"
+                        android:progressTint="#303030"
+                        android:thumb="@drawable/seek_arc_control_selector" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/progressBarThighY"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="false"
+                    android:layout_alignParentStart="false"
+                    android:layout_below="@+id/upperLegButton"
+                    android:layout_centerInParent="false"
+                    android:layout_centerVertical="false"
+                    android:orientation="horizontal">
+
+                    <ProgressBar
+                        android:id="@+id/progressBarTopLeftY"
+                        style="@android:style/Widget.Material.ProgressBar.Horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="32dp"
+                        android:layout_weight="1"
+                        android:indeterminate="false"
+                        android:max="100"
+                        android:paddingRight="5dp"
+                        android:progress="0"
+                        android:progressTint="#69BE28"
+                        android:visibility="visible"
+                        tools:visibility="visible" />
+
+
+                    <ProgressBar
+                        android:id="@+id/progressBarTopRightY"
+                        style="@android:style/Widget.Material.ProgressBar.Horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:max="100"
+                        android:paddingRight="5dp"
+                        android:progress="0"
+                        android:progressTint="#69BE28"
+                        android:visibility="visible"
+                        tools:visibility="visible" />
+                </LinearLayout>
+                <!-- End of Y Value display -->
+
+                <TextView
+                    android:id="@+id/topAngleLZ"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_toLeftOf="@+id/upperLegButton"
+                    android:layout_weight="1"
+                    android:paddingBottom="18dp"
+                    android:textAlignment="center"
+                    android:textColor="#ffffff"
+                    android:textSize="18dp"
+                    android:textStyle="bold"
+                    android:visibility="visible" />
+
+                <TextView
+                    android:id="@+id/topAngleZ"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_toRightOf="@+id/upperLegButton"
+                    android:layout_weight="1"
+                    android:paddingBottom="18dp"
+                    android:textAlignment="center"
+                    android:textColor="#ffffff"
+                    android:textSize="18dp"
+                    android:textStyle="bold"
+                    android:visibility="visible" />
+
+
+                <LinearLayout
+                    android:id="@+id/linearLayoutChestZ"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <SeekBar
+                        android:id="@+id/seekBarTopLeftZ"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/upperLegButton"
+                        android:layout_weight="1"
+                        android:layoutDirection="rtl"
+                        android:max="100"
+                        android:progress="45"
+                        android:progressTint="#303030"
+                        android:thumb="@drawable/seek_arc_control_selector" />
+
+                    <SeekBar
+                        android:id="@+id/seekBarTopRightZ"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/upperLegButton"
+                        android:layout_weight="1"
+                        android:max="100"
+                        android:progress="45"
+                        android:progressTint="#303030"
+                        android:thumb="@drawable/seek_arc_control_selector" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/progressBarThighZ"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="false"
+                    android:layout_alignParentStart="false"
+                    android:layout_below="@+id/upperLegButton"
+                    android:layout_centerInParent="false"
+                    android:layout_centerVertical="false"
+                    android:orientation="horizontal">
+
+                    <ProgressBar
+                        android:id="@+id/progressBarTopLeftZ"
+                        style="@android:style/Widget.Material.ProgressBar.Horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="32dp"
+                        android:layout_weight="1"
+                        android:indeterminate="false"
+                        android:max="100"
+                        android:paddingRight="5dp"
+                        android:progress="0"
+                        android:progressTint="#69BE28"
+                        android:visibility="visible"
+                        tools:visibility="visible" />
+
+
+                    <ProgressBar
+                        android:id="@+id/progressBarTopRightZ"
+                        style="@android:style/Widget.Material.ProgressBar.Horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:max="100"
+                        android:paddingRight="5dp"
+                        android:progress="0"
+                        android:progressTint="#69BE28"
+                        android:visibility="visible"
+                        tools:visibility="visible" />
+                </LinearLayout>
+
+                <!-- <LinearLayout
+                    android:id="@+id/yAxisValues"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
-                    android:layout_alignParentEnd="true">
-                     <TextView
+                    android:layout_below="@+id/progressBarThigh"
+                    android:orientation="horizontal">
+
+                    <TextView
                         android:id="@+id/topAngleLY"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -214,7 +408,8 @@
                         android:textColor="#ffffff"
                         android:textSize="18dp"
                         android:textStyle="bold"
-                        android:visibility="visible"/>
+                        android:visibility="visible" />
+
                     <TextView
                         android:id="@+id/topAngleY"
                         android:layout_width="wrap_content"
@@ -226,7 +421,7 @@
                         android:textColor="#ffffff"
                         android:textSize="18dp"
                         android:textStyle="bold"
-                        android:visibility="visible"/>
+                        android:visibility="visible" />
 
                 </LinearLayout>
 
@@ -303,16 +498,16 @@
                 </LinearLayout>
 
 
-
                 <LinearLayout
                     android:id="@+id/zAxisValues"
-                    android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/progressBarThighY"
+                    android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
-                    android:layout_alignParentEnd="true">
-                     <TextView
+                    android:layout_below="@+id/progressBarThighY"
+                    android:orientation="horizontal">
+
+                    <TextView
                         android:id="@+id/topAngleLZ"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -323,7 +518,8 @@
                         android:textColor="#ffffff"
                         android:textSize="18dp"
                         android:textStyle="bold"
-                        android:visibility="visible"/>
+                        android:visibility="visible" />
+
                     <TextView
                         android:id="@+id/topAngleZ"
                         android:layout_width="wrap_content"
@@ -335,7 +531,7 @@
                         android:textColor="#ffffff"
                         android:textSize="18dp"
                         android:textStyle="bold"
-                        android:visibility="visible"/>
+                        android:visibility="visible" />
 
                 </LinearLayout>
 
@@ -409,23 +605,18 @@
                         android:progressTint="#69BE28"
                         android:visibility="visible"
                         tools:visibility="visible" />
-                </LinearLayout>
-
-
+                </LinearLayout> -->
 
 
             </RelativeLayout>
 
-<!-- end of first block, hip block -->
-
-
-
+            <!-- end of first block, hip block -->
 
 
             <RelativeLayout
                 android:id="@+id/relativeKnee"
                 android:layout_width="match_parent"
-                android:layout_height="5dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1">
 
                 <ImageButton
@@ -537,12 +728,13 @@
 
                 <LinearLayout
                     android:id="@+id/yMidAxisValues"
-                    android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/progressBarShin"
+                    android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
-                    android:layout_alignParentEnd="true">
+                    android:layout_below="@+id/progressBarShin"
+                    android:orientation="horizontal">
+
                     <TextView
                         android:id="@+id/midAngleLY"
                         android:layout_width="wrap_content"
@@ -554,7 +746,8 @@
                         android:textColor="#ffffff"
                         android:textSize="18dp"
                         android:textStyle="bold"
-                        android:visibility="visible"/>
+                        android:visibility="visible" />
+
                     <TextView
                         android:id="@+id/midAngleY"
                         android:layout_width="wrap_content"
@@ -566,7 +759,7 @@
                         android:textColor="#ffffff"
                         android:textSize="18dp"
                         android:textStyle="bold"
-                        android:visibility="visible"/>
+                        android:visibility="visible" />
 
                 </LinearLayout>
 
@@ -642,12 +835,13 @@
 
                 <LinearLayout
                     android:id="@+id/zMidAxisValues"
-                    android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/progressBarShinY"
+                    android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
-                    android:layout_alignParentEnd="true">
+                    android:layout_below="@+id/progressBarShinY"
+                    android:orientation="horizontal">
+
                     <TextView
                         android:id="@+id/midAngleLZ"
                         android:layout_width="wrap_content"
@@ -659,7 +853,8 @@
                         android:textColor="#ffffff"
                         android:textSize="18dp"
                         android:textStyle="bold"
-                        android:visibility="visible"/>
+                        android:visibility="visible" />
+
                     <TextView
                         android:id="@+id/midAngleZ"
                         android:layout_width="wrap_content"
@@ -671,7 +866,7 @@
                         android:textColor="#ffffff"
                         android:textSize="18dp"
                         android:textStyle="bold"
-                        android:visibility="visible"/>
+                        android:visibility="visible" />
 
                 </LinearLayout>
 
@@ -749,17 +944,13 @@
             </RelativeLayout>
 
 
-
-<!-- end of second block, height shoudl be wrap content-->
-
-
-
+            <!-- end of second block, height shoudl be wrap content-->
 
 
             <RelativeLayout
                 android:id="@+id/relativeAnkle"
                 android:layout_width="match_parent"
-                android:layout_height="5dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#404040">
 
@@ -867,12 +1058,13 @@
 
                 <LinearLayout
                     android:id="@+id/yBottomValues"
-                    android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/progressBarFoot"
+                    android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
-                    android:layout_alignParentEnd="true">
+                    android:layout_below="@+id/progressBarFoot"
+                    android:orientation="horizontal">
+
                     <TextView
                         android:id="@+id/bottomAngleY"
                         android:layout_width="wrap_content"
@@ -884,7 +1076,8 @@
                         android:textColor="#ffffff"
                         android:textSize="18dp"
                         android:textStyle="bold"
-                        android:visibility="visible"/>
+                        android:visibility="visible" />
+
                     <TextView
                         android:id="@+id/bottomAngleLY"
                         android:layout_width="wrap_content"
@@ -896,7 +1089,7 @@
                         android:textColor="#ffffff"
                         android:textSize="18dp"
                         android:textStyle="bold"
-                        android:visibility="visible"/>
+                        android:visibility="visible" />
 
                 </LinearLayout>
 
@@ -907,28 +1100,28 @@
                     android:layout_below="@+id/yBottomValues"
                     android:orientation="horizontal">
 
-                <SeekBar
-                    android:id="@+id/seekBarBottomLeftY"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/bottomAngleY"
-                    android:layout_weight="1"
-                    android:layoutDirection="rtl"
-                    android:max="100"
-                    android:progress="45"
-                    android:progressTint="#303030"
-                    android:thumb="@drawable/seek_arc_control_selector" />
+                    <SeekBar
+                        android:id="@+id/seekBarBottomLeftY"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/bottomAngleY"
+                        android:layout_weight="1"
+                        android:layoutDirection="rtl"
+                        android:max="100"
+                        android:progress="45"
+                        android:progressTint="#303030"
+                        android:thumb="@drawable/seek_arc_control_selector" />
 
-                <SeekBar
-                    android:id="@+id/seekBarBottomRightY"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/bottomAngleLY"
-                    android:layout_weight="1"
-                    android:max="100"
-                    android:progress="45"
-                    android:progressTint="#303030"
-                    android:thumb="@drawable/seek_arc_control_selector" />
+                    <SeekBar
+                        android:id="@+id/seekBarBottomRightY"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/bottomAngleLY"
+                        android:layout_weight="1"
+                        android:max="100"
+                        android:progress="45"
+                        android:progressTint="#303030"
+                        android:thumb="@drawable/seek_arc_control_selector" />
                 </LinearLayout>
 
 
@@ -969,12 +1162,13 @@
 
                 <LinearLayout
                     android:id="@+id/zBottomValues"
-                    android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/progressBarFootY"
+                    android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
-                    android:layout_alignParentEnd="true">
+                    android:layout_below="@+id/progressBarFootY"
+                    android:orientation="horizontal">
+
                     <TextView
                         android:id="@+id/bottomAngleZ"
                         android:layout_width="wrap_content"
@@ -986,7 +1180,8 @@
                         android:textColor="#ffffff"
                         android:textSize="18dp"
                         android:textStyle="bold"
-                        android:visibility="visible"/>
+                        android:visibility="visible" />
+
                     <TextView
                         android:id="@+id/bottomAngleLZ"
                         android:layout_width="wrap_content"
@@ -998,7 +1193,7 @@
                         android:textColor="#ffffff"
                         android:textSize="18dp"
                         android:textStyle="bold"
-                        android:visibility="visible"/>
+                        android:visibility="visible" />
 
                 </LinearLayout>
 
@@ -1070,12 +1265,10 @@
                 </LinearLayout>
 
 
-
             </RelativeLayout>
 
 
-
-<!--end of third block, height should be wrap content-->
+            <!--end of third block, height should be wrap content-->
 
 
             <ImageView
@@ -1124,7 +1317,7 @@
         app:backgroundTint="#ffffff"
         custom:borderWidth="0dp"
         custom:fabSize="normal" />
-<!--go to details button-->
+    <!--go to details button-->
     <Button
         android:id="@+id/scanButton"
         android:layout_width="60dp"
