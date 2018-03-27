@@ -22,6 +22,8 @@ public class BleNotification implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeFloat(valueX);
+        dest.writeFloat(valueY);
+        dest.writeFloat(valueZ);
         dest.writeString(gatt);
     }
     public static final Parcelable.Creator<BleNotification> CREATOR
@@ -36,12 +38,14 @@ public class BleNotification implements Parcelable {
     };
     private BleNotification(Parcel in) {
         valueX = in.readFloat();
+        valueY=in.readFloat();
+        valueZ=in.readFloat();
         gatt = in.readString();
     }
-    public BleNotification(float value, String gatt){
+    /*public BleNotification(float value, String gatt){
         this.valueX = value;
         this.gatt = gatt;
-    }
+    }*/
     public BleNotification(float valueX, float valueY, float valueZ, String gatt){
         this.valueX = valueX;
         this.valueY=valueY;

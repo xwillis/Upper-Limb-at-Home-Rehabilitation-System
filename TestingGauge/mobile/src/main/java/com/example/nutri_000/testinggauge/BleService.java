@@ -252,7 +252,9 @@ public class BleService extends Service {
                     BleNotification notification = new BleNotification(gyroX,gyroY,gyroZ, "hip");
                     intent.putExtra("notifyObject", notification);
                     intent.putExtra("gatt","hip");
-                    intent.putExtra("value", gyroX);
+                    intent.putExtra("valueX", gyroX);
+                    intent.putExtra("ValueY",gyroY);
+                    intent.putExtra("valueZ",gyroZ);
 /*
                     //display gyroY
                     BleNotification notificationY = new BleNotification(gyroY, "hip");
@@ -269,16 +271,20 @@ public class BleService extends Service {
 
                 }
                 else if(gatt == kneeGatt){
-                    BleNotification notification = new BleNotification(gyroX, "knee");
+                    BleNotification notification = new BleNotification(gyroX,gyroY,gyroZ, "knee");
                     intent.putExtra("notifyObject", notification);
                     intent.putExtra("gatt","knee");
-                    intent.putExtra("value", gyroX);
+                    intent.putExtra("valueX", gyroX);
+                    intent.putExtra("ValueY",gyroY);
+                    intent.putExtra("valueZ",gyroZ);
                 }
                 else if(gatt == ankleGatt){
-                    BleNotification notification = new BleNotification(gyroX, "ankle");
+                    BleNotification notification = new BleNotification(gyroX,gyroY,gyroZ, "ankle");
                     intent.putExtra("notifyObject", notification);
                     intent.putExtra("gatt","ankle");
-                    intent.putExtra("value", gyroX);
+                    intent.putExtra("valueX", gyroX);
+                    intent.putExtra("ValueY",gyroY);
+                    intent.putExtra("valueZ",gyroZ);
                 }
                 sendBroadcast(intent);
 
