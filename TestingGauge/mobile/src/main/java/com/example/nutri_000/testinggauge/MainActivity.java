@@ -143,10 +143,10 @@ public class MainActivity extends AppCompatActivity {
             */
 
 
-           /* stimButton = (FloatingActionButton) findViewById(R.id.stim_buton);
+            //stimButton = (FloatingActionButton) findViewById(R.id.stim_buton);
             sensorStatus = (TextView) findViewById(R.id.SensorStatus);
 
-            stimButton.bringToFront();
+/*            stimButton.bringToFront();
             stimButton.setOnLongClickListener(new View.OnLongClickListener(){
                   @Override
                   public boolean onLongClick(View v){
@@ -716,15 +716,15 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    /*public void connectThigh(View v){
+    public void connectThigh(View v){
         if(bleService.chestGatt == null){
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     setSensorStatus("Searching");
                     chestUI.connect.setBackgroundResource(R.drawable.chestyellow);
-                    if(bleService.kneeGatt ==  null){kneeUI.connect.setBackgroundResource(R.drawable.armwhite);}
-                    if(bleService.ankleGatt ==  null){ankleUI.connect.setBackgroundResource(R.drawable.wristwhite);}
+                    //if(bleService.kneeGatt ==  null){kneeUI.connect.setBackgroundResource(R.drawable.armwhite);}
+                    //if(bleService.ankleGatt ==  null){ankleUI.connect.setBackgroundResource(R.drawable.wristwhite);}
                   //  if(bleService.handGatt ==  null){handUI.connect.setBackgroundResource(R.drawable.handwhite);}
                 }
             });
@@ -757,7 +757,7 @@ public class MainActivity extends AppCompatActivity {
                 chestClickCount = 0;
             }
         }
-    }
+    }/*
     public void connectLowerLeg(View v){
         if(bleService.kneeGatt ==  null) {
             runOnUiThread(new Runnable() {

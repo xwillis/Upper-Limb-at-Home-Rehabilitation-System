@@ -74,7 +74,7 @@ public class BleService extends Service {
 
         //set up saved devices for future connections
         sharedPreferences = this.getSharedPreferences("savedDevices", Context.MODE_PRIVATE);
-        approvedDevices[0] = sharedPreferences.getString("device1","DD:70:D1:12:A3:21");
+        approvedDevices[0] = sharedPreferences.getString("device1","F9:9E:AA:4B:28:9D");
         approvedDevices[1] = sharedPreferences.getString("device2","000000");
         approvedDevices[2] = sharedPreferences.getString("device3","000000");
         approvedDevices[3] = sharedPreferences.getString("device4","000000");
