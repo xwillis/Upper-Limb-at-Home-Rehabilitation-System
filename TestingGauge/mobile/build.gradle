@@ -36,7 +36,6 @@ repositories {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    wearApp project(':wear')
     //noinspection GradleCompatible
     compile 'com.android.support:appcompat-v7:25.4.0'
     compile 'com.android.support:recyclerview-v7:25.4.0'

@@ -1,11 +1,10 @@
-package com.example.nutri_000.testinggauge;
+package com.txbdc.imuoutputjava;
 
-import android.bluetooth.BluetoothGatt;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
- * Created by neuronifier on 9/6/2017.
+ * Created by dragonfiero on 3/23/18.
  */
 
 public class BleNotification implements Parcelable {
