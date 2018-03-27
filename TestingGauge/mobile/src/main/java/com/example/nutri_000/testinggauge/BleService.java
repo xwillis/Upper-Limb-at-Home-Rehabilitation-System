@@ -241,6 +241,11 @@ public class BleService extends Service {
                 String bleEvent = "notification";
 
 
+                //print out gyroX, gyroY, and gyroZ values to android console
+                System.out.println("gyroX: " + gyroX);
+                System.out.println("gyroY: " + gyroY);
+                System.out.println("gyroZ: " + gyroZ);
+
 
                 intent.putExtra("bleEvent", bleEvent);
                 if(gatt == chestGatt){
