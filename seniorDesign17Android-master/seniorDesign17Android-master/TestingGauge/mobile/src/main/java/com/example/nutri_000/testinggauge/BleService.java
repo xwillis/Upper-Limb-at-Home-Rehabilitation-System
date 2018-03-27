@@ -95,7 +95,7 @@ public class BleService extends Service {
         sharedPreferences = this.getSharedPreferences("savedDevices", Context.MODE_PRIVATE);
         approvedDevices[0] = sharedPreferences.getString("device1","DD:70:D1:12:A3:21");
         approvedDevices[1] = sharedPreferences.getString("device2","DD:70:D1:12:A3:21");
-        approvedDevices[2] = sharedPreferences.getString("device3","000000");
+        approvedDevices[2] = sharedPreferences.getString("device3","F9:9E:AA:4B:28:9D");
         approvedDevices[3] = sharedPreferences.getString("device4","000000");
 
     }
@@ -324,6 +324,9 @@ public class BleService extends Service {
                 float gyroX = val * 0.0625f;
                 String bleEvent = "notification";
 
+                System.out.println("gyroX: " + gyroX);
+                System.out.println("gyroY: " + gyroY);
+                System.out.println("gyroZ: " + gyroZ);
 
 
 

@@ -1,0 +1,28 @@
+{
+    "logs": [
+        {
+            "outputFile": "C:\\Users\\noemi\\Downloads\\seniorDesign17Android-master\\seniorDesign17Android-master\\TestingGauge\\wear\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values-v21\\values-v21.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\noemi\\.gradle\\caches\\transforms-1\\files-1.1\\wearable-1.3.0.aar\\f9a954d756505cacc2daaa782acdab8c\\res\\values-v21\\values.xml",
+                    "from": {
+                        "startLines": "4,8,11,15,21,30,42,54,57,61",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "329,545,658,834,1286,2064,2796,3527,3712,3916",
+                        "endLines": "7,10,14,18,27,41,53,56,60,64",
+                        "endColumns": "12,12,12,12,12,12,12,12,12,12",
+                        "endOffsets": "540,653,829,1007,1785,2791,3522,3707,3911,4113"
+                    },
+                    "to": {
+                        "startLines": "2,6,9,13,17,24,36,48,51,55",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,271,384,560,738,1242,1974,2705,2890,3094",
+                        "endLines": "5,8,12,16,23,35,47,50,54,58",
+                        "endColumns": "12,12,12,12,12,12,12,12,12,12",
+                        "endOffsets": "266,379,555,733,1237,1969,2700,2885,3089,3291"
+                    }
+                }
+            ]
+        }
+    ]
+}

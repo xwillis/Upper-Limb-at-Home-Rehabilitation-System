@@ -695,105 +695,56 @@ public class MainActivity extends AppCompatActivity {
 
 
                 if (value < sensor.rightSBY.getProgress() & (value * -1) < sensor.leftSBY.getProgress()) {
-
-
                     sensor.relativeLayout.setBackgroundColor(Color.parseColor("#404040"));
-
                     if (sensor == kneeUI) {
-
                         sensor.relativeLayout.setBackgroundColor(Color.parseColor("#333333"));
-
                     }
-
-
                 }
-
                 if (value >= 0) {
-
                     sensor.rightTVY.setText(Integer.toString(value) + "/" + Integer.toString(sensor.rightSBY.getProgress()));
-
                     sensor.leftTVY.setText("0/" + Integer.toString(sensor.leftSBY.getProgress()));
-
                 }
-
                 if (value <= 0) {
-
                     sensor.leftTVY.setText(Integer.toString(-1 * value) + "/" + Integer.toString(sensor.leftSBY.getProgress()));
-
                     sensor.rightTVY.setText("0/" + Integer.toString(sensor.rightSBY.getProgress()));
-
                 }
-
             }
-
         });
-
     }
 
     //end y
 
 
     //for z axis
-
     public void setGaugeValueZ(final int value, final SensorUI sensor) {
-
         runOnUiThread(new Runnable() {
-
             @Override
-
             public void run() {
-
                 if (value < 0 & value > -90) {
-
                     sensor.leftPBZ.setProgress(-1 * value);
-
                     sensor.rightPBZ.setProgress(0);
-
-
                     if (sensor == hipUI) {
-
                         hipData.add(Integer.toString(value) + " ");
-
                         //hipCount++;
-
                         hipData.add(Long.toString(System.currentTimeMillis()) + "\n");
-
                         //hipCount++;
-
                     }
-
                     if (sensor == kneeUI) {
-
                         kneeData.add(Integer.toString(value) + " ");
-
                         //kneeCount++;
-
                         kneeData.add(Long.toString(System.currentTimeMillis()) + "\n");
-
                         //kneeCount++;
-
                     }
-
                     if (sensor == ankleUI) {
-
                         ankleData.add(Integer.toString(value) + " ");
-
                         //ankleCount++;
-
                         ankleData.add(Long.toString(System.currentTimeMillis()) + "\n");
-
                         //ankleCount++;
-
                     }
-
                     if (sensor == handUI) {
-
                         handData.add(Integer.toString(value) + " ");
-
                         //ankleCount++;
-
                         handData.add(Long.toString(System.currentTimeMillis()) + "\n");
-
                         //ankleCount++;
 
                     }

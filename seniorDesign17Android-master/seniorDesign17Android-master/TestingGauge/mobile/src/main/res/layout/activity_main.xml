@@ -116,6 +116,7 @@
                     android:id="@+id/linearLayoutChestX"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_below="@id/upperLegButton"
                     android:orientation="horizontal">
 
                     <SeekBar
@@ -218,13 +219,14 @@
                     android:id="@+id/linearLayoutChestY"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_below="@id/linearLayoutChestX"
                     android:orientation="horizontal">
 
                     <SeekBar
                         android:id="@+id/seekBarTopLeftY"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/upperLegButton"
+                        android:layout_below="@+id/linearLayoutChestX"
                         android:layout_weight="1"
                         android:layoutDirection="rtl"
                         android:max="100"
@@ -236,7 +238,7 @@
                         android:id="@+id/seekBarTopRightY"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/upperLegButton"
+                        android:layout_below="@+id/linearLayoutChestX"
                         android:layout_weight="1"
                         android:max="100"
                         android:progress="45"
@@ -252,7 +254,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="false"
                     android:layout_alignParentStart="false"
-                    android:layout_below="@+id/upperLegButton"
+                    android:layout_below="@+id/linearLayoutChestX"
                     android:layout_centerInParent="false"
                     android:layout_centerVertical="false"
                     android:orientation="horizontal">
@@ -320,13 +322,14 @@
                     android:id="@+id/linearLayoutChestZ"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_below="@id/linearLayoutChestY"
                     android:orientation="horizontal">
 
                     <SeekBar
                         android:id="@+id/seekBarTopLeftZ"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/upperLegButton"
+                        android:layout_below="@+id/linearLayoutChestY"
                         android:layout_weight="1"
                         android:layoutDirection="rtl"
                         android:max="100"
@@ -338,7 +341,7 @@
                         android:id="@+id/seekBarTopRightZ"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/upperLegButton"
+                        android:layout_below="@+id/linearLayoutChestY"
                         android:layout_weight="1"
                         android:max="100"
                         android:progress="45"
@@ -354,7 +357,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="false"
                     android:layout_alignParentStart="false"
-                    android:layout_below="@+id/upperLegButton"
+                    android:layout_below="@+id/linearLayoutChestY"
                     android:layout_centerInParent="false"
                     android:layout_centerVertical="false"
                     android:orientation="horizontal">

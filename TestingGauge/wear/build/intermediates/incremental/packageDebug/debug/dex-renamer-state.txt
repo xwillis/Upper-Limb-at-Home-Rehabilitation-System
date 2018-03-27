@@ -1,0 +1,4 @@
+#Fri Mar 02 11:31:30 CST 2018
+base.0=C\:\\Users\\noemi\\Downloads\\seniorDesign17Android-master\\seniorDesign17Android-master\\TestingGauge\\wear\\build\\intermediates\\transforms\\dexMerger\\debug\\0
+path.0=classes.dex
+renamed.0=classes.dex
