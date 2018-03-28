@@ -521,9 +521,9 @@ public class MainActivity extends AppCompatActivity {
                         float valueX = extras.getFloat("valueX");
                         Log.v(tag, "Value x from string is "+valueX);
                         float valueY = extras.getFloat("valueY");
-                        Log.v(tag, "Value x from string is "+valueY);
+                        Log.v(tag, "Value y from string is "+valueY);
                         float valueZ = extras.getFloat("valueZ");
-                        Log.v(tag, "Value x from string is "+valueZ);
+                        Log.v(tag, "Value z from string is "+valueZ);
                         findGaugeValue(chestUI, valueX,1);
                         findGaugeValue(chestUI, valueY,2);
                         findGaugeValue(chestUI, valueZ,3);
@@ -560,65 +560,40 @@ public class MainActivity extends AppCompatActivity {
             setSensorStatus("Sensor Disconnected");
             Log.v("BLUETOOTH", "DISCONNECTED");
         }
-
-
    //find ALL gyro values and call the set them method
 //get 10 calibration data points then display the data
       //why calibrate though?  isn't the chip supposed to not need it? other team said it drifted, maybe this is why
       //axis =1 is x, 2 is y, 3 is z
-        public void findGaugeValue(final SensorUI sensor, float gyroX, int axis) {
-            if (sensor.calibrate & sensor.calibrateCounter < 10) {
+        public void findGaugeValue(final SensorUI sensor, float gyro, int axis) {
+            Log.v(tag,"Finding Gauge Value");
+            if (!sensor.calibrate & sensor.calibrateCounter < 10) {//slightly redundant, but should be ok
+                Log.v(tag,"Not enough values to calibrate sensor");
                 sensor.calibrateCounter++;
-                sensor.average = sensor.average + gyroX;
-
-
-            } else if (sensor.calibrate & sensor.calibrateCounter == 10) {
+                sensor.average = sensor.average + gyro;
+            } else if (!sensor.calibrate & sensor.calibrateCounter == 10) {
+                Log.v(tag,"Setting sensor average");
                 sensor.average = sensor.average / 10;
                 sensor.calibrateCounter++;
+                sensor.calibrate=true;
             } else if (sensor.calibrate & sensor.calibrateCounter > 10) {
-                int correctedValue=0;
-                if ((sensor.average + 90.0) <= 180 & (sensor.average - 90) >= -180) {
-                    correctedValue = (int) (gyroX + (-1 * sensor.average));
-                    //setGaugeValueX(correctedValue, sensor);
-
-                } else if ((sensor.average + 90) > 180) {
-                    if (gyroX < 0) {
-                        correctedValue = (int) ((180 - sensor.average) + (gyroX + 180));
-                        //setGaugeValueX(correctedValue, sensor);
-                    } else if (gyroX > 0) {
-                        correctedValue = (int) (gyroX + (-1 * sensor.average));
-                        //setGaugeValueX(correctedValue, sensor);
-
-                    }
-
-
-                } else if ((sensor.average - 90) < -180) {//should really be an else, not an elseif
-                    if (gyroX < 0) {
-                        correctedValue = (int) (gyroX + (-1 * sensor.average));
-                        //setGaugeValueX(correctedValue, sensor);
-
-                    }
-                    else if (gyroX > 0) {
-                        correctedValue = (int) ((-180 - sensor.average) + (gyroX - 180));
-                        //setGaugeValueX(correctedValue, sensor);
-
-                    }
-
-
-                }
+                int correctedValue=(int)(gyro-sensor.average);//commented out weird logic, not sure what it was trying to do
+                //it was trying to do something about mod 360 or 180 but whatever, will fix later
+                Log.v(tag,"Corrected value going to sensor is "+ correctedValue);
                 if(axis==1) {
                     setGaugeValueX(correctedValue, sensor);
                 } else if(axis==2){
                     setGaugeValueY(correctedValue, sensor);
-                } else {
+                } else if(axis ==3){
                     setGaugeValueZ(correctedValue, sensor);
+                }else{
+                    Log.v(tag,"Something ha gone wrong in your axis selection for findGaugeValue");
                 }
             }
         }
 
 
         //log data values and etc in file, but in trycatch just in case
-        public void writeFile() {
+        /*public void writeFile() {
             try {
                 if (!fileCreated) {
                     FileOutputStream outputStream = new FileOutputStream(fullPath);
@@ -638,7 +613,7 @@ public class MainActivity extends AppCompatActivity {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }
+        }*/
 
         //flush stuff at close
        /* public void writeFileAtStop(String string, SensorUI sensor) {
