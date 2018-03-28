@@ -1,6 +1,7 @@
 package com.example.nutri_000.testinggauge;
 
 import android.app.Activity;
+import android.support.constraint.ConstraintLayout;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -12,7 +13,7 @@ public class SensorUI extends MainActivity {
     public ProgressBar rightPB, leftPB, rightPBY, leftPBY, rightPBZ, leftPBZ;
     public SeekBar rightSB, leftSB, rightSBY, leftSBY, rightSBZ, leftSBZ;
     public TextView rightTV, leftTV, rightTVY, leftTVY, rightTVZ, leftTVZ;
-    public RelativeLayout relativeLayout;
+    public ConstraintLayout relativeLayout;
     public float[] average={0,0,0};
     public int[] calibrateCounter={0,0,0};
     boolean[] calibrate={false,false,false};
@@ -61,7 +62,7 @@ public class SensorUI extends MainActivity {
         leftTVZ = (TextView) MainActivity.findViewById(lTVZ);
         //END Z AXIS
 
-        relativeLayout = (RelativeLayout) MainActivity.findViewById(relativeLO);
+        relativeLayout = (ConstraintLayout) MainActivity.findViewById(relativeLO);
         search = false;
         sensorStatus = (TextView) MainActivity.findViewById(R.id.SensorStatus);
     }

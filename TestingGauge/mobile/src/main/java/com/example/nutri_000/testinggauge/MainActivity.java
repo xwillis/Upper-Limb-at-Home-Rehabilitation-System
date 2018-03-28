@@ -87,8 +87,8 @@ public class MainActivity extends AppCompatActivity {
             // all UI components for main activity
             setContentView(R.layout.activity_main);
 
-            chestUI = new SensorUI(R.id.chestButton, R.id.progressBarTopRight, R.id.progressBarTopRightY, R.id.progressBarTopRightZ, R.id.progressBarTopLeft, R.id.progressBarTopLeftY,
-                    R.id.progressBarTopLeftZ, R.id.seekBarChestXRight, R.id.seekBarChestYRight, R.id.seekBarChestZRight, R.id.seekBarChestXLeft, R.id.seekBarChestYLeft, R.id.seekBarChestZLeft,
+            chestUI = new SensorUI(R.id.chestButton, R.id.progressBarChestXRight, R.id.progressBarChestRightY, R.id.progressBarChestRightZ, R.id.progressBarChestXLeft, R.id.progressBarChestLeftY,
+                    R.id.progressBarChestLeftZ, R.id.seekBarChestXRight, R.id.seekBarChestYRight, R.id.seekBarChestZRight, R.id.seekBarChestXLeft, R.id.seekBarChestYLeft, R.id.seekBarChestZLeft,
                     R.id.chestAngleXRight, R.id.chestAngleXLeft, R.id.chestAngleYRight, R.id.chestAngleYLeft, R.id.chestAngleZRight, R.id.chestAngleZLeft, R.id.relativeHip, this);
             chestUI.leftPB.setRotation(180);
 

@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/container"
+    android:id="@+id/relativeHip"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="#333333"
@@ -289,7 +289,6 @@
         android:layoutDirection="rtl"
         android:max="100"
         android:progress="45"
-        app:layout_constraintWidth_percent="0.5"
         android:progressTint="#303030"
         android:thumb="@drawable/seek_arc_control_selector"
         app:layout_constraintTop_toBottomOf="@+id/chestAngleZLeft" />
