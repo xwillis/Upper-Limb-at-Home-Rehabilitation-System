@@ -44,48 +44,46 @@ public class MainActivity extends AppCompatActivity {
     int scanCount = 20;
     int chestClickCount = 0;
     boolean fireflyFound = false;
-    String tag="Ximone";
+    final static String tag="MainActivity";
 
     //open the ble binder
+
     private ServiceConnection mServiceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
+            Log.v(tag,"Opening BLE Binder");
             BleService.BleBinder binder = (BleService.BleBinder) service;
             bleService = binder.getService();
             isBound = true;
             bleService.initializeBle();
-            //bleService.scanner.startScan(bleService.mScanCallback);
+            Log.v(tag,"BLE binder initialized");
         }
 
         @Override
         public void onServiceDisconnected(ComponentName name) {
+            Log.v(tag,"Disconnecting BLE binder");
             bleService = null;
             isBound = false;
         }
     };
-
-
-    private static final String TAG = "Cole";
-
-
+//some "global' variables and stuff
     Handler timerHandler = new Handler();
     Status statusVariables = new Status();
     SensorUI chestUI;
-
     private static Context context;
-
-    //ble connections for the sensor
     private TextView sensorStatus;
     private static final int PERMISSION_REQUEST_COARSE_LOCATION = 1;
 
     //auto android stuff, link GUI elements to code functions, start stuff, request permissions, etc
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.v(tag,"Opening app");
         super.onCreate(savedInstanceState);
 
         if (savedInstanceState != null) {
 
         } else {
+            Log.v(tag,"Start from scratch, assign all GUI elements");
             // all UI components for main activity
             setContentView(R.layout.activity_main);
 
@@ -100,9 +98,10 @@ public class MainActivity extends AppCompatActivity {
             sensorStatus = (TextView) findViewById(R.id.SensorStatus);
             requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_REQUEST_COARSE_LOCATION);
             if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                Log.v(TAG, "permission granted");
+                Log.v(tag, "File writing permission granted");
                 //writeFile();
             }
+            Log.v(tag,"Make the BLE thing available to do stuff");
             registerReceiver(broadcastReceiver, new IntentFilter("bleService"));
         }
 
@@ -111,13 +110,14 @@ public class MainActivity extends AppCompatActivity {
     //close BT connections on destroy
     @Override
     protected void onDestroy() {
+        Log.v(tag,"Close app, destroy stuff, close BT connections");
         super.onDestroy();
         if (bleService.chestGatt != null) {
             bleService.chestGatt.disconnect();
             bleService.chestGatt.close();
             bleService.chestGatt = null;
         }
-        Log.v("onDestroy", "DESTROYED");
+        Log.v(tag, "DESTROYED");
     }
 
     //log that it stopped
@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onStop() {
 
         super.onStop();
-        Log.v("onStop", "STOPPED");
+        Log.v(tag, "on stop, STOPPED");
     }
 
     //deleted extraneous methods
@@ -143,11 +143,13 @@ public class MainActivity extends AppCompatActivity {
         switch (requestCode) {
             case PERMISSION_REQUEST_COARSE_LOCATION: {
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Log.d(TAG, "coarse location permission granted");
+                    Log.d(tag, "coarse location permission granted");
+                    Log.v(tag,"Start the BT scanner fr this time");
                     Intent bleIntent = new Intent(this, BleService.class);
                     startService(bleIntent);
                     bindService(bleIntent, mServiceConnection, this.BIND_AUTO_CREATE);
                 } else {
+                    Log.v(tag,"didn't give us BT permissions, how clever");
                     final AlertDialog.Builder builder = new AlertDialog.Builder(this);
                     builder.setTitle("Functionality limited");
                     builder.setMessage("Since location access has not been granted, this app will not be able to discover beacons when in the background.");
@@ -170,6 +172,7 @@ public class MainActivity extends AppCompatActivity {
 
     //is this necessary?
     public static Context getAppContext() {
+        Log.v(tag,"You wanted context you got context");
         return MainActivity.context;
     }
     //GAUGE
@@ -179,66 +182,27 @@ public class MainActivity extends AppCompatActivity {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                Log.v(tag,"Set Gauge value x, value is "+value);
                 if (value < 0 & value > -90) {
                     sensor.leftPB.setProgress(-1 * value);
                     sensor.rightPB.setProgress(0);
 
                     if (sensor == chestUI) {
                         chestData.add(Integer.toString(value) + " ");
-                        //chestCount++;
                         chestData.add(Long.toString(System.currentTimeMillis()) + "\n");
-                        //chestCount++;
                     }
-                    /*if(sensor == kneeUI){
-                        kneeData.add(Integer.toString(value)+ " ") ;
-                        //kneeCount++;
-                        kneeData.add(Long.toString(System.currentTimeMillis()) + "\n");
-                        //kneeCount++;
-                    }
-                    if(sensor == ankleUI){
-                        ankleData.add(Integer.toString(value)+ " ");
-                        //ankleCount++;
-                        ankleData.add(Long.toString(System.currentTimeMillis()) + "\n");
-                        //ankleCount++;
-                    }
-                  /*  if(sensor == handUI){
-                        handData.add(Integer.toString(value)+ " ");
-                        //ankleCount++;
-                        handData.add(Long.toString(System.currentTimeMillis()) + "\n");
-                        //ankleCount++;
-                    }*/
-                    //writeFile(value, sensor);
+
                 } else if (value > 0 & value < 90) {
                     sensor.leftPB.setProgress(0);
                     sensor.rightPB.setProgress(value);
                     if (sensor == chestUI) {
                         chestData.add(Integer.toString(value) + " ");
-                        //chestCount++;
                         chestData.add(Long.toString(System.currentTimeMillis()) + "\n");
-                        //chestCount++;
                     }
-                  /*  if(sensor == kneeUI){
-                        kneeData.add(Integer.toString(value)+ " ") ;
-                        //kneeCount++;
-                        kneeData.add(Long.toString(System.currentTimeMillis()) + "\n");
-                        //kneeCount++;
-                    }
-                    if(sensor == ankleUI){
-                        ankleData.add(Integer.toString(value)+ " ");
-                        //ankleCount++;
-                        ankleData.add(Long.toString(System.currentTimeMillis()) + "\n");
-                        //ankleCount++;
-                    }
-                   /* if(sensor == handUI){
-                        handData.add(Integer.toString(value)+ " ");
-                        //ankleCount++;
-                        handData.add(Long.toString(System.currentTimeMillis()) + "\n");
-                        //ankleCount++;
-                    }*/
-                    //writeFile(value, sensor);
                 }
                 //cool glowy you did it color
                 if (value > sensor.rightSB.getProgress() & value < 90) {
+                    Log.v(tag,"Activate stim, value higher than goals set positive");
                     sensor.relativeLayout.setBackgroundColor(Color.parseColor("#008542"));
                     if (!writeDebounce) {
                         //writeFile(value, sensor);
@@ -249,9 +213,9 @@ public class MainActivity extends AppCompatActivity {
                 }
                 //cool glowy you did it color
                 if ((value * -1) > sensor.leftSB.getProgress() & (value * -1) < 90) {
+                    Log.v(tag,"Activate stim, value higher than goals set negative");
                     sensor.relativeLayout.setBackgroundColor(Color.parseColor("#008542"));
                     if (!writeDebounce) {
-                        //writeFile(value, sensor);
                         writeDebounce = true;
                         timerHandler.postDelayed(debounceWrite, 1000);
                     }
@@ -259,11 +223,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 //normal color
                 if (value < sensor.rightSB.getProgress() & (value * -1) < sensor.leftSB.getProgress()) {
-
                     sensor.relativeLayout.setBackgroundColor(Color.parseColor("#404040"));
-                   /* if(sensor == kneeUI){
-                        sensor.relativeLayout.setBackgroundColor(Color.parseColor("#333333"));
-                    }*/
 
                 }
                 //now display values
@@ -284,6 +244,7 @@ public class MainActivity extends AppCompatActivity {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                Log.v(tag,"Set Gauge value y, value is "+value);
                 if (value < 0 & value > -90) {
                     sensor.leftPBY.setProgress(-1 * value);
                     sensor.rightPBY.setProgress(0);
@@ -294,25 +255,7 @@ public class MainActivity extends AppCompatActivity {
                         chestData.add(Long.toString(System.currentTimeMillis()) + "\n");
                         //chestCount++;
                     }
-                    /*if(sensor == kneeUI){
-                        kneeData.add(Integer.toString(value)+ " ") ;
-                        //kneeCount++;
-                        kneeData.add(Long.toString(System.currentTimeMillis()) + "\n");
-                        //kneeCount++;
-                    }
-                    if(sensor == ankleUI){
-                        ankleData.add(Integer.toString(value)+ " ");
-                        //ankleCount++;
-                        ankleData.add(Long.toString(System.currentTimeMillis()) + "\n");
-                        //ankleCount++;
-                    }
-                    /*if(sensor == handUI){
-                        handData.add(Integer.toString(value)+ " ");
-                        //ankleCount++;
-                        handData.add(Long.toString(System.currentTimeMillis()) + "\n");
-                        //ankleCount++;
-                    }*/
-                    //writeFile(value, sensor);
+
                 } else if (value > 0 & value < 90) {
                     sensor.leftPBY.setProgress(0);
                     sensor.rightPBY.setProgress(value);
@@ -322,25 +265,6 @@ public class MainActivity extends AppCompatActivity {
                         chestData.add(Long.toString(System.currentTimeMillis()) + "\n");
                         //chestCount++;
                     }
-                   /* if(sensor == kneeUI){
-                        kneeData.add(Integer.toString(value)+ " ") ;
-                        //kneeCount++;
-                        kneeData.add(Long.toString(System.currentTimeMillis()) + "\n");
-                        //kneeCount++;
-                    }
-                    if(sensor == ankleUI){
-                        ankleData.add(Integer.toString(value)+ " ");
-                        //ankleCount++;
-                        ankleData.add(Long.toString(System.currentTimeMillis()) + "\n");
-                        //ankleCount++;
-                    }
-                    /*if(sensor == handUI){
-                        handData.add(Integer.toString(value)+ " ");
-                        //ankleCount++;
-                        handData.add(Long.toString(System.currentTimeMillis()) + "\n");
-                        //ankleCount++;
-                    } */
-                    //writeFile(value, sensor);
                 }
                 if (value > sensor.rightSBY.getProgress() & value < 90) {
                     sensor.relativeLayout.setBackgroundColor(Color.parseColor("#008542"));
@@ -364,9 +288,6 @@ public class MainActivity extends AppCompatActivity {
                 if (value < sensor.rightSBY.getProgress() & (value * -1) < sensor.leftSBY.getProgress()) {
 
                     sensor.relativeLayout.setBackgroundColor(Color.parseColor("#404040"));
-                   /* if(sensor == kneeUI){
-                        sensor.relativeLayout.setBackgroundColor(Color.parseColor("#333333"));
-                    }*/
 
                 }
                 if (value >= 0) {
@@ -387,6 +308,7 @@ public class MainActivity extends AppCompatActivity {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                Log.v(tag,"Set Gauge value z, value is "+value);
                 if (value < 0 & value > -90) {
                     sensor.leftPBZ.setProgress(-1 * value);
                     sensor.rightPBZ.setProgress(0);
@@ -397,25 +319,6 @@ public class MainActivity extends AppCompatActivity {
                         chestData.add(Long.toString(System.currentTimeMillis()) + "\n");
                         //chestCount++;
                     }
-                   /* if(sensor == kneeUI){
-                        kneeData.add(Integer.toString(value)+ " ") ;
-                        //kneeCount++;
-                        kneeData.add(Long.toString(System.currentTimeMillis()) + "\n");
-                        //kneeCount++;
-                    }
-                    if(sensor == ankleUI){
-                        ankleData.add(Integer.toString(value)+ " ");
-                        //ankleCount++;
-                        ankleData.add(Long.toString(System.currentTimeMillis()) + "\n");
-                        //ankleCount++;
-                    }
-                 /*   if(sensor == handUI){
-                        handData.add(Integer.toString(value)+ " ");
-                        //ankleCount++;
-                        handData.add(Long.toString(System.currentTimeMillis()) + "\n");
-                        //ankleCount++;
-                    }*/
-                    //writeFile(value, sensor);
                 } else if (value > 0 & value < 90) {
                     sensor.leftPBZ.setProgress(0);
                     sensor.rightPBZ.setProgress(value);
@@ -425,25 +328,6 @@ public class MainActivity extends AppCompatActivity {
                         chestData.add(Long.toString(System.currentTimeMillis()) + "\n");
                         //chestCount++;
                     }
-                  /*  if(sensor == kneeUI){
-                        kneeData.add(Integer.toString(value)+ " ") ;
-                        //kneeCount++;
-                        kneeData.add(Long.toString(System.currentTimeMillis()) + "\n");
-                        //kneeCount++;
-                    }
-                    if(sensor == ankleUI){
-                        ankleData.add(Integer.toString(value)+ " ");
-                        //ankleCount++;
-                        ankleData.add(Long.toString(System.currentTimeMillis()) + "\n");
-                        //ankleCount++;
-                    }
-                   /* if(sensor == handUI){
-                        handData.add(Integer.toString(value)+ " ");
-                        //ankleCount++;
-                        handData.add(Long.toString(System.currentTimeMillis()) + "\n");
-                        //ankleCount++;
-                    }*/
-                    //writeFile(value, sensor);
                 }
                 if (value > sensor.rightSBZ.getProgress() & value < 90) {
                     sensor.relativeLayout.setBackgroundColor(Color.parseColor("#008542"));
@@ -467,9 +351,6 @@ public class MainActivity extends AppCompatActivity {
                 if (value < sensor.rightSBZ.getProgress() & (value * -1) < sensor.leftSBZ.getProgress()) {
 
                     sensor.relativeLayout.setBackgroundColor(Color.parseColor("#404040"));
-                   /* if(sensor == kneeUI){
-                        sensor.relativeLayout.setBackgroundColor(Color.parseColor("#333333"));
-                    }*/
 
                 }
                 if (value >= 0) {
@@ -505,6 +386,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void run() {
             if (bleService.scanning) {
+                Log.v(tag,"Scanning for BT atm");
                 if (scanCount > 0) {
                     scanCount--;
                     timerHandler.postDelayed(scanStop, 1000);
@@ -524,13 +406,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     };
-
-    Runnable fireflyDebounce = new Runnable() {
-        @Override
-        public void run() {
-            statusVariables.stimming = false;
-        }
-    };
+    
     Runnable debounceWrite = new Runnable() {
         @Override
         public void run() {
@@ -545,6 +421,7 @@ public class MainActivity extends AppCompatActivity {
     };
 
     public void connectThigh(View v){
+        Log.v(tag,"Connecting Chest IMU, or disconnecting");
         if(bleService.chestGatt == null){
             runOnUiThread(new Runnable() {
                 @Override
@@ -586,10 +463,13 @@ public class MainActivity extends AppCompatActivity {
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+            Log.v(tag,"Got bundle of things");
             Bundle extras = intent.getExtras();
             String eventType = extras.getString("bleEvent");
             if (eventType.equals("sensorConnected")) {
+                Log.v(tag,"Sensor is connected");
                 if (extras.getString("gatt").equals("hip")) {
+                    Log.v(tag,"Hip/chest connected");
                     connectSensor(chestUI);
                     chestUI.connect.setOnLongClickListener(new View.OnLongClickListener() {
                         @Override
@@ -601,12 +481,14 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 if (extras.getString("gatt").equals("unknown")) {
-                    Log.v(TAG, "unknown gatt");
+                    Log.v(tag, "unknown BT connected");
                 }
                 Log.v("bleService", "connected message sent");
             }
             if (eventType.equals("sensorDisconnected")) {
+                Log.v(tag,"Disconnected sensor");
                 if (extras.getString("gatt").equals("hip")) {
+                    Log.v(tag, "Hip/chest disconnected");
                     onSensorDisconnected(chestUI);
                     if (bleService.chestGatt != null) {
                         bleService.chestGatt.close();
@@ -616,21 +498,30 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 if (eventType.equals("notification")) {
+                    Log.v(tag,"You have mail");
                     BleNotification notification = intent.getParcelableExtra("notifyObject");
                     if (notification.gatt.equals("hip")) {
+                        Log.v(tag,"You have mail from the hip/chest");
                         //find value x, switched to different value coding
+                        Log.v(tag, "Value x from object is "+notification.valueX);
                         findGaugeValue(chestUI, notification.valueX,1);
                         //find value y, switched to different value coding
+                        Log.v(tag, "Value y from object is "+notification.valueY);
                         findGaugeValue(chestUI, notification.valueY,2);
                         //find value z, switched to different value coding
+                        Log.v(tag, "Value z from object is "+notification.valueZ);
                         findGaugeValue(chestUI, notification.valueZ,3);
 
                     }
 
                     if (extras.getString("gatt").equals("hip")) {
+                        Log.v(tag,"Reading from the strings sent in extras");
                         float valueX = extras.getFloat("valueX");
+                        Log.v(tag, "Value x from string is "+valueX);
                         float valueY = extras.getFloat("valueY");
+                        Log.v(tag, "Value x from string is "+valueY);
                         float valueZ = extras.getFloat("valueZ");
+                        Log.v(tag, "Value x from string is "+valueZ);
                         findGaugeValue(chestUI, valueX,1);
                         findGaugeValue(chestUI, valueY,2);
                         findGaugeValue(chestUI, valueZ,3);
