@@ -40,19 +40,11 @@ public class MainActivity extends AppCompatActivity {
     String dateTime = DateFormat.getDateTimeInstance().format(new Date());
     String fileType = ".txt";
     ArrayList<String> chestData = new ArrayList<String>();
-    //ArrayList<String>  kneeData= new ArrayList<String>();
-    //ArrayList<String>  ankleData= new ArrayList<String>();
-    // ArrayList<String>  handData= new ArrayList<String>();
-    int chestCount = 0;
-    //int kneeCount = 0;
-    //int ankleCount = 0;
     String fullPath = path + fileName + randomID + dateTime + fileType;
     int scanCount = 20;
-    //int footClickCount = 0;
-    //int kneeClickCount = 0;
     int chestClickCount = 0;
-    //int handClickCount = 0;
     boolean fireflyFound = false;
+    String tag="Ximone";
 
     //open the ble binder
     private ServiceConnection mServiceConnection = new ServiceConnection() {
@@ -78,16 +70,9 @@ public class MainActivity extends AppCompatActivity {
 
     Handler timerHandler = new Handler();
     Status statusVariables = new Status();
-    FireflyCommands fireflyCommands = new FireflyCommands();
     SensorUI chestUI;
-    //SensorUI kneeUI;
-    //SensorUI ankleUI;
-    // SensorUI handUI;
 
     private static Context context;
-
-    //BLE connections for the firefly
-    private FloatingActionButton stimButton;
 
     //ble connections for the sensor
     private TextView sensorStatus;
@@ -112,57 +97,7 @@ public class MainActivity extends AppCompatActivity {
             chestUI.green = R.drawable.chestgreen;
             chestUI.yellow = R.drawable.chestyellow;
             chestUI.white = R.drawable.chestwhite;
-
-
-        /*    kneeUI = new SensorUI(R.id.lowerLegButton, R.id.progressBarMidRight, R.id.progressBarMidRightY, R.id.progressBarMidRightZ, R.id.progressBarMidLeft, R.id.progressBarMidLeftY,
-                    R.id.progressBarMidLeftZ, R.id.seekBarMidRight, R.id.seekBarMidRightY, R.id.seekBarMidRightZ, R.id.seekBarMidLeft, R.id.seekBarMidLeftY, R.id.seekBarMidLeftZ,
-                    R.id.midAngle, R.id.midAngleL, R.id.midAngleY, R.id.midAngleLY, R.id.midAngleZ, R.id.midAngleLZ, R.id.relativeKnee, this);
-            kneeUI.leftPB.setRotation(180);
-
-            kneeUI.green = R.drawable.armgreen;
-            kneeUI.yellow = R.drawable.armyellow;
-            kneeUI.white = R.drawable.armwhite;
-
-            ankleUI = new SensorUI(R.id.footButton,R.id.progressBarBottomRight,R.id.progressBarBottomRightY,R.id.progressBarBottomRightZ,R.id.progressBarBottomLeft,R.id.progressBarBottomLeftY,
-                    R.id.progressBarBottomLeftZ,R.id.seekBarBottomRight,R.id.seekBarBottomRightY,R.id.seekBarBottomRightZ,R.id.seekBarBottomLeft,R.id.seekBarBottomLeftY,R.id.seekBarBottomLeftZ,
-                    R.id.bottomAngle,R.id.bottomAngleL, R.id.bottomAngleY,R.id.bottomAngleLY, R.id.bottomAngleZ,R.id.bottomAngleLZ,R.id.relativeAnkle, this);
-            ankleUI.leftPB.setRotation(180);
-
-            ankleUI.green = R.drawable.wristgreen;
-            ankleUI.yellow = R.drawable.wristyellow;
-            ankleUI.white = R.drawable.wristwhite;
-/*
-            handUI = new SensorUI(R.id.handButton,R.id.progressBarBottom2Right,R.id.progressBarBottom2RightY,R.id.progressBarBottom2RightZ,R.id.progressBarBottom2Left,R.id.progressBarBottom2LeftY,
-                    R.id.progressBarBottom2LeftZ,R.id.seekBarBottom2Right,R.id.seekBarBottom2RightY,R.id.seekBarBottom2RightZ,R.id.seekBarBottom2Left,R.id.seekBarBottom2LeftY,R.id.seekBarBottom2LeftZ,
-                    R.id.bottomAngle2,R.id.bottomAngleL2,R.id.bottomAngle2Y,R.id.bottomAngleL2Y,R.id.bottomAngle2Z,R.id.bottomAngleL2Z,R.id.relativeHand, this);
-            handUI.leftPB.setRotation(180);
-
-            handUI.green = R.drawable.handgreen;
-            handUI.yellow = R.drawable.handyellow;
-            handUI.white = R.drawable.handwhite;
-            */
-
-
-            //stimButton = (FloatingActionButton) findViewById(R.id.stim_buton);
             sensorStatus = (TextView) findViewById(R.id.SensorStatus);
-
-/*            stimButton.bringToFront();
-            stimButton.setOnLongClickListener(new View.OnLongClickListener(){
-                  @Override
-                  public boolean onLongClick(View v){
-                      if(bleService.fireflyFound){
-                          //bleService.sendMessageForPCM("disconnect pcm");
-                          bleService.fireflyGatt.disconnect();
-                          bleService.fireflyGatt.close();
-                          bleService.fireflyGatt = null;
-                          setSensorStatus("PCM Disconnected");
-                          stimButton.setImageResource(R.drawable.ic_flash_off_black_24dp);
-                          bleService.fireflyFound = false;
-                      }
-                      return true;
-                  }
-            }); */
-
             requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_REQUEST_COARSE_LOCATION);
             if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                 Log.v(TAG, "permission granted");
@@ -177,31 +112,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        /*if(bleService.fireflyGatt != null) {
-            bleService.fireflyGatt.disconnect();
-            bleService.fireflyGatt.close();
-            bleService.fireflyGatt = null;
-        }*/
         if (bleService.chestGatt != null) {
             bleService.chestGatt.disconnect();
             bleService.chestGatt.close();
             bleService.chestGatt = null;
         }
-        /*if(bleService.kneeGatt != null) {
-            bleService.kneeGatt.disconnect();
-            bleService.kneeGatt.close();
-            bleService.kneeGatt = null;
-        }
-        if(bleService.ankleGatt != null) {
-            bleService.ankleGatt.disconnect();
-            bleService.ankleGatt.close();
-            bleService.ankleGatt = null;
-        }
-        if(bleService.handGatt != null) {
-            bleService.handGatt.disconnect();
-            bleService.handGatt.close();
-            bleService.handGatt = null;
-        }*/
         Log.v("onDestroy", "DESTROYED");
     }
 
@@ -210,10 +125,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onStop() {
 
         super.onStop();
-        //writeFileAtStop("hip = ", chestUI);
-       /* writeFileAtStop("knee = ", kneeUI);
-        writeFileAtStop("ankle = ", ankleUI);
-        //writeFileAtStop("hand = ", handUI);*/
         Log.v("onStop", "STOPPED");
     }
 
@@ -223,33 +134,6 @@ public class MainActivity extends AppCompatActivity {
         super.onSaveInstanceState(savedInstanceState);
         int restore = 42;
         savedInstanceState.putInt("SOMETHING", restore);
-    }
-
-    //stim button clicked
-    public void stimClicked(View v) {
-        //todo bleService.fireflyGatt will always be null now the fireflyGatt instance is only in the pcmService
-        if (bleService.fireflyGatt != null) {
-            if (!statusVariables.stimming) {
-                statusVariables.stimming = true;
-                triggerFirefly(fireflyCommands.startStim);
-                timerHandler.postDelayed(fireflyStop, 1000);
-                timerHandler.postDelayed(fireflyDebounce, 5000);
-                //bleService.sendMessageForPCM("stimulate");
-               // writeFile();
-            }
-        } else {
-            // bleService.sendMessageForPCM("button clicked");
-            bleService.searchingHip = false;
-            bleService.searchingKnee = false;
-            bleService.searchingAnkle = false;
-            bleService.searchingHand = false;
-            bleService.searchingPCM = true;
-            setSensorStatus("Searching for PCM");
-            bleService.scanner.startScan(bleService.mScanCallback);
-            scanCount = 20;
-            bleService.scanning = true;
-            timerHandler.postDelayed(scanStop, 1000);
-        }
     }
 
     //handling permissions
@@ -287,42 +171,6 @@ public class MainActivity extends AppCompatActivity {
     //is this necessary?
     public static Context getAppContext() {
         return MainActivity.context;
-    }
-
-    //check if stimulation is needed or not
-    public void checkValue(final int value, final SensorUI sensor) {
-        if (value > sensor.rightSB.getProgress() | (value * -1) > sensor.leftSB.getProgress()) {
-            if (!statusVariables.stimming) {
-                statusVariables.stimming = true;
-                Log.v(TAG, "Start command");
-                triggerFirefly(fireflyCommands.startStim);
-                timerHandler.postDelayed(fireflyStop, 1000);
-                timerHandler.postDelayed(fireflyDebounce, 5000);
-            }
-        }
-        //check Y
-        if (value > sensor.rightSBY.getProgress() | (value * -1) > sensor.leftSBY.getProgress()) {
-            if (!statusVariables.stimming) {
-                statusVariables.stimming = true;
-                Log.v(TAG, "Start command");
-                triggerFirefly(fireflyCommands.startStim);
-                timerHandler.postDelayed(fireflyStop, 1000);
-                timerHandler.postDelayed(fireflyDebounce, 5000);
-            }
-        }
-        //end y
-
-        //check Z
-        if (value > sensor.rightSBZ.getProgress() | (value * -1) > sensor.leftSBZ.getProgress()) {
-            if (!statusVariables.stimming) {
-                statusVariables.stimming = true;
-                Log.v(TAG, "Start command");
-                triggerFirefly(fireflyCommands.startStim);
-                timerHandler.postDelayed(fireflyStop, 1000);
-                timerHandler.postDelayed(fireflyDebounce, 5000);
-            }
-        }
-        //end z
     }
     //GAUGE
 
@@ -389,6 +237,7 @@ public class MainActivity extends AppCompatActivity {
                     }*/
                     //writeFile(value, sensor);
                 }
+                //cool glowy you did it color
                 if (value > sensor.rightSB.getProgress() & value < 90) {
                     sensor.relativeLayout.setBackgroundColor(Color.parseColor("#008542"));
                     if (!writeDebounce) {
@@ -398,6 +247,7 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                 }
+                //cool glowy you did it color
                 if ((value * -1) > sensor.leftSB.getProgress() & (value * -1) < 90) {
                     sensor.relativeLayout.setBackgroundColor(Color.parseColor("#008542"));
                     if (!writeDebounce) {
@@ -407,7 +257,7 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                 }
-
+//normal color
                 if (value < sensor.rightSB.getProgress() & (value * -1) < sensor.leftSB.getProgress()) {
 
                     sensor.relativeLayout.setBackgroundColor(Color.parseColor("#404040"));
@@ -416,6 +266,7 @@ public class MainActivity extends AppCompatActivity {
                     }*/
 
                 }
+                //now display values
                 if (value >= 0) {
                     sensor.rightTV.setText(Integer.toString(value) + "/" + Integer.toString(sensor.rightSB.getProgress()));
                     sensor.leftTV.setText("0/" + Integer.toString(sensor.leftSB.getProgress()));
@@ -648,24 +499,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void triggerFirefly(byte[] onOff) {
-        if (bleService.fireflyFound) {
-            bleService.FIREFLY_CHARACTERISTIC2.setValue(onOff);
-            boolean b = bleService.fireflyGatt.writeCharacteristic(bleService.FIREFLY_CHARACTERISTIC2);
-            Log.i(TAG, "firefly write status = " + b);
-        }
 
-    }
-
-    Runnable fireflyStop = new Runnable() {
-        @Override
-        public void run() {
-            if (bleService.fireflyFound) {
-                Log.v(TAG, "Stop command");
-                triggerFirefly(fireflyCommands.stopStim);
-            }
-        }
-    };
     //scan for BT devices function
     Runnable scanStop = new Runnable() {
         @Override
@@ -684,9 +518,6 @@ public class MainActivity extends AppCompatActivity {
                             if (bleService.chestGatt == null) {
                                 chestUI.connect.setBackgroundResource(R.drawable.chestwhite);
                             }
-                         /*   if(bleService.kneeGatt ==  null){kneeUI.connect.setBackgroundResource(R.drawable.armwhite);}
-                            if(bleService.ankleGatt ==  null){ankleUI.connect.setBackgroundResource(R.drawable.wristwhite);}*/
-                            //    if(bleService.handGatt ==  null){handUI.connect.setBackgroundResource(R.drawable.handwhite);}
                         }
                     });
                 }
@@ -709,10 +540,7 @@ public class MainActivity extends AppCompatActivity {
     Runnable doubleClick = new Runnable() {
         @Override
         public void run() {
-            /*footClickCount = 0;
-            kneeClickCount = 0;*/
             chestClickCount = 0;
-            // handClickCount = 0;
         }
     };
 
@@ -723,15 +551,11 @@ public class MainActivity extends AppCompatActivity {
                 public void run() {
                     setSensorStatus("Searching");
                     chestUI.connect.setBackgroundResource(R.drawable.chestyellow);
-                    //if(bleService.kneeGatt ==  null){kneeUI.connect.setBackgroundResource(R.drawable.armwhite);}
-                    //if(bleService.ankleGatt ==  null){ankleUI.connect.setBackgroundResource(R.drawable.wristwhite);}
-                  //  if(bleService.handGatt ==  null){handUI.connect.setBackgroundResource(R.drawable.handwhite);}
                 }
             });
             bleService.searchingHip = true;
             bleService.searchingKnee = false;
             bleService.searchingAnkle = false;
-          //  bleService.searchingHand = false;
             bleService.searchingPCM = false;
             bleService.scanner.startScan(bleService.mScanCallback);
             scanCount = scanCount + 20;
@@ -757,138 +581,7 @@ public class MainActivity extends AppCompatActivity {
                 chestClickCount = 0;
             }
         }
-    }/*
-    public void connectLowerLeg(View v){
-        if(bleService.kneeGatt ==  null) {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    setSensorStatus("Searching");
-                    kneeUI.connect.setBackgroundResource(R.drawable.armyellow);
-                    if(bleService.ankleGatt ==  null){ankleUI.connect.setBackgroundResource(R.drawable.wristwhite);}
-                    if(bleService.chestGatt ==  null){
-                        chestUI.connect.setBackgroundResource(R.drawable.chestwhite);}
-                   // if(bleService.handGatt ==  null){handUI.connect.setBackgroundResource(R.drawable.handwhite);}
-                }
-            });
-            bleService.searchingKnee = true;
-            bleService.searchingHip = false;
-            bleService.searchingAnkle = false;
-            bleService.searchingHand = false;
-            bleService.searchingPCM = false;
-            bleService.scanner.startScan(bleService.mScanCallback);
-            scanCount = scanCount + 20;
-            bleService.scanning = true;
-            timerHandler.postDelayed(scanStop, 1000);
-        }
-        else{
-            kneeClickCount++;
-            timerHandler.postDelayed(doubleClick,500);
-            if(kneeClickCount == 2){
-                bleService.kneeGatt.disconnect();
-                bleService.kneeGatt.close();
-                bleService.kneeGatt = null;
-                setSensorStatus("Sensor disconnected");
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        kneeUI.connect.setBackgroundResource(R.drawable.armwhite);
-                        kneeUI.leftTV.setVisibility(View.INVISIBLE);
-                        kneeUI.rightTV.setVisibility(View.INVISIBLE);
-                    }
-                });
-                kneeClickCount = 0;
-            }
-        }
-
     }
-
-    public void connectFoot(View v){
-        if(bleService.ankleGatt == null) {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    setSensorStatus("Searching");
-                    ankleUI.connect.setBackgroundResource(R.drawable.wristyellow);
-                    if(bleService.chestGatt ==  null){
-                        chestUI.connect.setBackgroundResource(R.drawable.chestwhite);}
-                    if(bleService.kneeGatt ==  null){kneeUI.connect.setBackgroundResource(R.drawable.armwhite);}
-                    if(bleService.handGatt ==  null){kneeUI.connect.setBackgroundResource(R.drawable.handwhite);}
-                }
-            });
-            bleService.searchingHip = false;
-            bleService.searchingKnee = false;
-            bleService.searchingAnkle = true;
-            bleService.searchingHand = false;
-            bleService.searchingPCM = false;
-            bleService.scanner.startScan(bleService.mScanCallback);
-            scanCount = scanCount + 20;
-            bleService.scanning = true;
-            timerHandler.postDelayed(scanStop, 1000);
-        }
-        else{
-            footClickCount++;
-            timerHandler.postDelayed(doubleClick,500);
-            if(footClickCount == 2){
-                bleService.ankleGatt.disconnect();
-                bleService.ankleGatt.close();
-                bleService.ankleGatt = null;
-                setSensorStatus("Sensor disconnected");
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        ankleUI.connect.setBackgroundResource(R.drawable.wristwhite);
-                        ankleUI.leftTV.setVisibility(View.INVISIBLE);
-                        ankleUI.rightTV.setVisibility(View.INVISIBLE);
-                    }
-                });
-                footClickCount = 0;
-            }
-        }
-    }
-*/
-  /*  public void connectHand(View v){
-        if(bleService.handGatt == null) {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    setSensorStatus("Searching");
-                    handUI.connect.setBackgroundResource(R.drawable.handyellow);
-                    if(bleService.chestGatt ==  null){chestUI.connect.setBackgroundResource(R.drawable.chestwhite);}
-                    if(bleService.kneeGatt ==  null){kneeUI.connect.setBackgroundResource(R.drawable.armwhite);}
-                    if(bleService.ankleGatt ==  null){ankleUI.connect.setBackgroundResource(R.drawable.wristwhite);}
-                }
-            });
-            bleService.searchingHip = false;
-            bleService.searchingKnee = false;
-            bleService.searchingAnkle = false;
-            bleService.searchingHand = true;
-            bleService.searchingPCM = false;
-            bleService.scanner.startScan(bleService.mScanCallback);
-            scanCount = scanCount + 20;
-            bleService.scanning = true;
-            timerHandler.postDelayed(scanStop, 1000);
-        }
-        else{
-            handClickCount++;
-            timerHandler.postDelayed(doubleClick,500);
-            if(handClickCount == 2){
-                bleService.handGatt.disconnect();
-                bleService.handGatt.close();
-                bleService.handGatt = null;
-                setSensorStatus("Sensor disconnected");
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        handUI.connect.setBackgroundResource(R.drawable.handwhite);
-                        handUI.leftTV.setVisibility(View.INVISIBLE);
-                        handUI.rightTV.setVisibility(View.INVISIBLE);
-                    }
-                });
-                handClickCount = 0;
-            }
-        }
-    }*/
 //do stuff when the BT broadcast tells it to, this is where the find gauge value function and our problem likely is
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
@@ -906,46 +599,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
                 }
-               /* if(extras.getString("gatt").equals("knee")){
-                    connectSensor(kneeUI);
-                    kneeUI.connect.setOnLongClickListener(new View.OnLongClickListener(){
-                        @Override
-                        public boolean onLongClick(View v){
-                            kneeUI.calibrateSensor(kneeUI);
-                            return true;
-                        }
-                    });
-                }
-                if(extras.getString("gatt").equals("ankle")){
-                    connectSensor(ankleUI);
-                    ankleUI.connect.setOnLongClickListener(new View.OnLongClickListener(){
-                        @Override
-                        public boolean onLongClick(View v){
-                            ankleUI.calibrateSensor(ankleUI);
-                            return true;
-                        }
-                    });
-                }
-               /* if(extras.getString("gatt").equals("hand")){
-                    connectSensor(handUI);
-                    handUI.connect.setOnLongClickListener(new View.OnLongClickListener(){
-                        @Override
-                        public boolean onLongClick(View v){
-                            handUI.calibrateSensor(handUI);
-                            return true;
-                        }
-                    });
-                } */
-                if (extras.getString("gatt").equals("firefly")) {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            stimButton.setVisibility(View.VISIBLE);
-                            setSensorStatus("PCM Connected");
-                            stimButton.setImageResource(R.drawable.ic_flash_on_24dp);
-                        }
-                    });
-                }
+
                 if (extras.getString("gatt").equals("unknown")) {
                     Log.v(TAG, "unknown gatt");
                 }
@@ -960,82 +614,28 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                 }
-               /* if(extras.getString("gatt").equals("knee")){
-                    onSensorDisconnected(kneeUI);
-                    if(bleService.kneeGatt != null){
-                        bleService.kneeGatt.close();
-                        bleService.kneeGatt = null;
-                    }
-                }
-                if(extras.getString("gatt").equals("ankle")){
-                    onSensorDisconnected(ankleUI);
-                    if(bleService.ankleGatt != null){
-                        bleService.ankleGatt.close();
-                        bleService.ankleGatt = null;
-                    }
-                }
-                if(extras.getString("gatt").equals("firefly")){
-                    setSensorStatus("PCM Disconnected");
-                    if(bleService.fireflyGatt != null){
-                        bleService.fireflyGatt.close();
-                        bleService.fireflyGatt = null;
-                        stimButton.setImageResource(R.drawable.ic_flash_off_black_24dp);
-                    }
-                }
-            }*/
+
                 if (eventType.equals("notification")) {
                     BleNotification notification = intent.getParcelableExtra("notifyObject");
                     if (notification.gatt.equals("hip")) {
                         //find value x, switched to different value coding
-                        findGaugeValueX(chestUI, notification.valueX);
+                        findGaugeValue(chestUI, notification.valueX,1);
                         //find value y, switched to different value coding
-                        findGaugeValueY(chestUI, notification.valueY);
+                        findGaugeValue(chestUI, notification.valueY,2);
                         //find value z, switched to different value coding
-                        findGaugeValueZ(chestUI, notification.valueZ);
+                        findGaugeValue(chestUI, notification.valueZ,3);
 
                     }
-/*                else if(notification.gatt.equals("knee")){
-                    //find value x
-                    findGaugeValueX(kneeUI,notification.valueX);
-                    //find value y
-                    findGaugeValueY(kneeUI,notification.valueY);
-                    //find value z
-                    findGaugeValueZ(kneeUI,notification.valueZ);
-                }
-                else if(notification.gatt.equals("ankle")){
-                    //find value x
-                    findGaugeValueX(ankleUI,notification.valueX);
-                    //find value y
-                    findGaugeValueY(ankleUI,notification.valueY);
-                    //find value z
-                    findGaugeValueZ(ankleUI,notification.valueZ);
-                }*/
+
                     if (extras.getString("gatt").equals("hip")) {
-                        Float valueX = extras.getFloat("valueX");
-                        Float valueY = extras.getFloat("valueY");
-                        Float valueZ = extras.getFloat("valueZ");
-                        findGaugeValueX(chestUI, valueX);
-                        findGaugeValueY(chestUI, valueY);
-                        findGaugeValueZ(chestUI, valueZ);
+                        float valueX = extras.getFloat("valueX");
+                        float valueY = extras.getFloat("valueY");
+                        float valueZ = extras.getFloat("valueZ");
+                        findGaugeValue(chestUI, valueX,1);
+                        findGaugeValue(chestUI, valueY,2);
+                        findGaugeValue(chestUI, valueZ,3);
                     }
-/*                if(extras.getString("gatt").equals("knee")){
-                    Float value = extras.getFloat("value");
-                    findGaugeValue(kneeUI,value);
-                }
-                if(extras.getString("gatt").equals("ankle")){
-                    Float value = extras.getFloat("value");
-                    findGaugeValue(ankleUI,value);
-                }*/
-                }
-                if (eventType.equals("fireflyConnected")) {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            stimButton.setVisibility(View.VISIBLE);
-                            setSensorStatus("PCM Connected");
-                            stimButton.setImageResource(R.drawable.ic_flash_on_24dp);
-                        }
-                    });
+
                 }
             }
         }
@@ -1068,45 +668,12 @@ public class MainActivity extends AppCompatActivity {
             Log.v("BLUETOOTH", "DISCONNECTED");
         }
 
-        /* public void startUart(View v) {
-             //opens Adafruit's App with only UART capabilities
-             Intent intent = new Intent(this, MainActivityA.class);
-             startActivity(intent);
 
-             //Discover the available device name
-
-         }*/
-//display device addresses in the details page if applicable
-   /* public void startDetails(View v){
-        Intent intent = new Intent(this, DetailsActivity.class);
-        if (bleService.ankleGatt != null){
-            String ankleDeviceAddress = bleService.ankleGatt.getDevice().getAddress().toString();
-            intent.putExtra("ankleDeviceAddress", ankleDeviceAddress);
-        }
-        else{
-            String string = "not connected";
-            intent.putExtra("ankleDeviceAddress", string);
-        }
-        if(bleService.kneeGatt != null){
-            String kneeDeviceAddress = bleService.kneeGatt.getDevice().getAddress().toString();
-            intent.putExtra("kneeDeviceAddress", kneeDeviceAddress);
-        }
-        else{
-            String string = "not connected";
-            intent.putExtra("kneeDeviceAddress", string);
-        }
-        if(bleService.chestGatt != null){
-            String hipDeviceAddress = bleService.chestGatt.getDevice().getAddress().toString();
-            intent.putExtra("hipDeviceAddress", hipDeviceAddress);
-        }
-        else{
-            String string = "not connected";
-            intent.putExtra("hipDeviceAddress", string);
-        }
-        startActivity(intent);
-    }*/
+   //find ALL gyro values and call the set them method
 //get 10 calibration data points then display the data
-        public void findGaugeValueX(final SensorUI sensor, float gyroX) {
+      //why calibrate though?  isn't the chip supposed to not need it? other team said it drifted, maybe this is why
+      //axis =1 is x, 2 is y, 3 is z
+        public void findGaugeValue(final SensorUI sensor, float gyroX, int axis) {
             if (sensor.calibrate & sensor.calibrateCounter < 10) {
                 sensor.calibrateCounter++;
                 sensor.average = sensor.average + gyroX;
@@ -1116,131 +683,45 @@ public class MainActivity extends AppCompatActivity {
                 sensor.average = sensor.average / 10;
                 sensor.calibrateCounter++;
             } else if (sensor.calibrate & sensor.calibrateCounter > 10) {
+                int correctedValue=0;
                 if ((sensor.average + 90.0) <= 180 & (sensor.average - 90) >= -180) {
-                    checkValue((int) (gyroX + (-1 * sensor.average)), sensor);
-                    setGaugeValueX((int) (gyroX + (-1 * sensor.average)), sensor);
-                    int correctedValue = (int) (gyroX + (-1 * sensor.average));
+                    correctedValue = (int) (gyroX + (-1 * sensor.average));
+                    //setGaugeValueX(correctedValue, sensor);
 
                 } else if ((sensor.average + 90) > 180) {
                     if (gyroX < 0) {
-                        checkValue((int) ((180 - sensor.average) + (gyroX + 180)), sensor);
-                        setGaugeValueX((int) ((180 - sensor.average) + (gyroX + 180)), sensor);
-                        int correctedValue = (int) ((180 - sensor.average) + (gyroX + 180));
+                        correctedValue = (int) ((180 - sensor.average) + (gyroX + 180));
+                        //setGaugeValueX(correctedValue, sensor);
                     } else if (gyroX > 0) {
-                        checkValue((int) (gyroX + (-1 * sensor.average)), sensor);
-                        setGaugeValueX((int) (gyroX + (-1 * sensor.average)), sensor);
-                        int correctedValue = (int) (gyroX + (-1 * sensor.average));
+                        correctedValue = (int) (gyroX + (-1 * sensor.average));
+                        //setGaugeValueX(correctedValue, sensor);
+
                     }
 
 
-                } else if ((sensor.average - 90) < -180) {
+                } else if ((sensor.average - 90) < -180) {//should really be an else, not an elseif
                     if (gyroX < 0) {
-                        checkValue((int) (gyroX + (-1 * sensor.average)), sensor);
-                        setGaugeValueX((int) (gyroX + (-1 * sensor.average)), sensor);
-                        int correctedValue = (int) (gyroX + (-1 * sensor.average));
+                        correctedValue = (int) (gyroX + (-1 * sensor.average));
+                        //setGaugeValueX(correctedValue, sensor);
+
                     }
-                    if (gyroX > 0) {
-                        checkValue((int) ((-180 - sensor.average) + (gyroX - 180)), sensor);
-                        setGaugeValueX((int) ((-180 - sensor.average) + (gyroX - 180)), sensor);
-                        int correctedValue = (int) ((-180 - sensor.average) + (gyroX - 180));
-                    }
+                    else if (gyroX > 0) {
+                        correctedValue = (int) ((-180 - sensor.average) + (gyroX - 180));
+                        //setGaugeValueX(correctedValue, sensor);
 
-
-                }
-            }
-        }
-
-        //find gyroY
-        public void findGaugeValueY(final SensorUI sensor, float gyroY) {
-            if (sensor.calibrate & sensor.calibrateCounter < 10) {
-                sensor.calibrateCounter++;
-                sensor.average = sensor.average + gyroY;
-
-
-            } else if (sensor.calibrate & sensor.calibrateCounter == 10) {
-                sensor.average = sensor.average / 10;
-                sensor.calibrateCounter++;
-            } else if (sensor.calibrate & sensor.calibrateCounter > 10) {
-                if ((sensor.average + 90.0) <= 180 & (sensor.average - 90) >= -180) {
-                    checkValue((int) (gyroY + (-1 * sensor.average)), sensor);
-                    setGaugeValueY((int) (gyroY + (-1 * sensor.average)), sensor);
-                    int correctedValue = (int) (gyroY + (-1 * sensor.average));
-
-                } else if ((sensor.average + 90) > 180) {
-                    if (gyroY < 0) {
-                        checkValue((int) ((180 - sensor.average) + (gyroY + 180)), sensor);
-                        setGaugeValueY((int) ((180 - sensor.average) + (gyroY + 180)), sensor);
-                        int correctedValue = (int) ((180 - sensor.average) + (gyroY + 180));
-                    } else if (gyroY > 0) {
-                        checkValue((int) (gyroY + (-1 * sensor.average)), sensor);
-                        setGaugeValueY((int) (gyroY + (-1 * sensor.average)), sensor);
-                        int correctedValue = (int) (gyroY + (-1 * sensor.average));
-                    }
-
-
-                } else if ((sensor.average - 90) < -180) {
-                    if (gyroY < 0) {
-                        checkValue((int) (gyroY + (-1 * sensor.average)), sensor);
-                        setGaugeValueY((int) (gyroY + (-1 * sensor.average)), sensor);
-                        int correctedValue = (int) (gyroY + (-1 * sensor.average));
-                    }
-                    if (gyroY > 0) {
-                        checkValue((int) ((-180 - sensor.average) + (gyroY - 180)), sensor);
-                        setGaugeValueY((int) ((-180 - sensor.average) + (gyroY - 180)), sensor);
-                        int correctedValue = (int) ((-180 - sensor.average) + (gyroY - 180));
                     }
 
 
                 }
-            }
-        }
-        //end of gyroY
-
-        //find gyroZ
-        public void findGaugeValueZ(final SensorUI sensor, float gyroZ) {
-            if (sensor.calibrate & sensor.calibrateCounter < 10) {
-                sensor.calibrateCounter++;
-                sensor.average = sensor.average + gyroZ;
-
-
-            } else if (sensor.calibrate & sensor.calibrateCounter == 10) {
-                sensor.average = sensor.average / 10;
-                sensor.calibrateCounter++;
-            } else if (sensor.calibrate & sensor.calibrateCounter > 10) {
-                if ((sensor.average + 90.0) <= 180 & (sensor.average - 90) >= -180) {
-                    checkValue((int) (gyroZ + (-1 * sensor.average)), sensor);
-                    setGaugeValueZ((int) (gyroZ + (-1 * sensor.average)), sensor);
-                    int correctedValue = (int) (gyroZ + (-1 * sensor.average));
-
-                } else if ((sensor.average + 90) > 180) {
-                    if (gyroZ < 0) {
-                        checkValue((int) ((180 - sensor.average) + (gyroZ + 180)), sensor);
-                        setGaugeValueZ((int) ((180 - sensor.average) + (gyroZ + 180)), sensor);
-                        int correctedValue = (int) ((180 - sensor.average) + (gyroZ + 180));
-                    } else if (gyroZ > 0) {
-                        checkValue((int) (gyroZ + (-1 * sensor.average)), sensor);
-                        setGaugeValueZ((int) (gyroZ + (-1 * sensor.average)), sensor);
-                        int correctedValue = (int) (gyroZ + (-1 * sensor.average));
-                    }
-
-
-                } else if ((sensor.average - 90) < -180) {
-                    if (gyroZ < 0) {
-                        checkValue((int) (gyroZ + (-1 * sensor.average)), sensor);
-                        setGaugeValueZ((int) (gyroZ + (-1 * sensor.average)), sensor);
-                        int correctedValue = (int) (gyroZ + (-1 * sensor.average));
-                    }
-                    if (gyroZ > 0) {
-                        checkValue((int) ((-180 - sensor.average) + (gyroZ - 180)), sensor);
-                        setGaugeValueZ((int) ((-180 - sensor.average) + (gyroZ - 180)), sensor);
-                        int correctedValue = (int) ((-180 - sensor.average) + (gyroZ - 180));
-                    }
-
-
+                if(axis==1) {
+                    setGaugeValueX(correctedValue, sensor);
+                } else if(axis==2){
+                    setGaugeValueY(correctedValue, sensor);
+                } else {
+                    setGaugeValueZ(correctedValue, sensor);
                 }
             }
         }
-        //end of gyroZ
 
 
         //log data values and etc in file, but in trycatch just in case

@@ -74,7 +74,7 @@ public class BleService extends Service {
 
         //set up saved devices for future connections
         sharedPreferences = this.getSharedPreferences("savedDevices", Context.MODE_PRIVATE);
-        approvedDevices[0] = sharedPreferences.getString("device1","F9:9E:AA:4B:28:9D");
+        approvedDevices[0] = sharedPreferences.getString("device1","F9:9E:AA:4B:28:9D");//the IMU on the watch band
         approvedDevices[1] = sharedPreferences.getString("device2","000000");
         approvedDevices[2] = sharedPreferences.getString("device3","000000");
         approvedDevices[3] = sharedPreferences.getString("device4","000000");
@@ -215,7 +215,7 @@ public class BleService extends Service {
         adapter = BluetoothAdapter.getDefaultAdapter();
         scanner = adapter.getBluetoothLeScanner();
     }
-
+//where values are read in and transferred
     public final BluetoothGattCallback bleGattCallback = new BluetoothGattCallback() {
         @Override
         public void onDescriptorWrite(BluetoothGatt gatt, BluetoothGattDescriptor descriptor, int status) {
@@ -225,9 +225,9 @@ public class BleService extends Service {
         @Override
         public void onCharacteristicChanged(BluetoothGatt gatt, final BluetoothGattCharacteristic characteristic) {
             if(gatt == chestGatt | gatt == kneeGatt | gatt == ankleGatt) {
-                byte[] temp = characteristic.getValue();
+                byte[] temp = characteristic.getValue();//read in the values
                 int MSB = temp[1] << 8;
-                int LSB = temp[0] & 0x000000FF;
+                int LSB = temp[0] & 0x000000FF;//convert the first two entries to doubles
                 int val = MSB | LSB;
                 float gyroZ = val * 0.0625f;
                 MSB = temp[3] << 8;
@@ -237,18 +237,20 @@ public class BleService extends Service {
                 MSB = temp[5] << 8;
                 LSB = temp[4] & 0x000000FF;
                 val = MSB | LSB;
-                float gyroX = val * 0.0625f;
+                float gyroX = val * 0.0625f;//are there more values? use light blue to check
                 String bleEvent = "notification";
 
-
+                //comment out printing because it's hard to read the logs otherwise.
+/*
                 //print out gyroX, gyroY, and gyroZ values to android console
                 System.out.println("gyroX: " + gyroX);
                 System.out.println("gyroY: " + gyroY);
-                System.out.println("gyroZ: " + gyroZ);
+                System.out.println("gyroZ: " + gyroZ);*/
 
 
                 intent.putExtra("bleEvent", bleEvent);
                 if(gatt == chestGatt){
+                    //make blenotification object
                     BleNotification notification = new BleNotification(gyroX,gyroY,gyroZ, "hip");
                     intent.putExtra("notifyObject", notification);
                     intent.putExtra("gatt","hip");
@@ -270,7 +272,7 @@ public class BleService extends Service {
 */
 
                 }
-                else if(gatt == kneeGatt){
+                /*else if(gatt == kneeGatt){
                     BleNotification notification = new BleNotification(gyroX,gyroY,gyroZ, "knee");
                     intent.putExtra("notifyObject", notification);
                     intent.putExtra("gatt","knee");
@@ -285,7 +287,7 @@ public class BleService extends Service {
                     intent.putExtra("valueX", gyroX);
                     intent.putExtra("ValueY",gyroY);
                     intent.putExtra("valueZ",gyroZ);
-                }
+                }*/
                 sendBroadcast(intent);
 
             }
@@ -298,7 +300,7 @@ public class BleService extends Service {
                 intent.putExtra("bleEvent", bleEvent);
                 if(gatt.equals(chestGatt)){
                     intent.putExtra("gatt","hip");
-                }
+                }/*
                 else if(gatt.equals(kneeGatt)){
                     intent.putExtra("gatt","knee");
                 }
@@ -308,7 +310,7 @@ public class BleService extends Service {
                 else if(gatt.equals(fireflyGatt)){
                     intent.putExtra("gatt","firefly");
                     fireflyFound = false;
-                }
+                }*/
                 else{
                     intent.putExtra("gatt", "unknown");
                 }
