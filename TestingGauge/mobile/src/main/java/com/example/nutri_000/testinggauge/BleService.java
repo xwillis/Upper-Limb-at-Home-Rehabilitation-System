@@ -228,9 +228,9 @@ public class BleService extends Service {
                 //comment out printing because it's hard to read the logs otherwise.
 /*
                 //print out gyroX, gyroY, and gyroZ values to android console
-                System.out.println("gyroX: " + gyroX);
-                System.out.println("gyroY: " + gyroY);
-                System.out.println("gyroZ: " + gyroZ);*/
+                Log.v("value","gyroX: " + gyroX);
+                Log.v("value","gyroY: " + gyroY);
+                Log.v("value","gyroZ: " + gyroZ);*/
 
 
                 intent.putExtra("bleEvent", bleEvent);
