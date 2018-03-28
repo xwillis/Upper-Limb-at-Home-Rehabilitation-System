@@ -86,11 +86,13 @@ public class MainActivity extends AppCompatActivity {
             Log.v(tag,"Start from scratch, assign all GUI elements");
             // all UI components for main activity
             setContentView(R.layout.activity_main);
-
-            chestUI = new SensorUI(R.id.chestButton, R.id.progressBarChestXRight, R.id.progressBarChestRightY, R.id.progressBarChestRightZ, R.id.progressBarChestXLeft, R.id.progressBarChestLeftY,
-                    R.id.progressBarChestLeftZ, R.id.seekBarChestXRight, R.id.seekBarChestYRight, R.id.seekBarChestZRight, R.id.seekBarChestXLeft, R.id.seekBarChestYLeft, R.id.seekBarChestZLeft,
-                    R.id.chestAngleXRight, R.id.chestAngleXLeft, R.id.chestAngleYRight, R.id.chestAngleYLeft, R.id.chestAngleZRight, R.id.chestAngleZLeft, R.id.relativeHip, this);
-            chestUI.leftPB.setRotation(180);
+            int[] rightPB={ R.id.progressBarChestXRight, R.id.progressBarChestRightY, R.id.progressBarChestRightZ};
+            int[] leftPB={R.id.progressBarChestXLeft, R.id.progressBarChestLeftY, R.id.progressBarChestLeftZ};
+            int[] rightSB={R.id.seekBarChestXRight, R.id.seekBarChestYRight, R.id.seekBarChestZRight};
+            int[] leftSB={R.id.seekBarChestXLeft, R.id.seekBarChestYLeft, R.id.seekBarChestZLeft};
+            int[] rightTV={R.id.chestAngleXRight,R.id.chestAngleYRight,R.id.chestAngleZRight};
+            int[] leftTV={ R.id.chestAngleXLeft,  R.id.chestAngleYLeft,  R.id.chestAngleZLeft};
+            chestUI = new SensorUI(R.id.chestButton,rightPB, leftPB, rightSB , leftSB ,rightTV, leftTV,R.id.relativeHip,  this);
 
             chestUI.green = R.drawable.chestgreen;
             chestUI.yellow = R.drawable.chestyellow;
@@ -123,7 +125,6 @@ public class MainActivity extends AppCompatActivity {
     //log that it stopped
     @Override
     protected void onStop() {
-
         super.onStop();
         Log.v(tag, "on stop, STOPPED");
     }
@@ -178,14 +179,14 @@ public class MainActivity extends AppCompatActivity {
     //GAUGE
 
     //set progress bar for X axis
-    public void setGaugeValueX(final int value, final SensorUI sensor) {
+    public void setGaugeValue(final int value, final SensorUI sensor, final int axis) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Log.v(tag,"Set Gauge value x, value is "+value);
+                Log.v(tag,"Set Gauge value, value is "+value+" and the axis is "+axis);
                 if (value < 0 & value > -90) {
-                    sensor.leftPB.setProgress(-1 * value);
-                    sensor.rightPB.setProgress(0);
+                    sensor.progressBars[1][axis].setProgress(-1 * value);
+                    sensor.progressBars[0][axis].setProgress(0);
 
                     if (sensor == chestUI) {
                         chestData.add(Integer.toString(value) + " ");
@@ -193,178 +194,44 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                 } else if (value > 0 & value < 90) {
-                    sensor.leftPB.setProgress(0);
-                    sensor.rightPB.setProgress(value);
+                    sensor.progressBars[1][axis].setProgress(0);
+                    sensor.progressBars[0][axis].setProgress(value);
                     if (sensor == chestUI) {
                         chestData.add(Integer.toString(value) + " ");
                         chestData.add(Long.toString(System.currentTimeMillis()) + "\n");
                     }
                 }
                 //cool glowy you did it color
-                if (value > sensor.rightSB.getProgress() & value < 90) {
+                if (value > sensor.seekBars[0][axis].getProgress() & value < 90) {
                     Log.v(tag,"Activate stim, value higher than goals set positive");
-                    sensor.relativeLayout.setBackgroundColor(Color.parseColor("#008542"));
-                    if (!writeDebounce) {
-                        //writeFile(value, sensor);
-                        writeDebounce = true;
-                        timerHandler.postDelayed(debounceWrite, 1000);
-                    }
+                    sensor.setSensorBackgroundColor("#008542");
 
                 }
                 //cool glowy you did it color
-                if ((value * -1) > sensor.leftSB.getProgress() & (value * -1) < 90) {
+                if ((value * -1) > sensor.seekBars[1][axis].getProgress() & (value * -1) < 90) {
                     Log.v(tag,"Activate stim, value higher than goals set negative");
-                    sensor.relativeLayout.setBackgroundColor(Color.parseColor("#008542"));
-                    if (!writeDebounce) {
-                        writeDebounce = true;
-                        timerHandler.postDelayed(debounceWrite, 1000);
-                    }
+                    sensor.setSensorBackgroundColor("#008542");
 
                 }
 //normal color
-                if (value < sensor.rightSB.getProgress() & (value * -1) < sensor.leftSB.getProgress()) {
-                    sensor.relativeLayout.setBackgroundColor(Color.parseColor("#404040"));
+                if (value < sensor.seekBars[0][axis].getProgress() & (value * -1) < sensor.seekBars[1][axis].getProgress()) {
+                    sensor.setSensorBackgroundColor("#404040");
 
                 }
                 //now display values
                 if (value >= 0) {
-                    sensor.rightTV.setText(Integer.toString(value) + "/" + Integer.toString(sensor.rightSB.getProgress()));
-                    sensor.leftTV.setText("0/" + Integer.toString(sensor.leftSB.getProgress()));
+                    sensor.textViews[0][axis].setText(Integer.toString(value) + "/" + Integer.toString(sensor.seekBars[0][axis].getProgress()));
+                    sensor.textViews[1][axis].setText("0/" + Integer.toString(sensor.seekBars[1][axis].getProgress()));
                 }
                 if (value <= 0) {
-                    sensor.leftTV.setText(Integer.toString(-1 * value) + "/" + Integer.toString(sensor.leftSB.getProgress()));
-                    sensor.rightTV.setText("0/" + Integer.toString(sensor.rightSB.getProgress()));
+                    sensor.textViews[1][axis].setText(Integer.toString(-1 * value) + "/" + Integer.toString(sensor.seekBars[1][axis].getProgress()));
+                    sensor.textViews[0][axis].setText("0/" + Integer.toString(sensor.seekBars[0][axis].getProgress()));
                 }
             }
         });
     }
 
-    //for y axis
-    public void setGaugeValueY(final int value, final SensorUI sensor) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Log.v(tag,"Set Gauge value y, value is "+value);
-                if (value < 0 & value > -90) {
-                    sensor.leftPBY.setProgress(-1 * value);
-                    sensor.rightPBY.setProgress(0);
 
-                    if (sensor == chestUI) {
-                        chestData.add(Integer.toString(value) + " ");
-                        //chestCount++;
-                        chestData.add(Long.toString(System.currentTimeMillis()) + "\n");
-                        //chestCount++;
-                    }
-
-                } else if (value > 0 & value < 90) {
-                    sensor.leftPBY.setProgress(0);
-                    sensor.rightPBY.setProgress(value);
-                    if (sensor == chestUI) {
-                        chestData.add(Integer.toString(value) + " ");
-                        //chestCount++;
-                        chestData.add(Long.toString(System.currentTimeMillis()) + "\n");
-                        //chestCount++;
-                    }
-                }
-                if (value > sensor.rightSBY.getProgress() & value < 90) {
-                    sensor.relativeLayout.setBackgroundColor(Color.parseColor("#008542"));
-                    if (!writeDebounce) {
-                        //writeFile(value, sensor);
-                        writeDebounce = true;
-                        timerHandler.postDelayed(debounceWrite, 1000);
-                    }
-
-                }
-                if ((value * -1) > sensor.leftSB.getProgress() & (value * -1) < 90) {
-                    sensor.relativeLayout.setBackgroundColor(Color.parseColor("#008542"));
-                    if (!writeDebounce) {
-                        //writeFile(value, sensor);
-                        writeDebounce = true;
-                        timerHandler.postDelayed(debounceWrite, 1000);
-                    }
-
-                }
-
-                if (value < sensor.rightSBY.getProgress() & (value * -1) < sensor.leftSBY.getProgress()) {
-
-                    sensor.relativeLayout.setBackgroundColor(Color.parseColor("#404040"));
-
-                }
-                if (value >= 0) {
-                    sensor.rightTVY.setText(Integer.toString(value) + "/" + Integer.toString(sensor.rightSBY.getProgress()));
-                    sensor.leftTVY.setText("0/" + Integer.toString(sensor.leftSBY.getProgress()));
-                }
-                if (value <= 0) {
-                    sensor.leftTVY.setText(Integer.toString(-1 * value) + "/" + Integer.toString(sensor.leftSBY.getProgress()));
-                    sensor.rightTVY.setText("0/" + Integer.toString(sensor.rightSBY.getProgress()));
-                }
-            }
-        });
-    }
-    //end y
-
-    //for z axis
-    public void setGaugeValueZ(final int value, final SensorUI sensor) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Log.v(tag,"Set Gauge value z, value is "+value);
-                if (value < 0 & value > -90) {
-                    sensor.leftPBZ.setProgress(-1 * value);
-                    sensor.rightPBZ.setProgress(0);
-
-                    if (sensor == chestUI) {
-                        chestData.add(Integer.toString(value) + " ");
-                        //chestCount++;
-                        chestData.add(Long.toString(System.currentTimeMillis()) + "\n");
-                        //chestCount++;
-                    }
-                } else if (value > 0 & value < 90) {
-                    sensor.leftPBZ.setProgress(0);
-                    sensor.rightPBZ.setProgress(value);
-                    if (sensor == chestUI) {
-                        chestData.add(Integer.toString(value) + " ");
-                        //chestCount++;
-                        chestData.add(Long.toString(System.currentTimeMillis()) + "\n");
-                        //chestCount++;
-                    }
-                }
-                if (value > sensor.rightSBZ.getProgress() & value < 90) {
-                    sensor.relativeLayout.setBackgroundColor(Color.parseColor("#008542"));
-                    if (!writeDebounce) {
-                        //writeFile(value, sensor);
-                        writeDebounce = true;
-                        timerHandler.postDelayed(debounceWrite, 1000);
-                    }
-
-                }
-                if ((value * -1) > sensor.leftSBZ.getProgress() & (value * -1) < 90) {
-                    sensor.relativeLayout.setBackgroundColor(Color.parseColor("#008542"));
-                    if (!writeDebounce) {
-                        //writeFile(value, sensor);
-                        writeDebounce = true;
-                        timerHandler.postDelayed(debounceWrite, 1000);
-                    }
-
-                }
-
-                if (value < sensor.rightSBZ.getProgress() & (value * -1) < sensor.leftSBZ.getProgress()) {
-
-                    sensor.relativeLayout.setBackgroundColor(Color.parseColor("#404040"));
-
-                }
-                if (value >= 0) {
-                    sensor.rightTVZ.setText(Integer.toString(value) + "/" + Integer.toString(sensor.rightSBZ.getProgress()));
-                    sensor.leftTVZ.setText("0/" + Integer.toString(sensor.leftSBZ.getProgress()));
-                }
-                if (value <= 0) {
-                    sensor.leftTVZ.setText(Integer.toString(-1 * value) + "/" + Integer.toString(sensor.leftSBZ.getProgress()));
-                    sensor.rightTVZ.setText("0/" + Integer.toString(sensor.rightSBZ.getProgress()));
-                }
-            }
-        });
-    }
-    //end z
 
 
     //SENSOR STATUS TEXT
@@ -451,8 +318,6 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         chestUI.connect.setBackgroundResource(R.drawable.chestwhite);
-                        chestUI.leftTV.setVisibility(View.INVISIBLE);
-                        chestUI.rightTV.setVisibility(View.INVISIBLE);
                     }
                 });
                 chestClickCount = 0;
@@ -541,8 +406,6 @@ public class MainActivity extends AppCompatActivity {
                 public void run() {
                     setSensorStatus("Sensor Connected");
                     sensor.connect.setBackgroundResource(sensor.green);
-                    sensor.rightTV.setVisibility(View.VISIBLE);
-                    sensor.leftTV.setVisibility(View.VISIBLE);
                 }
             });
         }
@@ -551,12 +414,13 @@ public class MainActivity extends AppCompatActivity {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    sensor.leftPB.setProgress(0);
-                    sensor.rightPB.setProgress(0);
-                    sensor.rightTV.setVisibility(View.INVISIBLE);
-                    sensor.leftTV.setVisibility(View.INVISIBLE);
+                    for(int i=0;i<sensor.progressBars.length;i++){
+                        for(int ii=0;ii<sensor.progressBars[0].length;ii++){
+                            sensor.progressBars[i][ii].setProgress(0);
+                        }
+                    }
                     sensor.connect.setBackgroundResource(sensor.white);
-                    sensor.relativeLayout.setBackgroundColor(Color.parseColor("#404040"));
+                    sensor.setSensorBackgroundColor("#404040");
                 }
             });
             setSensorStatus("Sensor Disconnected");
@@ -581,15 +445,7 @@ public class MainActivity extends AppCompatActivity {
                 int correctedValue=(int)(gyro-sensor.average[axis]);//commented out weird logic, not sure what it was trying to do
                 //it was trying to do something about mod 360 or 180 but whatever, will fix later
                 Log.v(tag,"Corrected value going to sensor is "+ correctedValue);
-                if(axis==0) {
-                    setGaugeValueX(correctedValue, sensor);
-                } else if(axis==1){
-                    setGaugeValueY(correctedValue, sensor);
-                } else if(axis ==2){
-                    setGaugeValueZ(correctedValue, sensor);
-                }else{
-                    Log.v(tag,"Something ha gone wrong in your axis selection for findGaugeValue");
-                }
+                setGaugeValue(correctedValue, sensor,axis);
             }
         }
 
