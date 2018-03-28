@@ -13,9 +13,9 @@ public class SensorUI extends MainActivity {
     public SeekBar rightSB, leftSB, rightSBY, leftSBY, rightSBZ, leftSBZ;
     public TextView rightTV, leftTV, rightTVY, leftTVY, rightTVZ, leftTVZ;
     public RelativeLayout relativeLayout;
-    public float average;
-    public int calibrateCounter;
-    boolean calibrate;
+    public float[] average={0,0,0};
+    public int[] calibrateCounter={0,0,0};
+    boolean[] calibrate={false,false,false};
     boolean search;
     public int green,yellow,white;
     static TextView sensorStatus;
@@ -62,17 +62,14 @@ public class SensorUI extends MainActivity {
         //END Z AXIS
 
         relativeLayout = (RelativeLayout) MainActivity.findViewById(relativeLO);
-        average = 0;
-        calibrateCounter = 0;
-        calibrate = false;
         search = false;
         sensorStatus = (TextView) MainActivity.findViewById(R.id.SensorStatus);
     }
-    public void calibrateSensor(final SensorUI sensor){
+    public void calibrateSensor(final SensorUI sensor, int axis){
         //zero the sensor
-        calibrate = true;
-        calibrateCounter = 0;
-        average = 0;
+        calibrate[axis] = true;
+        calibrateCounter[axis] = 0;
+        average[axis] = 0;
         sensor.leftPB.setProgress(0);
         sensor.rightPB.setProgress(0);
     }

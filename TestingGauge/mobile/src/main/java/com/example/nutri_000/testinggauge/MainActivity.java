@@ -475,7 +475,9 @@ public class MainActivity extends AppCompatActivity {
                     chestUI.connect.setOnLongClickListener(new View.OnLongClickListener() {
                         @Override
                         public boolean onLongClick(View v) {
-                            chestUI.calibrateSensor(chestUI);
+                            chestUI.calibrateSensor(chestUI,0);
+                            chestUI.calibrateSensor(chestUI,1);
+                            chestUI.calibrateSensor(chestUI,2);
                             return true;
                         }
                     });
@@ -566,72 +568,30 @@ public class MainActivity extends AppCompatActivity {
       //axis =1 is x, 2 is y, 3 is z
         public void findGaugeValue(final SensorUI sensor, float gyro, int axis) {
             Log.v(tag,"Finding Gauge Value");
-            if (!sensor.calibrate & sensor.calibrateCounter < 10) {//slightly redundant, but should be ok
+            if (!sensor.calibrate[axis] & sensor.calibrateCounter[axis] < 10) {//slightly redundant, but should be ok
                 Log.v(tag,"Not enough values to calibrate sensor");
-                sensor.calibrateCounter++;
-                sensor.average = sensor.average + gyro;
-            } else if (!sensor.calibrate & sensor.calibrateCounter == 10) {
-                Log.v(tag,"Setting sensor average");
-                sensor.average = sensor.average / 10;
-                sensor.calibrateCounter++;
-                sensor.calibrate=true;
-            } else if (sensor.calibrate & sensor.calibrateCounter > 10) {
-                int correctedValue=(int)(gyro-sensor.average);//commented out weird logic, not sure what it was trying to do
+                sensor.calibrateCounter[axis]++;
+                sensor.average[axis] = sensor.average[axis] + gyro;
+            } else if (!sensor.calibrate[axis] & sensor.calibrateCounter[axis] == 10) {
+                sensor.average[axis] = sensor.average[axis] / 10;
+                sensor.calibrateCounter[axis]++;
+                sensor.calibrate[axis]=true;
+                Log.v(tag,"Setting sensor average to " +sensor.average+ " sensor "+axis);
+            } else if (sensor.calibrate[axis] & sensor.calibrateCounter[axis] > 10) {
+                int correctedValue=(int)(gyro-sensor.average[axis]);//commented out weird logic, not sure what it was trying to do
                 //it was trying to do something about mod 360 or 180 but whatever, will fix later
                 Log.v(tag,"Corrected value going to sensor is "+ correctedValue);
-                if(axis==1) {
+                if(axis==0) {
                     setGaugeValueX(correctedValue, sensor);
-                } else if(axis==2){
+                } else if(axis==1){
                     setGaugeValueY(correctedValue, sensor);
-                } else if(axis ==3){
+                } else if(axis ==2){
                     setGaugeValueZ(correctedValue, sensor);
                 }else{
                     Log.v(tag,"Something ha gone wrong in your axis selection for findGaugeValue");
                 }
             }
         }
-
-
-        //log data values and etc in file, but in trycatch just in case
-        /*public void writeFile() {
-            try {
-                if (!fileCreated) {
-                    FileOutputStream outputStream = new FileOutputStream(fullPath);
-                    string = "file created on: " + dateTime + "\n";
-                    outputStream.write(string.getBytes());
-                    outputStream.flush();
-                    outputStream.close();
-                    fileCreated = true;
-                } else {
-                    FileOutputStream outputStream = new FileOutputStream(fullPath, true);
-                    outputStream.write(dateTime.getBytes());
-                    outputStream.flush();
-                    outputStream.close();
-                    MediaScannerConnection.scanFile(getAppContext(), new String[]{fullPath}, null, null);
-                }
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }*/
-
-        //flush stuff at close
-       /* public void writeFileAtStop(String string, SensorUI sensor) {
-            try {
-                FileOutputStream outputStream = new FileOutputStream(fullPath, true);
-                String data = string;
-                if (sensor == chestUI) {
-                    data = data.concat(chestData.toString() + ";\n");
-                }
-                outputStream.write(data.getBytes());
-                outputStream.flush();
-                outputStream.close();
-                MediaScannerConnection.scanFile(getAppContext(), new String[]{fullPath}, null, null);
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }*/
 
 // Arm CAL BEGIN //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
