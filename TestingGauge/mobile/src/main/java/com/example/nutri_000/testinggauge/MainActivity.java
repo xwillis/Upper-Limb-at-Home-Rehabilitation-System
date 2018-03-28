@@ -641,19 +641,13 @@ public class MainActivity extends AppCompatActivity {
         }
 
         //flush stuff at close
-        public void writeFileAtStop(String string, SensorUI sensor) {
+       /* public void writeFileAtStop(String string, SensorUI sensor) {
             try {
                 FileOutputStream outputStream = new FileOutputStream(fullPath, true);
                 String data = string;
                 if (sensor == chestUI) {
                     data = data.concat(chestData.toString() + ";\n");
                 }
-              /*  if(sensor == kneeUI){
-                        data = data.concat(kneeData.toString() + ";\n");
-                }
-                if(sensor == ankleUI){
-                        data = data.concat(ankleData.toString() + ";\n");
-                }*/
                 outputStream.write(data.getBytes());
                 outputStream.flush();
                 outputStream.close();
@@ -662,7 +656,7 @@ public class MainActivity extends AppCompatActivity {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }
+        }*/
 
 // Arm CAL BEGIN //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
