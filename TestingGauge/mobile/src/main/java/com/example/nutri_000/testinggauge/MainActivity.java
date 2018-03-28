@@ -406,7 +406,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     };
-    
+
     Runnable debounceWrite = new Runnable() {
         @Override
         public void run() {
@@ -466,8 +466,9 @@ public class MainActivity extends AppCompatActivity {
             Log.v(tag,"Got bundle of things");
             Bundle extras = intent.getExtras();
             String eventType = extras.getString("bleEvent");
+            Log.v(tag,"Event type is "+eventType);
             if (eventType.equals("sensorConnected")) {
-                Log.v(tag,"Sensor is connected");
+                Log.v(tag,"Sensor is connected event");
                 if (extras.getString("gatt").equals("hip")) {
                     Log.v(tag,"Hip/chest connected");
                     connectSensor(chestUI);
@@ -486,7 +487,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.v("bleService", "connected message sent");
             }
             if (eventType.equals("sensorDisconnected")) {
-                Log.v(tag,"Disconnected sensor");
+                Log.v(tag, "Disconnected sensor event");
                 if (extras.getString("gatt").equals("hip")) {
                     Log.v(tag, "Hip/chest disconnected");
                     onSensorDisconnected(chestUI);
@@ -496,9 +497,10 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                 }
+            }
 
                 if (eventType.equals("notification")) {
-                    Log.v(tag,"You have mail");
+                    Log.v(tag,"You have mail event");
                     BleNotification notification = intent.getParcelableExtra("notifyObject");
                     if (notification.gatt.equals("hip")) {
                         Log.v(tag,"You have mail from the hip/chest");
@@ -529,7 +531,7 @@ public class MainActivity extends AppCompatActivity {
 
                 }
             }
-        }
+        };
 
         private void connectSensor(final SensorUI sensor) {
             runOnUiThread(new Runnable() {
@@ -665,5 +667,4 @@ public class MainActivity extends AppCompatActivity {
 // Arm CAL BEGIN //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-    };
-}
+    }
