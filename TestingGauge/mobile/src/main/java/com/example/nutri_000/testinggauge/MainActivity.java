@@ -508,13 +508,13 @@ public class MainActivity extends AppCompatActivity {
                         Log.v(tag,"You have mail from the hip/chest");
                         //find value x, switched to different value coding
                         Log.v(tag, "Value x from object is "+notification.valueX);
-                        findGaugeValue(chestUI, notification.valueX,1);
+                        findGaugeValue(chestUI, notification.valueX,0);
                         //find value y, switched to different value coding
                         Log.v(tag, "Value y from object is "+notification.valueY);
-                        findGaugeValue(chestUI, notification.valueY,2);
+                        findGaugeValue(chestUI, notification.valueY,1);
                         //find value z, switched to different value coding
                         Log.v(tag, "Value z from object is "+notification.valueZ);
-                        findGaugeValue(chestUI, notification.valueZ,3);
+                        findGaugeValue(chestUI, notification.valueZ,2);
 
                     }
 
@@ -526,9 +526,9 @@ public class MainActivity extends AppCompatActivity {
                         Log.v(tag, "Value y from string is "+valueY);
                         float valueZ = extras.getFloat("valueZ");
                         Log.v(tag, "Value z from string is "+valueZ);
-                        findGaugeValue(chestUI, valueX,1);
-                        findGaugeValue(chestUI, valueY,2);
-                        findGaugeValue(chestUI, valueZ,3);
+                        findGaugeValue(chestUI, valueX,0);
+                        findGaugeValue(chestUI, valueY,1);
+                        findGaugeValue(chestUI, valueZ,2);
                     }
 
                 }
