@@ -49,11 +49,7 @@
         android:textSize="18dp"
         android:textStyle="bold"
         android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/chestButton"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/chestButton"
         app:layout_constraintVertical_bias="0.154" />
 
     <TextView
@@ -68,12 +64,8 @@
         android:textSize="18dp"
         android:textStyle="bold"
         android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintLeft_toRightOf="@+id/chestButton"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/chestButton"
         app:layout_constraintVertical_bias="0.174" />
 
                 <!--TextView for Y Axis -->
@@ -89,12 +81,7 @@
         android:textSize="18dp"
         android:textStyle="bold"
         android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintStart_toEndOf="@id/chestButton"
-        app:layout_constraintTop_toBottomOf="@+id/chestAngleXLeft"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/seekBarChestXLeft"
         app:layout_constraintVertical_bias="1.0" />
 
     <TextView
@@ -109,12 +96,7 @@
         android:textSize="18dp"
         android:textStyle="bold"
         android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/chestButton"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/chestAngleXRight"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/seekBarChestXRight"
         app:layout_constraintVertical_bias="1.0" />
                 <!--end TextView for Y Axis -->
 
@@ -131,12 +113,7 @@
         android:textSize="18dp"
         android:textStyle="bold"
         android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintStart_toEndOf="@id/chestButton"
-        app:layout_constraintTop_toBottomOf="@+id/chestAngleYLeft"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/seekBarChestYLeft"
         app:layout_constraintVertical_bias="1.0" />
 
     <TextView
@@ -151,12 +128,7 @@
         android:textSize="18dp"
         android:textStyle="bold"
         android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/chestButton"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/chestAngleYRight"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/seekBarChestYRight"
         app:layout_constraintVertical_bias="1.0" />
                 <!--end TextView for Z Axis -->
 
@@ -164,54 +136,42 @@
         android:id="@+id/seekBarChestXLeft"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:foregroundGravity="left"
         android:layout_weight="1"
         android:layoutDirection="rtl"
         android:max="100"
         android:progress="45"
         android:progressTint="#303030"
         android:thumb="@drawable/seek_arc_control_selector"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/chestButton" />
+        app:layout_constraintTop_toBottomOf="@+id/chestAngleXLeft" />
 
     <SeekBar
         android:id="@+id/seekBarChestXRight"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
         android:layout_weight="1"
         android:max="100"
         android:progress="45"
         android:progressTint="#303030"
         android:thumb="@drawable/seek_arc_control_selector"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/chestButton" />
+        app:layout_constraintTop_toBottomOf="@+id/chestAngleXRight" />
                 <!--Seek Bar Y Axis -->
     <SeekBar
         android:id="@+id/seekBarChestYLeft"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
         android:layout_weight="1"
         android:layoutDirection="rtl"
         android:max="100"
         android:progress="45"
         android:progressTint="#303030"
         android:thumb="@drawable/seek_arc_control_selector"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/seekBarChestXLeft" />
+        app:layout_constraintTop_toBottomOf="@+id/chestAngleXRight" />
 
     <SeekBar
         android:id="@+id/seekBarChestYRight"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
         android:layout_weight="1"
         android:max="100"
         android:progress="45"
@@ -228,7 +188,6 @@
         android:id="@+id/seekBarChestZLeft"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
         android:layout_weight="1"
         android:layoutDirection="rtl"
         android:max="100"
@@ -244,7 +203,6 @@
         android:id="@+id/seekBarChestZRight"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
         android:layout_weight="1"
         android:max="100"
         android:progress="45"
@@ -262,7 +220,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="144dp"
-        android:layout_marginTop="172dp"
         android:foregroundGravity="left"
         android:indeterminate="false"
         android:max="100"
@@ -277,10 +234,8 @@
     <ProgressBar
         android:id="@+id/progressBarTopRight"
         style="@android:style/Widget.ProgressBar.Horizontal"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="252dp"
-        android:layout_marginTop="172dp"
         android:foregroundGravity="right"
         android:max="100"
         android:paddingRight="5dp"
@@ -295,11 +250,10 @@
     <ProgressBar
         android:id="@+id/progressBarTopLeftY"
         style="@android:style/Widget.ProgressBar.Horizontal"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginRight="160dp"
         android:layout_marginStart="60dp"
-        android:layout_marginTop="80dp"
         android:indeterminate="false"
         android:max="100"
         android:paddingRight="5dp"
@@ -314,7 +268,7 @@
     <ProgressBar
         android:id="@+id/progressBarTopRightY"
         style="@android:style/Widget.ProgressBar.Horizontal"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="232dp"
@@ -334,7 +288,7 @@
     <ProgressBar
         android:id="@+id/progressBarTopLeftZ"
         style="@android:style/Widget.ProgressBar.Horizontal"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginRight="200dp"
         android:indeterminate="false"
@@ -350,7 +304,7 @@
     <ProgressBar
         android:id="@+id/progressBarTopRightZ"
         style="@android:style/Widget.ProgressBar.Horizontal"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="160dp"
         android:layout_weight="1"
