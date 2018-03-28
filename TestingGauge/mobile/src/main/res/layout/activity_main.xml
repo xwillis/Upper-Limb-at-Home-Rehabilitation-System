@@ -25,28 +25,12 @@
             android:text="Select a sensor to connect"
             android:textColor="#ffffff"
             android:textSize="20dp" />
-
-        <LinearLayout
-            android:id="@+id/linearLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentBottom="true"
-            android:layout_below="@id/SensorStatus"
-            android:orientation="vertical"
-            android:weightSum="3">
 <!-- Thigh Button-->
-            <RelativeLayout
-                android:id="@+id/relativeHip"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="#404040">
-
                 <ImageButton
                     android:id="@+id/chestButton"
                     android:layout_width="84dp"
                     android:layout_height="84dp"
-                    android:layout_alignParentTop="true"
+                    android:layout_below="@id/SensorStatus"
                     android:layout_centerHorizontal="true"
                     android:background="@drawable/chestwhite"
                     android:onClick="connectThigh" />
@@ -149,175 +133,165 @@
                     android:visibility="visible" />
                 <!--end TextView for Z Axis -->
 
-                        <SeekBar
-                            android:id="@+id/seekBarChestXLeft"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/chestButton"
-                            android:layout_weight="1"
-                            android:layoutDirection="rtl"
-                            android:max="100"
-                            android:progress="45"
-                            android:progressTint="#303030"
-                            android:thumb="@drawable/seek_arc_control_selector" />
-
-                        <SeekBar
-                            android:id="@+id/seekBarChestXRight"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/chestButton"
-                            android:layout_weight="1"
-                            android:max="100"
-                            android:progress="45"
-                            android:progressTint="#303030"
-                            android:thumb="@drawable/seek_arc_control_selector" />
-                    <!--Seek Bar Y Axis -->
-                    <SeekBar
-                        android:id="@+id/seekBarChestYLeft"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/seekBarChestXLeft"
-                        android:layout_weight="1"
-                        android:layoutDirection="rtl"
-                        android:max="100"
-                        android:progress="45"
-                        android:progressTint="#303030"
-                        android:thumb="@drawable/seek_arc_control_selector" />
-
-                    <SeekBar
-                        android:id="@+id/seekBarChestYRight"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/seekBarChestXRight"
-                        android:layout_weight="1"
-                        android:max="100"
-                        android:progress="45"
-                        android:progressTint="#303030"
-                        android:thumb="@drawable/seek_arc_control_selector" />
-                    <!--end Seek Bar Y Axis -->
-
-                    <!--Seek Bar Z Axis -->
-                    <SeekBar
-                        android:id="@+id/seekBarChestZLeft"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/seekBarChestYLeft"
-                        android:layout_weight="1"
-                        android:layoutDirection="rtl"
-                        android:max="100"
-                        android:progress="45"
-                        android:progressTint="#303030"
-                        android:thumb="@drawable/seek_arc_control_selector" />
-
-                    <SeekBar
-                        android:id="@+id/seekBarChestZRight"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/seekBarChestYRight"
-                        android:layout_weight="1"
-                        android:max="100"
-                        android:progress="45"
-                        android:progressTint="#303030"
-                        android:thumb="@drawable/seek_arc_control_selector" />
-                    <!--end Seek Bar Z Axis -->
-
-                <LinearLayout
+                <SeekBar
+                    android:id="@+id/seekBarChestXLeft"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="false"
-                    android:layout_alignParentStart="false"
                     android:layout_below="@+id/chestButton"
-                    android:layout_centerInParent="false"
-                    android:layout_centerVertical="false"
-                    android:orientation="horizontal">
+                    android:layout_weight="1"
+                    android:layoutDirection="rtl"
+                    android:max="100"
+                    android:progress="45"
+                    android:progressTint="#303030"
+                    android:thumb="@drawable/seek_arc_control_selector" />
 
-                    <ProgressBar
-                        android:id="@+id/progressBarTopLeft"
-                        style="@android:style/Widget.ProgressBar.Horizontal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="32dp"
-                        android:layout_weight="1"
-                        android:indeterminate="false"
-                        android:max="100"
-                        android:paddingRight="5dp"
-                        android:progress="0"
-                        android:progressTint="#69BE28"
-                        android:visibility="visible"
-                        tools:visibility="visible" />
+                <SeekBar
+                    android:id="@+id/seekBarChestXRight"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/chestButton"
+                    android:layout_weight="1"
+                    android:max="100"
+                    android:progress="45"
+                    android:progressTint="#303030"
+                    android:thumb="@drawable/seek_arc_control_selector" />
+                <!--Seek Bar Y Axis -->
+                <SeekBar
+                    android:id="@+id/seekBarChestYLeft"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/seekBarChestXLeft"
+                    android:layout_weight="1"
+                    android:layoutDirection="rtl"
+                    android:max="100"
+                    android:progress="45"
+                    android:progressTint="#303030"
+                    android:thumb="@drawable/seek_arc_control_selector" />
 
-                    <ProgressBar
-                        android:id="@+id/progressBarTopRight"
-                        style="@android:style/Widget.ProgressBar.Horizontal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:max="100"
-                        android:paddingRight="5dp"
-                        android:progress="0"
-                        android:progressTint="#69BE28"
-                        android:visibility="visible"
-                        tools:visibility="visible" />
+                <SeekBar
+                    android:id="@+id/seekBarChestYRight"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/seekBarChestXRight"
+                    android:layout_weight="1"
+                    android:max="100"
+                    android:progress="45"
+                    android:progressTint="#303030"
+                    android:thumb="@drawable/seek_arc_control_selector" />
+                <!--end Seek Bar Y Axis -->
+
+                <!--Seek Bar Z Axis -->
+                <SeekBar
+                    android:id="@+id/seekBarChestZLeft"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/seekBarChestYLeft"
+                    android:layout_weight="1"
+                    android:layoutDirection="rtl"
+                    android:max="100"
+                    android:progress="45"
+                    android:progressTint="#303030"
+                    android:thumb="@drawable/seek_arc_control_selector" />
+
+                <SeekBar
+                    android:id="@+id/seekBarChestZRight"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/seekBarChestYRight"
+                    android:layout_weight="1"
+                    android:max="100"
+                    android:progress="45"
+                    android:progressTint="#303030"
+                    android:thumb="@drawable/seek_arc_control_selector" />
+                <!--end Seek Bar Z Axis -->
+
+                <ProgressBar
+                    android:id="@+id/progressBarTopLeft"
+                    style="@android:style/Widget.ProgressBar.Horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@id/progressBarTopRight"
+                    android:indeterminate="false"
+                    android:max="100"
+                    android:paddingRight="5dp"
+                    android:progress="0"
+                    android:progressTint="#69BE28"
+                    android:visibility="visible"
+                    tools:visibility="visible" />
+
+                <ProgressBar
+                    android:id="@+id/progressBarTopRight"
+                    style="@android:style/Widget.ProgressBar.Horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:max="100"
+                    android:paddingRight="5dp"
+                    android:progress="0"
+                    android:progressTint="#69BE28"
+                    android:visibility="visible"
+                    tools:visibility="visible" />
 
                     <!-- Progress Bar for Y Axis of Chest IMU -->
-                    <ProgressBar
-                        android:id="@+id/progressBarTopLeftY"
-                        style="@android:style/Widget.ProgressBar.Horizontal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="32dp"
-                        android:layout_weight="1"
-                        android:indeterminate="false"
-                        android:max="100"
-                        android:paddingRight="5dp"
-                        android:progress="0"
-                        android:progressTint="#69BE28"
-                        android:visibility="visible"
-                        tools:visibility="visible" />
+                <ProgressBar
+                    android:id="@+id/progressBarTopLeftY"
+                    style="@android:style/Widget.ProgressBar.Horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/progressBarTopLeft"
+                    android:layout_toLeftOf="@id/progressBarTopRightY"
+                    android:indeterminate="false"
+                    android:max="100"
+                    android:paddingRight="5dp"
+                    android:progress="0"
+                    android:progressTint="#69BE28"
+                    android:visibility="visible"
+                    tools:visibility="visible" />
 
-                    <ProgressBar
-                        android:id="@+id/progressBarTopRightY"
-                        style="@android:style/Widget.ProgressBar.Horizontal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:max="100"
-                        android:paddingRight="5dp"
-                        android:progress="0"
-                        android:progressTint="#69BE28"
-                        android:visibility="visible"
-                        tools:visibility="visible" />
+                <ProgressBar
+                    android:id="@+id/progressBarTopRightY"
+                    style="@android:style/Widget.ProgressBar.Horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:max="100"
+                    android:paddingRight="5dp"
+                    android:progress="0"
+                    android:progressTint="#69BE28"
+                    android:visibility="visible"
+                    tools:visibility="visible" />
                     <!-- End of progress bar Y Axis-->
 
                     <!-- Progress Bar for Z Axis of Chest IMU -->
-                    <ProgressBar
-                        android:id="@+id/progressBarTopLeftZ"
-                        style="@android:style/Widget.ProgressBar.Horizontal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="32dp"
-                        android:layout_weight="1"
-                        android:indeterminate="false"
-                        android:max="100"
-                        android:paddingRight="5dp"
-                        android:progress="0"
-                        android:progressTint="#69BE28"
-                        android:visibility="visible"
-                        tools:visibility="visible" />
+                <ProgressBar
+                    android:id="@+id/progressBarTopLeftZ"
+                    style="@android:style/Widget.ProgressBar.Horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/progressBarTopLeftZ"
+                    android:layout_toLeftOf="@id/progressBarTopRightZ"
+                    android:indeterminate="false"
+                    android:max="100"
+                    android:paddingRight="5dp"
+                    android:progress="0"
+                    android:progressTint="#69BE28"
+                    android:visibility="visible"
+                    tools:visibility="visible" />
 
-                    <ProgressBar
-                        android:id="@+id/progressBarTopRightZ"
-                        style="@android:style/Widget.ProgressBar.Horizontal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:max="100"
-                        android:paddingRight="5dp"
-                        android:progress="0"
-                        android:progressTint="#69BE28"
-                        android:visibility="visible"
-                        tools:visibility="visible" />
+                <ProgressBar
+                    android:id="@+id/progressBarTopRightZ"
+                    style="@android:style/Widget.ProgressBar.Horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="72dp"
+                    android:layout_marginStart="30dp"
+                    android:layout_toEndOf="@+id/progressBarTopRight"
+                    android:layout_weight="1"
+                    android:max="100"
+                    android:paddingRight="5dp"
+                    android:progress="0"
+                    android:progressTint="#69BE28"
+                    android:visibility="visible"
+                    tools:visibility="visible" />
                     <!-- End of progress bar Z Axis-->
-
-                </LinearLayout>
 <!-- end Thigh Button -->
-            </RelativeLayout>
-        </LinearLayout>
 </RelativeLayout>
