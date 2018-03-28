@@ -83,21 +83,6 @@ public class BleService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId){
         return Service.START_NOT_STICKY;
     }
-    /*class IncomingHandler extends Handler {
-        @Override
-        public void handleMessage(Message msg) {
-            Bundle data = msg.getData();
-            String bleEvent = data.getString("bleEvent");
-            if(bleEvent != null){
-                if(bleEvent.equals("fireflyConnected")){
-                    Log.v(TAG,"two way");
-                    fireflyFound = true;
-                    intent.putExtra("bleEvent", "fireflyConnected");
-                    sendBroadcast(intent);
-                }
-            }
-        }
-    }*/
 
     // new service connection (the service connection for this service is in MainActivity)
     private ServiceConnection myConnection = new ServiceConnection() {
@@ -257,37 +242,10 @@ public class BleService extends Service {
                     intent.putExtra("valueX", gyroX);
                     intent.putExtra("ValueY",gyroY);
                     intent.putExtra("valueZ",gyroZ);
-/*
-                    //display gyroY
-                    BleNotification notificationY = new BleNotification(gyroY, "hip");
-                    intent.putExtra("notifyObject", notificationY);
-                    intent.putExtra("gatt","hip");
-                    intent.putExtra("valueY", gyroY);
 
-                    //display gyroZ
-                    BleNotification notificationZ = new BleNotification(gyroZ, "hip");
-                    intent.putExtra("notifyObject", notificationZ);
-                    intent.putExtra("gatt","hip");
-                    intent.putExtra("valueZ", gyroZ);
-*/
 
                 }
-                /*else if(gatt == kneeGatt){
-                    BleNotification notification = new BleNotification(gyroX,gyroY,gyroZ, "knee");
-                    intent.putExtra("notifyObject", notification);
-                    intent.putExtra("gatt","knee");
-                    intent.putExtra("valueX", gyroX);
-                    intent.putExtra("ValueY",gyroY);
-                    intent.putExtra("valueZ",gyroZ);
-                }
-                else if(gatt == ankleGatt){
-                    BleNotification notification = new BleNotification(gyroX,gyroY,gyroZ, "ankle");
-                    intent.putExtra("notifyObject", notification);
-                    intent.putExtra("gatt","ankle");
-                    intent.putExtra("valueX", gyroX);
-                    intent.putExtra("ValueY",gyroY);
-                    intent.putExtra("valueZ",gyroZ);
-                }*/
+
                 sendBroadcast(intent);
 
             }
@@ -300,17 +258,7 @@ public class BleService extends Service {
                 intent.putExtra("bleEvent", bleEvent);
                 if(gatt.equals(chestGatt)){
                     intent.putExtra("gatt","hip");
-                }/*
-                else if(gatt.equals(kneeGatt)){
-                    intent.putExtra("gatt","knee");
                 }
-                else if(gatt.equals(ankleGatt)){
-                    intent.putExtra("gatt","ankle");
-                }
-                else if(gatt.equals(fireflyGatt)){
-                    intent.putExtra("gatt","firefly");
-                    fireflyFound = false;
-                }*/
                 else{
                     intent.putExtra("gatt", "unknown");
                 }
@@ -388,21 +336,5 @@ public class BleService extends Service {
         editor.putString("device3", approvedDevices[2]);
         editor.commit();
     }
-   /* public void sendMessageForPCM(String event){
 
-        Message msg = Message.obtain();
-
-        Bundle bundle = new Bundle();
-        bundle.putString("pcmEvent", event);
-
-        msg.setData(bundle);
-        msg.replyTo = new Messenger(new IncomingHandler());
-
-        try {
-            msg.replyTo = mMessenger;
-            pcmMessenger.send(msg);
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
-    }*/
 }

@@ -42,10 +42,7 @@ public class BleNotification implements Parcelable {
         valueZ=in.readFloat();
         gatt = in.readString();
     }
-    /*public BleNotification(float value, String gatt){
-        this.valueX = value;
-        this.gatt = gatt;
-    }*/
+
     public BleNotification(float valueX, float valueY, float valueZ, String gatt){
         this.valueX = valueX;
         this.valueY=valueY;
