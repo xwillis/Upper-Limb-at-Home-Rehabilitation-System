@@ -30,9 +30,9 @@ import static com.example.nutri_000.testinggauge.MainActivity.getAppContext;
 public class BleService extends Service {
     private BluetoothAdapter adapter;
     public BluetoothLeScanner scanner;
-    public boolean searchingHip, searchingKnee, searchingAnkle, searchingHand = false;
+    public boolean searchingChest, searchingBicep, searchingWrist, searchingHand = false;
     public boolean searchingPCM = true;
-    BluetoothGatt chestGatt, kneeGatt, ankleGatt, fireflyGatt, handGatt;
+    BluetoothGatt[] gattArray = {null,null,null,null,null};
     private int connected = 2;
     private int connecting = 1;
     private int disconnected = 0;
@@ -159,23 +159,29 @@ public class BleService extends Service {
                                 String bleEvent = "scan";
                                 intent.putExtra("bleEvent", bleEvent);
                                 sendBroadcast(intent);
-                                if(searchingHip){
+                                if(searchingChest){
                                     BluetoothDevice sensor = device.getDevice();
                                     scanner.stopScan(mScanCallback);
                                     scanning = false;
-                                    chestGatt = sensor.connectGatt(getAppContext(),false,bleGattCallback);
+                                    gattArray[0] = sensor.connectGatt(getAppContext(),false,bleGattCallback);
                                 }
-                                else if(searchingKnee){
+                                else if(searchingBicep){
                                     BluetoothDevice sensor = device.getDevice();
                                     scanner.stopScan(mScanCallback);
                                     scanning = false;
-                                    kneeGatt = sensor.connectGatt(getAppContext(),false,bleGattCallback);
+                                    gattArray[1] = sensor.connectGatt(getAppContext(),false,bleGattCallback);
                                 }
-                                else if(searchingAnkle){
+                                else if(searchingWrist){
                                     BluetoothDevice sensor = device.getDevice();
                                     scanner.stopScan(mScanCallback);
                                     scanning = false;
-                                    ankleGatt = sensor.connectGatt(getAppContext(),false,bleGattCallback);
+                                    gattArray[2] = sensor.connectGatt(getAppContext(),false,bleGattCallback);
+                                }
+                                else if(searchingHand){
+                                    BluetoothDevice sensor = device.getDevice();
+                                    scanner.stopScan(mScanCallback);
+                                    scanning = false;
+                                    gattArray[3] = sensor.connectGatt(getAppContext(),false,bleGattCallback);
                                 }
                             }
                         }
@@ -187,7 +193,7 @@ public class BleService extends Service {
                             BluetoothDevice sensor = device.getDevice();
                             scanner.stopScan(mScanCallback);
                             scanning = false;
-                            fireflyGatt = sensor.connectGatt(getAppContext(),false,bleGattCallback);
+                            gattArray[4] = sensor.connectGatt(getAppContext(),false,bleGattCallback);
                         }
                     }
                 }
@@ -209,7 +215,7 @@ public class BleService extends Service {
         //read in values, convert to floats, send out notifications
         @Override
         public void onCharacteristicChanged(BluetoothGatt gatt, final BluetoothGattCharacteristic characteristic) {
-            if(gatt == chestGatt | gatt == kneeGatt | gatt == ankleGatt) {
+            if(gatt !=null && gatt == gattArray[0] | gatt == gattArray[1] | gatt == gattArray[2] | gatt==gattArray[3]) {
                 byte[] temp = characteristic.getValue();//read in the values
                 int MSB = temp[1] << 8;
                 int LSB = temp[0] & 0x000000FF;//convert the first two entries to doubles
@@ -234,7 +240,7 @@ public class BleService extends Service {
 
 
                 intent.putExtra("bleEvent", bleEvent);
-                if(gatt == chestGatt){
+                if(gatt == gattArray[0]){
                     //make blenotification object
                     BleNotification notification = new BleNotification(gyroX,gyroY,gyroZ, "hip");
                     intent.putExtra("notifyObject", notification);
@@ -244,6 +250,14 @@ public class BleService extends Service {
                     intent.putExtra("valueZ",gyroZ);
 
 
+                }else if(gatt==gattArray[2]){
+                    //make blenotification object
+                    BleNotification notification = new BleNotification(gyroX,gyroY,gyroZ, "wrist");
+                    intent.putExtra("notifyObject", notification);
+                    intent.putExtra("gatt","wrist");
+                    intent.putExtra("valueX", gyroX);
+                    intent.putExtra("ValueY",gyroY);
+                    intent.putExtra("valueZ",gyroZ);
                 }
 
                 sendBroadcast(intent);
@@ -256,7 +270,7 @@ public class BleService extends Service {
             if(newState == disconnected) {
                 String bleEvent = "sensorDisconnected";
                 intent.putExtra("bleEvent", bleEvent);
-                if(gatt.equals(chestGatt)){
+                if(gatt.equals(gattArray[0])){
                     intent.putExtra("gatt","hip");
                 }
                 else{
@@ -303,13 +317,13 @@ public class BleService extends Service {
                         String bleEvent = "sensorConnected";
                         intent.putExtra("bleEvent", bleEvent);
                         intent.putExtra("gatt", "undetermined");
-                        if(gatt == chestGatt){
+                        if(gatt == gattArray[0]){
                             intent.putExtra("gatt", "hip");
-                        }
-                        if(gatt == kneeGatt){
+                        } else if(gatt == gattArray[1]){
                             intent.putExtra("gatt", "knee");
-                        }
-                        if(gatt == ankleGatt){
+                        }else if(gatt == gattArray[2]){
+                            intent.putExtra("gatt","ankle");
+                        }else if(gatt == gattArray[2]){
                             intent.putExtra("gatt","ankle");
                         }
                         sendBroadcast(intent);

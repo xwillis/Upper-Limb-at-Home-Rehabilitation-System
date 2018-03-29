@@ -10,7 +10,12 @@
     android:background="#333333"
     android:fitsSystemWindows="true"
     tools:context="com.example.nutri_000.testinggauge.MainActivity">
-
+<ScrollView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/SensorStatus"
@@ -31,7 +36,7 @@
                     android:layout_width="84dp"
                     android:layout_height="84dp"
                     android:background="@drawable/chestwhite"
-                    android:onClick="connectThigh"
+                    android:onClick="connectChest"
                     android:layout_marginTop="5dp"
                     app:layout_constraintTop_toBottomOf="@id/SensorStatus"
                     app:layout_constraintLeft_toLeftOf="parent"
@@ -317,7 +322,300 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/chestAngleZRight" />
                 <!--end Seek Bar Z Axis -->
-
-
 <!-- end Thigh Button -->
+    <!-- -->
+    <ImageButton
+        android:id="@+id/wristButton"
+        android:layout_width="84dp"
+        android:layout_height="84dp"
+        android:background="@drawable/chestwhite"
+        android:onClick="connectWrist"
+        android:layout_marginTop="5dp"
+        app:layout_constraintTop_toBottomOf="@id/progressBarChestLeftZ"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <TextView
+        android:id="@+id/wristAngleXLeft"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:paddingLeft="5dp"
+        android:gravity="left"
+        android:paddingBottom="25dp"
+        android:text="startXLeft"
+        android:textColor="#ffffff"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        android:visibility="visible"
+        app:layout_constraintTop_toBottomOf="@id/wristButton"
+        app:layout_constraintVertical_bias="0.154" />
+
+    <TextView
+        android:id="@+id/wristAngleXRight"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="right"
+        android:paddingBottom="25dp"
+        android:paddingRight="5dp"
+        android:text="startX Right"
+        android:textColor="#ffffff"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        android:visibility="visible"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintTop_toBottomOf="@id/wristButton"
+        app:layout_constraintVertical_bias="0.174" />
+
+    <!--TextView for Y Axis -->
+    <TextView
+        android:id="@+id/wristAngleYLeft"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="left"
+        android:paddingBottom="25dp"
+        android:paddingLeft="5dp"
+        android:text="startYLeft"
+        android:textColor="#ffffff"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        android:visibility="visible"
+        app:layout_constraintTop_toBottomOf="@id/seekBarWristXLeft"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/wristAngleYRight"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="right"
+        android:paddingBottom="25dp"
+        android:paddingRight="5dp"
+        android:text="start y right"
+        android:textColor="#ffffff"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        android:visibility="visible"
+        app:layout_constraintTop_toBottomOf="@id/seekBarWristXRight"
+        app:layout_constraintVertical_bias="1.0" />
+    <!--end TextView for Y Axis -->
+
+    <!--TextView for Z Axis -->
+    <TextView
+        android:id="@+id/wristAngleZLeft"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="left"
+        android:paddingBottom="25dp"
+        android:paddingLeft="5dp"
+        android:text="start z left"
+        android:textColor="#ffffff"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        android:visibility="visible"
+        app:layout_constraintTop_toBottomOf="@id/seekBarWristYLeft"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/wristAngleZRight"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="right"
+        android:paddingBottom="25dp"
+        android:paddingRight="5dp"
+        android:text="startZ right"
+        android:textColor="#ffffff"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        android:visibility="visible"
+        app:layout_constraintTop_toBottomOf="@id/seekBarWristYRight"
+        app:layout_constraintVertical_bias="1.0" />
+    <!--end TextView for Z Axis -->
+    <ProgressBar
+        android:id="@+id/progressBarWristXLeft"
+        style="@android:style/Widget.ProgressBar.Horizontal"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="144dp"
+        android:foregroundGravity="left"
+        android:indeterminate="false"
+        android:layoutDirection="rtl"
+        android:max="100"
+        android:paddingRight="5dp"
+        android:progress="50"
+        android:progressTint="#69BE28"
+        android:visibility="visible"
+        app:layout_constraintTop_toBottomOf="@id/wristAngleXLeft"
+        tools:visibility="visible" />
+
+    <ProgressBar
+        android:id="@+id/progressBarWristXRight"
+        style="@android:style/Widget.ProgressBar.Horizontal"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:foregroundGravity="right"
+        android:max="100"
+        android:layout_marginTop="5dp"
+        android:paddingRight="5dp"
+        app:layout_constraintEnd_toEndOf="@id/seekBarWristXRight"
+        android:progress="50"
+        android:progressTint="#69BE28"
+        android:visibility="visible"
+        app:layout_constraintTop_toBottomOf="@id/wristAngleXRight"
+        tools:layout_editor_absoluteX="204dp"
+        tools:visibility="visible" />
+
+    <!-- Progress Bar for Y Axis of Chest IMU -->
+    <ProgressBar
+        android:id="@+id/progressBarWristLeftY"
+        style="@android:style/Widget.ProgressBar.Horizontal"
+        android:layout_width="180dp"
+        android:foregroundGravity="left"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="160dp"
+        android:indeterminate="false"
+        android:max="100"
+        android:paddingRight="5dp"
+        android:progress="50"
+        android:layoutDirection="rtl"
+        android:progressTint="#69BE28"
+        android:visibility="visible"
+        app:layout_constraintTop_toBottomOf="@id/wristAngleYLeft"
+        tools:visibility="visible" />
+
+    <ProgressBar
+        android:id="@+id/progressBarWristRightY"
+        style="@android:style/Widget.ProgressBar.Horizontal"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:max="100"
+        android:progress="50"
+        android:progressTint="#69BE28"
+        android:visibility="visible"
+        app:layout_constraintTop_toTopOf="@id/seekBarWristYRight"
+        app:layout_constraintEnd_toEndOf="@id/seekBarWristYRight"
+        tools:layout_editor_absoluteX="200dp"
+        tools:visibility="visible" />
+    <!-- End of progress bar Y Axis-->
+
+    <!-- Progress Bar for Z Axis of Chest IMU -->
+    <ProgressBar
+        android:id="@+id/progressBarWristLeftZ"
+        style="@android:style/Widget.ProgressBar.Horizontal"
+        android:layout_width="180dp"
+        android:foregroundGravity="left"
+        android:layout_height="wrap_content"
+        android:indeterminate="false"
+        android:max="100"
+        android:layoutDirection="rtl"
+        android:paddingRight="5dp"
+        android:progress="50"
+        android:progressTint="#69BE28"
+        android:layout_marginTop="5dp"
+        android:visibility="visible"
+        app:layout_constraintTop_toBottomOf="@id/wristAngleZLeft"
+        tools:visibility="visible" />
+
+    <ProgressBar
+        android:id="@+id/progressBarWristRightZ"
+        style="@android:style/Widget.ProgressBar.Horizontal"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="200dp"
+        android:layout_marginTop="5dp"
+        android:layout_weight="1"
+        android:foregroundGravity="right"
+        android:max="100"
+        android:progress="50"
+        android:progressTint="#69BE28"
+        android:visibility="visible"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/seekBarWristZRight"
+        app:layout_constraintTop_toBottomOf="@id/wristAngleZRight"
+        tools:visibility="visible" />
+    <!-- End of progress bar Z Axis-->
+
+    <SeekBar
+        android:id="@+id/seekBarWristXLeft"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:foregroundGravity="left"
+        android:layout_weight="1"
+        android:layoutDirection="rtl"
+        android:max="100"
+        android:progress="45"
+        android:progressTint="#303030"
+        android:thumb="@drawable/seek_arc_control_selector"
+        app:layout_constraintTop_toBottomOf="@+id/wristAngleXLeft" />
+
+    <SeekBar
+        android:id="@+id/seekBarWristXRight"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:max="100"
+        android:progress="45"
+        android:progressTint="#303030"
+        android:thumb="@drawable/seek_arc_control_selector"
+        app:layout_constraintTop_toBottomOf="@+id/wristAngleXRight" />
+    <!--Seek Bar Y Axis -->
+    <SeekBar
+        android:id="@+id/seekBarWristYLeft"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layoutDirection="rtl"
+        android:max="100"
+        android:progress="45"
+        android:progressTint="#303030"
+        android:thumb="@drawable/seek_arc_control_selector"
+        app:layout_constraintTop_toBottomOf="@+id/wristAngleYLeft" />
+
+    <SeekBar
+        android:id="@+id/seekBarWristYRight"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:max="100"
+        android:progress="45"
+        android:progressTint="#303030"
+        android:thumb="@drawable/seek_arc_control_selector"
+        app:layout_constraintTop_toBottomOf="@+id/wristAngleYRight" />
+    <!--end Seek Bar Y Axis -->
+
+    <!--Seek Bar Z Axis -->
+    <SeekBar
+        android:id="@+id/seekBarWristZLeft"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layoutDirection="rtl"
+        android:max="100"
+        android:progress="45"
+        android:progressTint="#303030"
+        android:thumb="@drawable/seek_arc_control_selector"
+        app:layout_constraintTop_toBottomOf="@+id/wristAngleZLeft" />
+
+    <SeekBar
+        android:id="@+id/seekBarWristZRight"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:max="100"
+        android:progress="45"
+        android:progressTint="#303030"
+        android:thumb="@drawable/seek_arc_control_selector"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/wristAngleZRight" />
+    <!--end Seek Bar Z Axis -->
+    <!-- end Thigh Button -->
+    </android.support.constraint.ConstraintLayout>
+</ScrollView>
 </android.support.constraint.ConstraintLayout>

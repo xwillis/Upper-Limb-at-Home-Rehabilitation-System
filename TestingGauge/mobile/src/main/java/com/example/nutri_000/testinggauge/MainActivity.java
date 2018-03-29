@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<String> chestData = new ArrayList<String>();
     String fullPath = path + fileName + randomID + dateTime + fileType;
     int scanCount = 20;
-    int chestClickCount = 0;
+    int[] clickCount = {0,0,0,0};
     boolean fireflyFound = false;
     final static String tag="MainActivity";
 
@@ -70,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
     Handler timerHandler = new Handler();
     Status statusVariables = new Status();
     SensorUI chestUI;
+    SensorUI wristUI;
     private static Context context;
     private TextView sensorStatus;
     private static final int PERMISSION_REQUEST_COARSE_LOCATION = 1;
@@ -86,17 +87,23 @@ public class MainActivity extends AppCompatActivity {
             Log.v(tag,"Start from scratch, assign all GUI elements");
             // all UI components for main activity
             setContentView(R.layout.activity_main);
-            int[] rightPB={ R.id.progressBarChestXRight, R.id.progressBarChestRightY, R.id.progressBarChestRightZ};
-            int[] leftPB={R.id.progressBarChestXLeft, R.id.progressBarChestLeftY, R.id.progressBarChestLeftZ};
-            int[] rightSB={R.id.seekBarChestXRight, R.id.seekBarChestYRight, R.id.seekBarChestZRight};
-            int[] leftSB={R.id.seekBarChestXLeft, R.id.seekBarChestYLeft, R.id.seekBarChestZLeft};
-            int[] rightTV={R.id.chestAngleXRight,R.id.chestAngleYRight,R.id.chestAngleZRight};
-            int[] leftTV={ R.id.chestAngleXLeft,  R.id.chestAngleYLeft,  R.id.chestAngleZLeft};
-            chestUI = new SensorUI(R.id.chestButton,rightPB, leftPB, rightSB , leftSB ,rightTV, leftTV,R.id.relativeHip,  this);
-
+            int[] rightPBChest={ R.id.progressBarChestXRight, R.id.progressBarChestRightY, R.id.progressBarChestRightZ};
+            int[] leftPBChest={R.id.progressBarChestXLeft, R.id.progressBarChestLeftY, R.id.progressBarChestLeftZ};
+            int[] rightSBChest={R.id.seekBarChestXRight, R.id.seekBarChestYRight, R.id.seekBarChestZRight};
+            int[] leftSBChest={R.id.seekBarChestXLeft, R.id.seekBarChestYLeft, R.id.seekBarChestZLeft};
+            int[] rightTVChest={R.id.chestAngleXRight,R.id.chestAngleYRight,R.id.chestAngleZRight};
+            int[] leftTVChest={ R.id.chestAngleXLeft,  R.id.chestAngleYLeft,  R.id.chestAngleZLeft};
+            chestUI = new SensorUI(R.id.chestButton,rightPBChest, leftPBChest, rightSBChest , leftSBChest ,rightTVChest, leftTVChest,R.id.relativeHip,  this);
             chestUI.green = R.drawable.chestgreen;
             chestUI.yellow = R.drawable.chestyellow;
             chestUI.white = R.drawable.chestwhite;
+            int[] rightPBWrist={R.id.progressBarWristXRight, R.id.progressBarWristRightY, R.id.progressBarWristRightZ};
+            int[] leftPBWrist={R.id.progressBarWristXLeft, R.id.progressBarWristLeftY, R.id.progressBarWristLeftZ};
+            int[] rightSBWrist={R.id.seekBarWristXRight, R.id.seekBarWristYRight, R.id.seekBarWristZRight};
+            int[] leftSBWrist={R.id.seekBarWristXLeft, R.id.seekBarWristYLeft, R.id.seekBarWristZLeft};
+            int[] rightTVWrist={R.id.wristAngleXRight, R.id.wristAngleYRight, R.id.wristAngleZRight};
+            int[] leftTVWrist={R.id.wristAngleXLeft, R.id.wristAngleYLeft, R.id.wristAngleZLeft};
+            wristUI=new SensorUI(R.id.wristButton, rightPBWrist, leftPBWrist, rightSBWrist, leftSBWrist, rightTVWrist, leftTVWrist, R.id.relativeHip, this);
             sensorStatus = (TextView) findViewById(R.id.SensorStatus);
             requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_REQUEST_COARSE_LOCATION);
             if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
@@ -114,10 +121,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         Log.v(tag,"Close app, destroy stuff, close BT connections");
         super.onDestroy();
-        if (bleService.chestGatt != null) {
-            bleService.chestGatt.disconnect();
-            bleService.chestGatt.close();
-            bleService.chestGatt = null;
+        for(int i=0;i<bleService.gattArray.length;i++) {
+            if (bleService.gattArray[i] != null) {
+                bleService.gattArray[i].disconnect();
+                bleService.gattArray[i].close();
+                bleService.gattArray[i] = null;
+            }
         }
         Log.v(tag, "DESTROYED");
     }
@@ -264,7 +273,7 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void run() {
                             setSensorStatus("Scan Timeout");
-                            if (bleService.chestGatt == null) {
+                            if (bleService.gattArray[0] == null) {
                                 chestUI.connect.setBackgroundResource(R.drawable.chestwhite);
                             }
                         }
@@ -283,49 +292,61 @@ public class MainActivity extends AppCompatActivity {
     Runnable doubleClick = new Runnable() {
         @Override
         public void run() {
-            chestClickCount = 0;
+            clickCount[0] = 0;
         }
     };
-
-    public void connectThigh(View v){
-        Log.v(tag,"Connecting Chest IMU, or disconnecting");
-        if(bleService.chestGatt == null){
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    setSensorStatus("Searching");
-                    chestUI.connect.setBackgroundResource(R.drawable.chestyellow);
-                }
-            });
-            bleService.searchingHip = true;
-            bleService.searchingKnee = false;
-            bleService.searchingAnkle = false;
-            bleService.searchingPCM = false;
-            bleService.scanner.startScan(bleService.mScanCallback);
-            scanCount = scanCount + 20;
-            bleService.scanning = true;
-            timerHandler.postDelayed(scanStop, 1000);
+    public void connectChest(View v){
+        if(bleService.gattArray[0]==null) {
+            searchForSensor(chestUI, 0);
+        }else{
+            disconnectSensor(chestUI,0);
         }
-        else {
-            chestClickCount++;
-            timerHandler.postDelayed(doubleClick, 500);
-            if (chestClickCount == 2) {
-                bleService.chestGatt.disconnect();
-                bleService.chestGatt.close();
-                bleService.chestGatt = null;
-                setSensorStatus("Sensor disconnected");
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        chestUI.connect.setBackgroundResource(R.drawable.chestwhite);
-                    }
-                });
-                chestClickCount = 0;
-            }
+    }
+    public void connectWrist(View v){
+        if(bleService.gattArray[2]==null) {
+            searchForSensor(wristUI, 2);
+        }else{
+            disconnectSensor(wristUI,2);
+        }
+    }
+    public void searchForSensor(SensorUI sensor,int position){
+        Log.v(tag,"Looking For Sensor");
+        setSensorStatus("Searching");
+        bleService.searchingChest = false;
+        bleService.searchingBicep = false;
+        bleService.searchingWrist = false;
+        bleService.searchingPCM = false;
+        if(position==0){
+            chestUI.connect.setBackgroundResource(R.drawable.chestyellow);
+            bleService.searchingChest = true;
+        }else if(position==1){
+
+        }else if(position==2){
+            wristUI.connect.setBackgroundResource(R.drawable.ankleyellow);
+            bleService.searchingWrist = true;
+        }else if(position==3){
+
+        }
+        bleService.scanner.startScan(bleService.mScanCallback);
+        scanCount = scanCount + 20;
+        bleService.scanning = true;
+        timerHandler.postDelayed(scanStop, 1000);
+    }
+
+    private void disconnectSensor(SensorUI sensor, int position){
+        clickCount[position]++;
+        timerHandler.postDelayed(doubleClick, 500);
+        if (clickCount[position] >= 2) {
+            bleService.gattArray[position].disconnect();
+            bleService.gattArray[position].close();
+            bleService.gattArray[position] = null;
+            setSensorStatus("Sensor disconnected");
+            sensor.connect.setBackgroundResource(R.drawable.chestwhite);
+            clickCount[position] = 0;
         }
     }
 //do stuff when the BT broadcast tells it to
-    //todo positive Z axis does not read out on GUI, maybe is not being sent? Or maybe IMU chip is bad
+    //z axis goes from 0 to 360, x and y from -180 to 180 I think
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -342,8 +363,16 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public boolean onLongClick(View v) {
                             chestUI.initializeSensor();
-                            chestUI.initializeSensor();
-                            chestUI.initializeSensor();
+                            return true;
+                        }
+                    });
+                }else if(extras.getString("gatt").equals("wrist")){
+                    Log.v(tag, "Wrist connected");
+                    connectSensor(wristUI);
+                    wristUI.connect.setOnLongClickListener(new View.OnLongClickListener() {
+                        @Override
+                        public boolean onLongClick(View v) {
+                            wristUI.initializeSensor();
                             return true;
                         }
                     });
@@ -359,9 +388,9 @@ public class MainActivity extends AppCompatActivity {
                 if (extras.getString("gatt").equals("hip")) {
                     Log.v(tag, "Hip/chest disconnected");
                     onSensorDisconnected(chestUI);
-                    if (bleService.chestGatt != null) {
-                        bleService.chestGatt.close();
-                        bleService.chestGatt = null;
+                    if (bleService.gattArray[0] != null) {
+                        bleService.gattArray[0].close();
+                        bleService.gattArray[0] = null;
                     }
 
                 }
@@ -370,6 +399,8 @@ public class MainActivity extends AppCompatActivity {
                 if (eventType.equals("notification")) {
                     Log.v(tag,"You have mail event");
                     BleNotification notification = intent.getParcelableExtra("notifyObject");
+                    //notification object is null for wrist, but works normally for chest...
+                    // Log.v(tag, "notification gatt is "+notification.gatt);
                     if (notification.gatt.equals("hip")) {
                         Log.v(tag,"You have mail from the hip/chest");
                         //find value x, switched to different value coding
@@ -382,9 +413,20 @@ public class MainActivity extends AppCompatActivity {
                         Log.v(tag, "Value z from object is "+notification.valueZ);
                         setGaugeValue((int)notification.valueZ,chestUI,2);
 
+                    }else if(notification.gatt.equals("wrist")){
+                        Log.v(tag,"You have mail from the wrist");
+                        //find value x, switched to different value coding
+                        Log.v(tag, "Value x from object is "+notification.valueX);
+                        setGaugeValue((int)notification.valueX,wristUI,0);
+                        //find value y, switched to different value coding
+                        Log.v(tag, "Value y from object is "+notification.valueY);
+                        setGaugeValue((int)notification.valueY,wristUI,1);
+                        //find value z, switched to different value coding
+                        Log.v(tag, "Value z from object is "+notification.valueZ);
+                        setGaugeValue((int)notification.valueZ,wristUI,2);
                     }
 
-                    if (extras.getString("gatt").equals("hip")) {
+                    if (extras.getString("gatt").equals("wrist")) {
                         Log.v(tag,"Reading from the strings sent in extras");
                         float valueX = extras.getFloat("valueX");
                         Log.v(tag, "Value x from string is "+valueX);
@@ -392,9 +434,9 @@ public class MainActivity extends AppCompatActivity {
                         Log.v(tag, "Value y from string is "+valueY);
                         float valueZ = extras.getFloat("valueZ");
                         Log.v(tag, "Value z from string is "+valueZ);
-                        setGaugeValue((int)valueX,chestUI,0);
-                        setGaugeValue((int)valueY,chestUI,1);
-                        setGaugeValue((int)valueZ,chestUI,2);
+                        setGaugeValue((int)valueX,wristUI,0);
+                        setGaugeValue((int)valueY,wristUI,1);
+                        setGaugeValue((int)valueZ,wristUI,2);
                     }
 
                 }
