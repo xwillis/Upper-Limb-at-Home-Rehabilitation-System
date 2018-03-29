@@ -93,7 +93,6 @@
     <string name="scan_filters_onlyuart">Must have UART service</string>
 
 
-
     <string-array name="scan_devicetypes">
         <item>Unkown</item>
         <item>UART capable</item>

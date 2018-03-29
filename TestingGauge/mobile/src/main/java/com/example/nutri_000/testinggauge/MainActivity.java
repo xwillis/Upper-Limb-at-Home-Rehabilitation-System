@@ -589,4 +589,9 @@ public class MainActivity extends AppCompatActivity {
             setSensorStatus("Sensor Disconnected");
             Log.v("BLUETOOTH", "DISCONNECTED");
         }
+        private void goToBicepFlex(View v){
+            Intent intent=new Intent(this,BicepFlexMeasurement.class);
+            startActivity(intent);
+
+        }
     }

@@ -911,16 +911,15 @@
     <!-- end wrist Button -->
 
         <ImageButton
-            android:id="@+id/detailsButton"
+            android:id="@+id/goToBicepFlexButton"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_gravity="bottom|right"
             android:background="@drawable/rightarrow"
-            android:onClick="startDetails"
+            android:onClick="goToBicepFlex"
             android:visibility="visible"
-            app:backgroundTint="#ffffff"
-            custom:borderWidth="0dp"
-            custom:fabSize="normal"
+            app:layout_constraintTop_toBottomOf="@id/seekBarWristZRight"
+            app:layout_constraintRight_toRightOf="parent"
             tools:layout_editor_absoluteX="354dp"
             tools:layout_editor_absoluteY="957dp" />
     </android.support.constraint.ConstraintLayout>
