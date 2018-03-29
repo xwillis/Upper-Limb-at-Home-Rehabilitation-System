@@ -242,19 +242,33 @@ public class BleService extends Service {
                 intent.putExtra("bleEvent", bleEvent);
                 if(gatt == gattArray[0]){
                     //make blenotification object
-                    BleNotification notification = new BleNotification(gyroX,gyroY,gyroZ, "hip");
+                    BleNotification notification = new BleNotification(gyroX,gyroY,gyroZ, "chest");
                     intent.putExtra("notifyObject", notification);
-                    intent.putExtra("gatt","hip");
+                    intent.putExtra("gatt","chest");
                     intent.putExtra("valueX", gyroX);
                     intent.putExtra("ValueY",gyroY);
                     intent.putExtra("valueZ",gyroZ);
-
-
+                }else if(gatt==gattArray[1]){
+                    //make blenotification object
+                    BleNotification notification = new BleNotification(gyroX,gyroY,gyroZ, "bicep");
+                    intent.putExtra("notifyObject", notification);
+                    intent.putExtra("gatt","bicep");
+                    intent.putExtra("valueX", gyroX);
+                    intent.putExtra("ValueY",gyroY);
+                    intent.putExtra("valueZ",gyroZ);
                 }else if(gatt==gattArray[2]){
                     //make blenotification object
                     BleNotification notification = new BleNotification(gyroX,gyroY,gyroZ, "wrist");
                     intent.putExtra("notifyObject", notification);
                     intent.putExtra("gatt","wrist");
+                    intent.putExtra("valueX", gyroX);
+                    intent.putExtra("ValueY",gyroY);
+                    intent.putExtra("valueZ",gyroZ);
+                } else if(gatt==gattArray[3]){
+                    //make blenotification object
+                    BleNotification notification = new BleNotification(gyroX,gyroY,gyroZ, "hand");
+                    intent.putExtra("notifyObject", notification);
+                    intent.putExtra("gatt","hand");
                     intent.putExtra("valueX", gyroX);
                     intent.putExtra("ValueY",gyroY);
                     intent.putExtra("valueZ",gyroZ);
@@ -271,7 +285,13 @@ public class BleService extends Service {
                 String bleEvent = "sensorDisconnected";
                 intent.putExtra("bleEvent", bleEvent);
                 if(gatt.equals(gattArray[0])){
-                    intent.putExtra("gatt","hip");
+                    intent.putExtra("gatt","chest");
+                }else if(gatt.equals(gattArray[1])){
+                    intent.putExtra("gatt","bicep");
+                }else if(gatt.equals(gattArray[2])){
+                    intent.putExtra("gatt","wrist");
+                }else if(gatt.equals(gattArray[3])){
+                    intent.putExtra("gatt","hand");
                 }
                 else{
                     intent.putExtra("gatt", "unknown");
@@ -318,13 +338,13 @@ public class BleService extends Service {
                         intent.putExtra("bleEvent", bleEvent);
                         intent.putExtra("gatt", "undetermined");
                         if(gatt == gattArray[0]){
-                            intent.putExtra("gatt", "hip");
+                            intent.putExtra("gatt", "chest");
                         } else if(gatt == gattArray[1]){
-                            intent.putExtra("gatt", "knee");
+                            intent.putExtra("gatt", "bicep");
                         }else if(gatt == gattArray[2]){
-                            intent.putExtra("gatt","ankle");
+                            intent.putExtra("gatt","wrist");
                         }else if(gatt == gattArray[2]){
-                            intent.putExtra("gatt","ankle");
+                            intent.putExtra("gatt","hand");
                         }
                         sendBroadcast(intent);
                         Log.v(TAG, String.valueOf(b));

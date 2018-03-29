@@ -16,12 +16,12 @@ public class SensorUI extends MainActivity {
     public ProgressBar[][] progressBars;
     public SeekBar[][] seekBars;
     public TextView[][] textViews;
-    public ProgressBar rightPB, leftPB, rightPBY, leftPBY, rightPBZ, leftPBZ;
+    /*public ProgressBar rightPB, leftPB, rightPBY, leftPBY, rightPBZ, leftPBZ;
     public SeekBar rightSB, leftSB, rightSBY, leftSBY, rightSBZ, leftSBZ;
-    public TextView rightTV, leftTV, rightTVY, leftTVY, rightTVZ, leftTVZ;
+    public TextView rightTV, leftTV, rightTVY, leftTVY, rightTVZ, leftTVZ;*/
     public ConstraintLayout constraintLayout;
-    public float[] average={0,0,0};
-    public int[] calibrateCounter={0,0,0};
+    /*public float[] average={0,0,0};
+    public int[] calibrateCounter={0,0,0};*/
     boolean[] calibrate={true,true,true};
     boolean search;
     public int green,yellow,white;
