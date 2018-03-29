@@ -426,7 +426,7 @@ public class MainActivity extends AppCompatActivity {
                         setGaugeValue((int)notification.valueZ,wristUI,2);
                     }
 
-                    if (extras.getString("gatt").equals("wrist")) {
+                   /* if (extras.getString("gatt").equals("wrist")) {
                         Log.v(tag,"Reading from the strings sent in extras");
                         float valueX = extras.getFloat("valueX");
                         Log.v(tag, "Value x from string is "+valueX);
@@ -437,7 +437,7 @@ public class MainActivity extends AppCompatActivity {
                         setGaugeValue((int)valueX,wristUI,0);
                         setGaugeValue((int)valueY,wristUI,1);
                         setGaugeValue((int)valueZ,wristUI,2);
-                    }
+                    }*/
 
                 }
             }

@@ -76,7 +76,7 @@ public class BleService extends Service {
         sharedPreferences = this.getSharedPreferences("savedDevices", Context.MODE_PRIVATE);
         approvedDevices[0] = sharedPreferences.getString("device1","F9:9E:AA:4B:28:9D");//the IMU on the watch band
         approvedDevices[1] = sharedPreferences.getString("device2","FE:33:AE:91:13:CA");//the conformally coated IMU
-        approvedDevices[2] = sharedPreferences.getString("device3","000000");
+        approvedDevices[2] = sharedPreferences.getString("device3","DD:70:D1:12:A3:21");//Noemi's one that sometimes doesn't show up
         approvedDevices[3] = sharedPreferences.getString("device4","000000");
     }
 
