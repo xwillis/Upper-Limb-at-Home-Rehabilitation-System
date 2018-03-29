@@ -10,18 +10,14 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
-import android.media.MediaScannerConnection;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import java.io.FileOutputStream;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -110,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
             bicepUI.green = R.drawable.chestgreen;
             bicepUI.yellow = R.drawable.chestyellow;
             bicepUI.white = R.drawable.chestwhite;
-//here is a comment
+
             int[] rightPBWrist={R.id.progressBarWristXRight, R.id.progressBarWristRightY, R.id.progressBarWristRightZ};
             int[] leftPBWrist={R.id.progressBarWristXLeft, R.id.progressBarWristLeftY, R.id.progressBarWristLeftZ};
             int[] rightSBWrist={R.id.seekBarWristXRight, R.id.seekBarWristYRight, R.id.seekBarWristZRight};
@@ -233,6 +229,26 @@ public class MainActivity extends AppCompatActivity {
                     sensor.setSensorBackgroundColor("#008542");
 
                 }
+//new added stuff
+                // glow red outside +/- 5 degrees
+                if( (sensor.progressBars[0][axis].getProgress() >= 5 | sensor.progressBars[0][axis].getProgress() <= 5) & sensor == chestUI){
+                    Log.v(tag,"Chest IMU outside range +/- 5 degrees");
+                    if( (sensor.progressBars[0][axis].getProgress() >= 5 | sensor.progressBars[0][axis].getProgress() <= 5) & sensor == bicepUI) {
+                        Log.v(tag,"Bicep IMU outside range +/- 5 degrees");
+                        sensor.setSensorBackgroundColor("red");
+                    }
+                }
+                // glow green if within range & wrist greater than seekbar set value
+                else if( !((sensor.progressBars[0][axis].getProgress() >= 5 | sensor.progressBars[0][axis].getProgress() <= 5)) & sensor == chestUI){
+                    //chest and bicep IMU not outside range
+                    //check if current wrist value greater than set seekbar value
+                    if( !((sensor.progressBars[0][axis].getProgress() >= 5 | sensor.progressBars[0][axis].getProgress() <= 5)) & sensor == bicepUI) {
+                        Log.v(tag,"User not compensating");
+                        sensor.setSensorBackgroundColor("#008542"); //flash green
+                    }
+
+                }
+//end of new added stuf,
                 //cool glowy you did it color
                 if ((value * -1) > sensor.seekBars[1][axis].getProgress() & (value * -1) < 90) {
                     Log.v(tag,"Activate stim, value higher than goals set negative");
@@ -255,6 +271,20 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    //check if bicep and chest are outside +/- 5 degrees
+    // flash red to indicate outside range
+    public void flashRed(final int value, final SensorUI sensor, final int axis){
+
+        //check Chest IMU
+        if(sensor == chestUI){
+            if(value >= 5 | value <= 5){
+
+            }
+
+        }
+
     }
 
     //SENSOR STATUS TEXT
