@@ -178,14 +178,14 @@ public class MainActivity extends AppCompatActivity {
     }
     //GAUGE
 
-    //set progress bar for X axis
+    //set progress bar axis
     public void setGaugeValue(final int value, final SensorUI sensor, final int axis) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 Log.v(tag,"Set Gauge value, value is "+value+" and the axis is "+axis);
                 if (value < 0 & value > -90) {
-                    sensor.progressBars[1][axis].setProgress(-1 * value);
+                    sensor.progressBars[1][axis].setProgress(-1*value);
                     sensor.progressBars[0][axis].setProgress(0);
 
                     if (sensor == chestUI) {
@@ -325,6 +325,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 //do stuff when the BT broadcast tells it to, this is where the find gauge value function and our problem likely is
+    //todo positive Z axis does not read out on GUI, maybe is not being sent?
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -340,9 +341,9 @@ public class MainActivity extends AppCompatActivity {
                     chestUI.connect.setOnLongClickListener(new View.OnLongClickListener() {
                         @Override
                         public boolean onLongClick(View v) {
-                            chestUI.calibrateSensor(chestUI,0);
-                            chestUI.calibrateSensor(chestUI,1);
-                            chestUI.calibrateSensor(chestUI,2);
+                            chestUI.initializeSensor();
+                            chestUI.initializeSensor();
+                            chestUI.initializeSensor();
                             return true;
                         }
                     });
@@ -373,13 +374,13 @@ public class MainActivity extends AppCompatActivity {
                         Log.v(tag,"You have mail from the hip/chest");
                         //find value x, switched to different value coding
                         Log.v(tag, "Value x from object is "+notification.valueX);
-                        findGaugeValue(chestUI, notification.valueX,0);
+                        setGaugeValue((int)notification.valueX,chestUI,0);
                         //find value y, switched to different value coding
                         Log.v(tag, "Value y from object is "+notification.valueY);
-                        findGaugeValue(chestUI, notification.valueY,1);
+                        setGaugeValue((int)notification.valueY,chestUI,1);
                         //find value z, switched to different value coding
                         Log.v(tag, "Value z from object is "+notification.valueZ);
-                        findGaugeValue(chestUI, notification.valueZ,2);
+                        setGaugeValue((int)notification.valueZ,chestUI,2);
 
                     }
 
@@ -391,9 +392,9 @@ public class MainActivity extends AppCompatActivity {
                         Log.v(tag, "Value y from string is "+valueY);
                         float valueZ = extras.getFloat("valueZ");
                         Log.v(tag, "Value z from string is "+valueZ);
-                        findGaugeValue(chestUI, valueX,0);
-                        findGaugeValue(chestUI, valueY,1);
-                        findGaugeValue(chestUI, valueZ,2);
+                        setGaugeValue((int)valueX,chestUI,0);
+                        setGaugeValue((int)valueY,chestUI,1);
+                        setGaugeValue((int)valueZ,chestUI,2);
                     }
 
                 }
@@ -430,7 +431,7 @@ public class MainActivity extends AppCompatActivity {
 //get 10 calibration data points then display the data
       //why calibrate though?  isn't the chip supposed to not need it? other team said it drifted, maybe this is why
       //axis =1 is x, 2 is y, 3 is z
-        public void findGaugeValue(final SensorUI sensor, float gyro, int axis) {
+     /*   public void findGaugeValue(final SensorUI sensor, float gyro, int axis) {
             Log.v(tag,"Finding Gauge Value");
             if (!sensor.calibrate[axis] & sensor.calibrateCounter[axis] < 10) {//slightly redundant, but should be ok
                 Log.v(tag,"Not enough values to calibrate sensor");
@@ -447,7 +448,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.v(tag,"Corrected value going to sensor is "+ correctedValue);
                 setGaugeValue(correctedValue, sensor,axis);
             }
-        }
+        }*/
 
 // Arm CAL BEGIN //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

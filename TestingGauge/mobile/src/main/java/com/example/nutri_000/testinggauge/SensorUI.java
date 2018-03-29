@@ -22,7 +22,7 @@ public class SensorUI extends MainActivity {
     public ConstraintLayout constraintLayout;
     public float[] average={0,0,0};
     public int[] calibrateCounter={0,0,0};
-    boolean[] calibrate={false,false,false};
+    boolean[] calibrate={true,true,true};
     boolean search;
     public int green,yellow,white;
     static TextView sensorStatus;
@@ -62,13 +62,16 @@ public class SensorUI extends MainActivity {
         search = false;
         sensorStatus = (TextView) MainActivity.findViewById(R.id.SensorStatus);
     }
-    public void calibrateSensor(final SensorUI sensor, int axis){
+    public void initializeSensor(){
         //zero the sensor
-        calibrate[axis] = true;
+        /*calibrate[axis] = true;
         calibrateCounter[axis] = 0;
-        average[axis] = 0;
-        sensor.leftPB.setProgress(0);
-        sensor.rightPB.setProgress(0);
+        average[axis] = 0;*/
+        for(int i=0;i<progressBars.length;i++){
+            for(int ii=0;ii<progressBars[0].length;ii++){
+                progressBars[i][ii].setProgress(0);
+            }
+        }
     }
     public void setSensorBackgroundColor(String color){
         constraintLayout.setBackgroundColor(Color.parseColor(color));
