@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
             bicepUI.green = R.drawable.chestgreen;
             bicepUI.yellow = R.drawable.chestyellow;
             bicepUI.white = R.drawable.chestwhite;
-
+//here is a comment
             int[] rightPBWrist={R.id.progressBarWristXRight, R.id.progressBarWristRightY, R.id.progressBarWristRightZ};
             int[] leftPBWrist={R.id.progressBarWristXLeft, R.id.progressBarWristLeftY, R.id.progressBarWristLeftZ};
             int[] rightSBWrist={R.id.seekBarWristXRight, R.id.seekBarWristYRight, R.id.seekBarWristZRight};
