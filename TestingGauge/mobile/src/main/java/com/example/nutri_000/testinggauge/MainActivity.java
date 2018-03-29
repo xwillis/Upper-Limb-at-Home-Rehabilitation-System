@@ -25,9 +25,9 @@ import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
-    BleService bleService;
+    public BleService bleService;
     boolean isBound = false;
-    boolean fileCreated = false;
+    //boolean fileCreated = false;
     boolean writeDebounce = false;
     String fileName = "trialData_";
     String randomID = "0001_";
@@ -35,11 +35,11 @@ public class MainActivity extends AppCompatActivity {
     String string = "Hello World!";
     String dateTime = DateFormat.getDateTimeInstance().format(new Date());
     String fileType = ".txt";
-    ArrayList<String> chestData = new ArrayList<String>();
+    //ArrayList<String> chestData = new ArrayList<String>();
     String fullPath = path + fileName + randomID + dateTime + fileType;
     int scanCount = 20;
     int[] clickCount = {0,0,0,0};
-    boolean fireflyFound = false;
+    //boolean fireflyFound = false;
     final static String tag="MainActivity";
 
     //open the ble binder
@@ -210,45 +210,26 @@ public class MainActivity extends AppCompatActivity {
                     sensor.progressBars[1][axis].setProgress(-1*value);
                     sensor.progressBars[0][axis].setProgress(0);
 
-                    if (sensor == chestUI) {
+                    /*if (sensor == chestUI) {
                         chestData.add(Integer.toString(value) + " ");
                         chestData.add(Long.toString(System.currentTimeMillis()) + "\n");
-                    }
+                    }*/
 
                 } else if (value > 0 & value < 90) {
                     sensor.progressBars[1][axis].setProgress(0);
                     sensor.progressBars[0][axis].setProgress(value);
-                    if (sensor == chestUI) {
+                    /*if (sensor == chestUI) {
                         chestData.add(Integer.toString(value) + " ");
                         chestData.add(Long.toString(System.currentTimeMillis()) + "\n");
-                    }
+                    }*/
                 }
-                //cool glowy you did it color
+                /*//cool glowy you did it color
                 if (value > sensor.seekBars[0][axis].getProgress() & value < 90) {
                     Log.v(tag,"Activate stim, value higher than goals set positive");
                     sensor.setSensorBackgroundColor("#008542");
 
                 }
-//new added stuff
-                // glow red outside +/- 5 degrees
-                if( (sensor.progressBars[0][axis].getProgress() >= 5 | sensor.progressBars[0][axis].getProgress() <= 5) & sensor == chestUI){
-                    Log.v(tag,"Chest IMU outside range +/- 5 degrees");
-                    if( (sensor.progressBars[0][axis].getProgress() >= 5 | sensor.progressBars[0][axis].getProgress() <= 5) & sensor == bicepUI) {
-                        Log.v(tag,"Bicep IMU outside range +/- 5 degrees");
-                        sensor.setSensorBackgroundColor("red");
-                    }
-                }
-                // glow green if within range & wrist greater than seekbar set value
-                else if( !((sensor.progressBars[0][axis].getProgress() >= 5 | sensor.progressBars[0][axis].getProgress() <= 5)) & sensor == chestUI){
-                    //chest and bicep IMU not outside range
-                    //check if current wrist value greater than set seekbar value
-                    if( !((sensor.progressBars[0][axis].getProgress() >= 5 | sensor.progressBars[0][axis].getProgress() <= 5)) & sensor == bicepUI) {
-                        Log.v(tag,"User not compensating");
-                        sensor.setSensorBackgroundColor("#008542"); //flash green
-                    }
 
-                }
-//end of new added stuf,
                 //cool glowy you did it color
                 if ((value * -1) > sensor.seekBars[1][axis].getProgress() & (value * -1) < 90) {
                     Log.v(tag,"Activate stim, value higher than goals set negative");
@@ -259,33 +240,21 @@ public class MainActivity extends AppCompatActivity {
                 if (value < sensor.seekBars[0][axis].getProgress() & (value * -1) < sensor.seekBars[1][axis].getProgress()) {
                     sensor.setSensorBackgroundColor("#404040");
 
-                }
+                }*/
                 //now display values
+                //ignore seekbar values now
                 if (value >= 0) {
-                    sensor.textViews[0][axis].setText(Integer.toString(value) + "/" + Integer.toString(sensor.seekBars[0][axis].getProgress()));
-                    sensor.textViews[1][axis].setText("0/" + Integer.toString(sensor.seekBars[1][axis].getProgress()));
+                    sensor.textViews[0][axis].setText(Integer.toString(value));// + "/" + Integer.toString(sensor.seekBars[0][axis].getProgress()));
+                    sensor.textViews[1][axis].setText("0/");// + Integer.toString(sensor.seekBars[1][axis].getProgress()));
                 }
                 if (value <= 0) {
-                    sensor.textViews[1][axis].setText(Integer.toString(-1 * value) + "/" + Integer.toString(sensor.seekBars[1][axis].getProgress()));
-                    sensor.textViews[0][axis].setText("0/" + Integer.toString(sensor.seekBars[0][axis].getProgress()));
+                    sensor.textViews[1][axis].setText(Integer.toString(-1 * value));// + "/" + Integer.toString(sensor.seekBars[1][axis].getProgress()));
+                    sensor.textViews[0][axis].setText("0/" );//+ Integer.toString(sensor.seekBars[0][axis].getProgress()));
                 }
             }
         });
     }
 
-    //check if bicep and chest are outside +/- 5 degrees
-    // flash red to indicate outside range
-    public void flashRed(final int value, final SensorUI sensor, final int axis){
-
-        //check Chest IMU
-        if(sensor == chestUI){
-            if(value >= 5 | value <= 5){
-
-            }
-
-        }
-
-    }
 
     //SENSOR STATUS TEXT
     public void setSensorStatus(final String message) {
@@ -300,7 +269,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    //scan for BT devices function
+    //scan for BT devices function, store connections in bleservice object
     Runnable scanStop = new Runnable() {
         @Override
         public void run() {
@@ -373,6 +342,11 @@ public class MainActivity extends AppCompatActivity {
             disconnectSensor(handUI,3);
         }
     }
+    public void startBicepFlex(View v){
+        Intent intent=new Intent(this,BicepFlexMeasurement.class);
+        startActivity(intent);
+
+    }
     public void searchForSensor(SensorUI sensor,int position){
         Log.v(tag,"Looking For Sensor");
         setSensorStatus("Searching");
@@ -413,17 +387,18 @@ public class MainActivity extends AppCompatActivity {
     }
 //do stuff when the BT broadcast tells it to
     //z axis goes from 0 to 360, x and y from -180 to 180 I think
+    //make a clone of this in the flex measurement
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            Log.v(tag,"Got bundle of things");
+            //Log.v(tag,"Got bundle of things");
             Bundle extras = intent.getExtras();
             String eventType = extras.getString("bleEvent");
-            Log.v(tag,"Event type is "+eventType);
+            //Log.v(tag,"Event type is "+eventType);
             if (eventType.equals("sensorConnected")) {
-                Log.v(tag,"Sensor is connected event");
+                //Log.v(tag,"Sensor is connected event");
                 if (extras.getString("gatt").equals("chest")) {
-                    Log.v(tag,"Chest connected");
+                    //Log.v(tag,"Chest connected");
                     connectSensor(chestUI);
                     chestUI.connect.setOnLongClickListener(new View.OnLongClickListener() {
                         @Override
@@ -433,7 +408,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
                 }else if(extras.getString("gatt").equals("bicep")){
-                    Log.v(tag, "Bicep connected");
+                    //Log.v(tag, "Bicep connected");
                     connectSensor(bicepUI);
                     bicepUI.connect.setOnLongClickListener(new View.OnLongClickListener() {
                         @Override
@@ -443,7 +418,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
                 }else if(extras.getString("gatt").equals("wrist")){
-                    Log.v(tag, "Wrist connected");
+                    //Log.v(tag, "Wrist connected");
                     connectSensor(wristUI);
                     wristUI.connect.setOnLongClickListener(new View.OnLongClickListener() {
                         @Override
@@ -453,7 +428,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
                 }else if(extras.getString("gatt").equals("hand")){
-                    Log.v(tag, "Hand connected");
+                    //Log.v(tag, "Hand connected");
                     connectSensor(handUI);
                     handUI.connect.setOnLongClickListener(new View.OnLongClickListener() {
                         @Override
@@ -465,12 +440,12 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 if (extras.getString("gatt").equals("unknown")) {
-                    Log.v(tag, "unknown BT connected");
+                    //Log.v(tag, "unknown BT connected");
                 }
-                Log.v("bleService", "connected message sent");
+                //Log.v("bleService", "connected message sent");
             }
             if (eventType.equals("sensorDisconnected")) {
-                Log.v(tag, "Disconnected sensor event");
+               // Log.v(tag, "Disconnected sensor event");
                 if (extras.getString("gatt").equals("chest")) {
                     Log.v(tag, "Chest disconnected");
                     onSensorDisconnected(chestUI);
@@ -480,7 +455,7 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                 }else if(extras.getString("gatt").equals("bicep")) {
-                    Log.v(tag, "Bicep disconnected");
+                   // Log.v(tag, "Bicep disconnected");
                     onSensorDisconnected(bicepUI);
                     if (bleService.gattArray[1] != null) {
                         bleService.gattArray[1].close();
@@ -488,7 +463,7 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                 }else if(extras.getString("gatt").equals("wrist")) {
-                    Log.v(tag, "Wrist disconnected");
+                    //Log.v(tag, "Wrist disconnected");
                     onSensorDisconnected(wristUI);
                     if (bleService.gattArray[2] != null) {
                         bleService.gattArray[2].close();
@@ -496,7 +471,7 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                 }else if(extras.getString("gatt").equals("hand")) {
-                    Log.v(tag, "Hand disconnected");
+                    //Log.v(tag, "Hand disconnected");
                     onSensorDisconnected(handUI);
                     if (bleService.gattArray[3] != null) {
                         bleService.gattArray[3].close();
@@ -507,55 +482,55 @@ public class MainActivity extends AppCompatActivity {
             }
 
                 if (eventType.equals("notification")) {
-                    Log.v(tag,"You have mail event");
+                    //Log.v(tag,"You have mail event");
                     BleNotification notification = intent.getParcelableExtra("notifyObject");
                     //notification object is null for wrist, but works normally for chest...
                     // Log.v(tag, "notification gatt is "+notification.gatt);
                     if (notification.gatt.equals("chest")) {
-                        Log.v(tag," from the chest");
+                       // Log.v(tag," from the chest");
                         //find value x, switched to different value coding
-                        Log.v(tag, "Value x from object is "+notification.valueX);
+                       // Log.v(tag, "Value x from object is "+notification.valueX);
                         setGaugeValue((int)notification.valueX,chestUI,0);
                         //find value y, switched to different value coding
-                        Log.v(tag, "Value y from object is "+notification.valueY);
+                      //  Log.v(tag, "Value y from object is "+notification.valueY);
                         setGaugeValue((int)notification.valueY,chestUI,1);
                         //find value z, switched to different value coding
-                        Log.v(tag, "Value z from object is "+notification.valueZ);
+                      //  Log.v(tag, "Value z from object is "+notification.valueZ);
                         setGaugeValue((int)notification.valueZ,chestUI,2);
 
                     }else if(notification.gatt.equals("bicep")) {
-                        Log.v(tag, " from the bicep");
+                      //  Log.v(tag, " from the bicep");
                         //find value x, switched to different value coding
-                        Log.v(tag, "Value x from object is " + notification.valueX);
+                      //  Log.v(tag, "Value x from object is " + notification.valueX);
                         setGaugeValue((int) notification.valueX, bicepUI, 0);
                         //find value y, switched to different value coding
-                        Log.v(tag, "Value y from object is " + notification.valueY);
+                       // Log.v(tag, "Value y from object is " + notification.valueY);
                         setGaugeValue((int) notification.valueY, bicepUI, 1);
                         //find value z, switched to different value coding
-                        Log.v(tag, "Value z from object is " + notification.valueZ);
+                      //  Log.v(tag, "Value z from object is " + notification.valueZ);
                         setGaugeValue((int)notification.valueZ,bicepUI,2);
                     }else if(notification.gatt.equals("wrist")) {
-                        Log.v(tag, " from the wrist");
+                       // Log.v(tag, " from the wrist");
                         //find value x, switched to different value coding
-                        Log.v(tag, "Value x from object is " + notification.valueX);
+                      //  Log.v(tag, "Value x from object is " + notification.valueX);
                         setGaugeValue((int) notification.valueX, wristUI, 0);
                         //find value y, switched to different value coding
-                        Log.v(tag, "Value y from object is " + notification.valueY);
+                      //  Log.v(tag, "Value y from object is " + notification.valueY);
                         setGaugeValue((int) notification.valueY, wristUI, 1);
                         //find value z, switched to different value coding
-                        Log.v(tag, "Value z from object is " + notification.valueZ);
+                       // Log.v(tag, "Value z from object is " + notification.valueZ);
                         setGaugeValue((int)notification.valueZ,wristUI,2);
                     }
                     else if(notification.gatt.equals("hand")){
-                        Log.v(tag," from the hand");
+                       // Log.v(tag," from the hand");
                         //find value x, switched to different value coding
-                        Log.v(tag, "Value x from object is "+notification.valueX);
+                       // Log.v(tag, "Value x from object is "+notification.valueX);
                         setGaugeValue((int)notification.valueX,handUI,0);
                         //find value y, switched to different value coding
-                        Log.v(tag, "Value y from object is "+notification.valueY);
+                       // Log.v(tag, "Value y from object is "+notification.valueY);
                         setGaugeValue((int)notification.valueY,handUI,1);
                         //find value z, switched to different value coding
-                        Log.v(tag, "Value z from object is "+notification.valueZ);
+                       // Log.v(tag, "Value z from object is "+notification.valueZ);
                         setGaugeValue((int)notification.valueZ,handUI,2);
                     }
 
@@ -587,11 +562,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
             setSensorStatus("Sensor Disconnected");
-            Log.v("BLUETOOTH", "DISCONNECTED");
-        }
-        private void goToBicepFlex(View v){
-            Intent intent=new Intent(this,BicepFlexMeasurement.class);
-            startActivity(intent);
-
+            //Log.v("BLUETOOTH", "DISCONNECTED");
         }
     }
