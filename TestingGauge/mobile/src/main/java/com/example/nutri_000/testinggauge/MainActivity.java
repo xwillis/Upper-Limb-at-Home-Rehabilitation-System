@@ -393,6 +393,14 @@ public class MainActivity extends AppCompatActivity {
                         bleService.gattArray[0] = null;
                     }
 
+                }else if(extras.getString("gatt").equals("wrist")) {
+                    Log.v(tag, "Wrist disconnected");
+                    onSensorDisconnected(wristUI);
+                    if (bleService.gattArray[2] != null) {
+                        bleService.gattArray[2].close();
+                        bleService.gattArray[2] = null;
+                    }
+
                 }
             }
 
