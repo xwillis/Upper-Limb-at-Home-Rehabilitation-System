@@ -324,8 +324,8 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-//do stuff when the BT broadcast tells it to, this is where the find gauge value function and our problem likely is
-    //todo positive Z axis does not read out on GUI, maybe is not being sent?
+//do stuff when the BT broadcast tells it to
+    //todo positive Z axis does not read out on GUI, maybe is not being sent? Or maybe IMU chip is bad
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
