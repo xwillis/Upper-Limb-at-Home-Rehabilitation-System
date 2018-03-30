@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
+import android.widget.TextView;
 
 public class BicepFlexMeasurement extends AppCompatActivity {
 String tag="BicepFlex";
@@ -22,6 +23,7 @@ SeekBar seekBarPos;
 SeekBar seekBarNeg;
 ConstraintLayout constraintLayout;
 ImageButton imageButton;
+TextView textView;
 boolean compensating=false;
 
     @Override
@@ -38,6 +40,7 @@ boolean compensating=false;
         seekBarNeg=(SeekBar)findViewById(R.id.seekBarBicepFlexNeg);
         constraintLayout=(ConstraintLayout)findViewById(R.id.bicep_layout);
         imageButton=(ImageButton)findViewById(R.id.returnHome);
+        textView=(TextView)findViewById(R.id.bicepValue);
     }
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
@@ -88,6 +91,7 @@ boolean compensating=false;
                     //find value z, switched to different value coding
                     //Log.v(tag, "Value z from object is " + notification.valueZ);
                     //setBicepValue((int)notification.valueZ,wristUI,2);
+                    textView.setText(Integer.toString((int)notification.valueX));
                     determineStim(notification);
                 }
                 else if(notification.gatt.equals("hand")){
@@ -122,6 +126,13 @@ boolean compensating=false;
         }
     }
     public void determineStim(BleNotification notif){
+        if(notif.valueX>0){
+            progressBarPos.setProgress((int)notif.valueX);
+            progressBarNeg.setProgress(0);
+        }else{
+            progressBarNeg.setProgress(-1*(int)notif.valueX);
+            progressBarPos.setProgress(0);
+        }
         if(!compensating){
             if(notif.valueX>0&&notif.valueX>seekBarPos.getProgress()){
                 constraintLayout.setBackgroundColor(Color.parseColor("#66ff33"));

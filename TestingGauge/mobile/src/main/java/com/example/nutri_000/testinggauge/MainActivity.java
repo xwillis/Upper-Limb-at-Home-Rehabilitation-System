@@ -103,9 +103,9 @@ public class MainActivity extends AppCompatActivity {
             int[] rightTVBicep={R.id.bicepAngleXRight, R.id.bicepAngleYRight, R.id.bicepAngleZRight};
             int[] leftTVBicep={R.id.bicepAngleXLeft, R.id.bicepAngleYLeft, R.id.bicepAngleZLeft};
             bicepUI=new SensorUI(R.id.bicepButton, rightPBBicep, leftPBBicep, rightSBBicep, leftSBBicep, rightTVBicep, leftTVBicep, R.id.relativeHip, this);
-            bicepUI.green = R.drawable.chestgreen;
-            bicepUI.yellow = R.drawable.chestyellow;
-            bicepUI.white = R.drawable.chestwhite;
+            bicepUI.green = R.drawable.bicepgreen;
+            bicepUI.yellow = R.drawable.bicepyellow;
+            bicepUI.white = R.drawable.bicepwhite;
 
             int[] rightPBWrist={R.id.progressBarWristXRight, R.id.progressBarWristRightY, R.id.progressBarWristRightZ};
             int[] leftPBWrist={R.id.progressBarWristXLeft, R.id.progressBarWristLeftY, R.id.progressBarWristLeftZ};
@@ -114,9 +114,9 @@ public class MainActivity extends AppCompatActivity {
             int[] rightTVWrist={R.id.wristAngleXRight, R.id.wristAngleYRight, R.id.wristAngleZRight};
             int[] leftTVWrist={R.id.wristAngleXLeft, R.id.wristAngleYLeft, R.id.wristAngleZLeft};
             wristUI=new SensorUI(R.id.wristButton, rightPBWrist, leftPBWrist, rightSBWrist, leftSBWrist, rightTVWrist, leftTVWrist, R.id.relativeHip, this);
-            wristUI.green = R.drawable.chestgreen;
-            wristUI.yellow = R.drawable.chestyellow;
-            wristUI.white = R.drawable.chestwhite;
+            wristUI.green = R.drawable.wristgreen;
+            wristUI.yellow = R.drawable.wristyellow;
+            wristUI.white = R.drawable.wristwhite;
             sensorStatus = (TextView) findViewById(R.id.SensorStatus);
             requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_REQUEST_COARSE_LOCATION);
             if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
