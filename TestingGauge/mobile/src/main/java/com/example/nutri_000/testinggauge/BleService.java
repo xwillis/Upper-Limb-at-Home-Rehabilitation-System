@@ -39,7 +39,7 @@ public class BleService extends Service {
     public boolean searchingFromDetails = false;
     public boolean scanning = true;
     String TAG = "bleService";
-    String[] approvedDevices = new String[4];
+    String[] approvedDevices = new String[6];
     private IBinder bleBinder = new BleBinder();
     Intent intent;
     public String[] deviceIDs = new String[30];
@@ -77,7 +77,8 @@ public class BleService extends Service {
         approvedDevices[0] = sharedPreferences.getString("device1","F9:9E:AA:4B:28:9D");//the IMU on the watch band
         approvedDevices[1] = sharedPreferences.getString("device2","FE:33:AE:91:13:CA");//the conformally coated IMU
         approvedDevices[2] = sharedPreferences.getString("device3","DD:70:D1:12:A3:21");//Noemi's one that sometimes doesn't show up
-        approvedDevices[3] = sharedPreferences.getString("device4","F5:F8:64:BE:31:DF");
+        approvedDevices[3] = sharedPreferences.getString("device4","F5:F8:64:BE:31:DF");//microHDMI one
+        approvedDevices[4] = sharedPreferences.getString("device5","0000");
     }
 
     public int onStartCommand(Intent intent, int flags, int startId){
@@ -154,7 +155,7 @@ public class BleService extends Service {
             else{
                 if(deviceName != null){
                     if(deviceName.equals("JohnCougarMellenc")){
-                        for(int i = 0; i<4; i++){
+                        for(int i = 0; i<approvedDevices.length; i++){
                             if(device.getDevice().getAddress().toString().equals(approvedDevices[i])){
                                 String bleEvent = "scan";
                                 intent.putExtra("bleEvent", bleEvent);
@@ -365,9 +366,9 @@ public class BleService extends Service {
     };
     public void detailsStopped(){
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("device1", approvedDevices[0]);
-        editor.putString("device2", approvedDevices[1]);
-        editor.putString("device3", approvedDevices[2]);
+        for(int i=1;i<approvedDevices.length;i++){
+            editor.putString("device"+Integer.toString(i),approvedDevices[i]);
+        }
         editor.commit();
     }
 

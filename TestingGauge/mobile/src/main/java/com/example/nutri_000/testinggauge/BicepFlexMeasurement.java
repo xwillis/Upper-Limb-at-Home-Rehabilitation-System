@@ -30,10 +30,10 @@ SeekBar seekCompXNeg;
     SeekBar seekCompYPos;
     SeekBar seekCompYNeg;
 
-    ProgressBar progCompZPos;
-    ProgressBar progCompZNeg;
-    SeekBar seekCompZPos;
-    SeekBar seekCompZNeg;
+    ProgressBar progCompZ;
+    //ProgressBar progCompZNeg;
+    SeekBar seekCompZ;
+    //SeekBar seekCompZNeg;
 
 SeekBar seekBarPos;
 SeekBar seekBarNeg;
@@ -52,6 +52,16 @@ boolean stimming=false;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bicep_flex_measurement);
         bindViews();
+        seekCompXNeg.setProgress(50);
+        seekCompXPos.setProgress(50);
+
+        seekCompYNeg.setProgress(50);
+        seekCompYPos.setProgress(50);
+
+        seekCompZ.setProgress(50);
+        seekCompZ.setMax(360);
+        progCompZ.setMax(360);
+
         registerReceiver(broadcastReceiver, new IntentFilter("bleService"));
     }
     public void bindViews(){
@@ -77,10 +87,8 @@ boolean stimming=false;
         seekCompYPos=(SeekBar) findViewById(R.id.seekBarCompYPos);
         seekCompYNeg=(SeekBar)findViewById(R.id.seekBarCompYNeg);
 
-        progCompZPos=(ProgressBar)findViewById(R.id.progressBarCompZPos);
-        progCompZNeg=(ProgressBar)findViewById(R.id.progressBarCompZNeg);
-        seekCompZPos=(SeekBar) findViewById(R.id.seekBarCompZPos);
-        seekCompZNeg=(SeekBar)findViewById(R.id.seekBarCompZNeg);
+        progCompZ=(ProgressBar)findViewById(R.id.progressBarCompZ);
+        seekCompZ=(SeekBar) findViewById(R.id.seekBarCompZ);
 
     }
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
@@ -158,7 +166,7 @@ boolean stimming=false;
         }else if(notif.valueY>seekCompYPos.getProgress()||notif.valueY<-1*seekCompYNeg.getProgress()){
             constraintLayout.setBackgroundColor(Color.parseColor("#cc0000"));
             compensating=true;
-        }else if(notif.valueZ>seekCompZPos.getProgress()||notif.valueZ<-1*seekCompZNeg.getProgress()){
+        }else if(notif.valueZ>seekCompZ.getProgress()){//||notif.valueZ<seekCompZ.getProgress()){//one day will need to have 2 seekbars? or range or something idk
             constraintLayout.setBackgroundColor(Color.parseColor("#cc0000"));
             compensating=true;
         }else {
@@ -172,7 +180,7 @@ boolean stimming=false;
         }
         setSensorStatusX("X axis is "+notif.valueX+"should be "+seekCompXPos.getProgress()+" to "+-1*seekCompXNeg.getProgress());
         setSensorStatusY("Y axis is "+notif.valueY+"should be "+seekCompYPos.getProgress()+" to "+-1*seekCompYNeg.getProgress());
-        setSensorStatusZ("Z axis is "+notif.valueZ+"should be "+seekCompZPos.getProgress()+" to "+-1*seekCompZNeg.getProgress());
+        setSensorStatusZ("Z axis is "+notif.valueZ+"should be less than"+seekCompZ.getProgress());
             if(notif.valueX>0){
                 progCompXPos.setProgress((int)notif.valueX);
                 progCompXNeg.setProgress(0);
@@ -187,13 +195,7 @@ boolean stimming=false;
                 progCompYNeg.setProgress(-1*(int)notif.valueY);
                 progCompYPos.setProgress(0);
             }
-            if(notif.valueZ>0){
-                progCompZPos.setProgress((int)notif.valueZ);
-                progCompZNeg.setProgress(0);
-            }else{
-                progCompZNeg.setProgress(-1*(int)notif.valueZ);
-                progCompZPos.setProgress(0);
-            }
+                progCompZ.setProgress((int)notif.valueZ);
         }
     public void determineStim(BleNotification notif){
         if(notif.valueX>0){
