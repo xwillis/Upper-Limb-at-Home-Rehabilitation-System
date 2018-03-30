@@ -16,8 +16,10 @@ import android.widget.SeekBar;
 
 public class BicepFlexMeasurement extends AppCompatActivity {
 String tag="BicepFlex";
-ProgressBar progressBar;
-SeekBar seekBar;
+ProgressBar progressBarPos;
+ProgressBar progressBarNeg;
+SeekBar seekBarPos;
+SeekBar seekBarNeg;
 ConstraintLayout constraintLayout;
 ImageButton imageButton;
 boolean compensating=false;
@@ -30,8 +32,10 @@ boolean compensating=false;
         registerReceiver(broadcastReceiver, new IntentFilter("bleService"));
     }
     public void bindViews(){
-        progressBar=(ProgressBar)findViewById(R.id.progressBarBicepFlex);
-        seekBar=(SeekBar)findViewById(R.id.seekBarBicepFlex);
+        progressBarPos=(ProgressBar)findViewById(R.id.progressBarBicepFlexPos);
+        progressBarNeg=(ProgressBar)findViewById(R.id.progressBarBicepFlexNeg);
+        seekBarPos=(SeekBar)findViewById(R.id.seekBarBicepFlexPos);
+        seekBarNeg=(SeekBar)findViewById(R.id.seekBarBicepFlexNeg);
         constraintLayout=(ConstraintLayout)findViewById(R.id.bicep_layout);
         imageButton=(ImageButton)findViewById(R.id.returnHome);
     }
@@ -119,9 +123,9 @@ boolean compensating=false;
     }
     public void determineStim(BleNotification notif){
         if(!compensating){
-            if(notif.valueX>0&&notif.valueX>seekBar.getProgress()){
+            if(notif.valueX>0&&notif.valueX>seekBarPos.getProgress()){
                 constraintLayout.setBackgroundColor(Color.parseColor("#66ff33"));
-            } else if(notif.valueX<0&&notif.valueX<seekBar.getProgress()){
+            } else if(notif.valueX<0&&notif.valueX<-1*seekBarNeg.getProgress()){
                 constraintLayout.setBackgroundColor(Color.parseColor("#66ff33"));
             }else{
                 constraintLayout.setBackgroundColor(Color.parseColor("#ffffff"));
