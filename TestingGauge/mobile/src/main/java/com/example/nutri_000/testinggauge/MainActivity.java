@@ -205,7 +205,7 @@ public class MainActivity extends AppCompatActivity {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Log.v(tag,"Set Gauge value, value is "+value+" and the axis is "+axis);
+                //Log.v(tag,"Set Gauge value, value is "+value+" and the axis is "+axis);
                 if (value < 0 & value > -90) {
                     sensor.progressBars[1][axis].setProgress(-1*value);
                     sensor.progressBars[0][axis].setProgress(0);
