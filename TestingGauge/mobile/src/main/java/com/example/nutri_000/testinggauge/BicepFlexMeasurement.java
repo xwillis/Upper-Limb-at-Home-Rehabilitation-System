@@ -24,7 +24,9 @@ SeekBar seekBarNeg;
 ConstraintLayout constraintLayout;
 ImageButton imageButton;
 TextView textView;
+private TextView sensorStatus;
 boolean compensating=false;
+boolean stimming=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +43,7 @@ boolean compensating=false;
         constraintLayout=(ConstraintLayout)findViewById(R.id.bicep_layout);
         imageButton=(ImageButton)findViewById(R.id.returnHome);
         textView=(TextView)findViewById(R.id.bicepValue);
+        sensorStatus=(TextView)findViewById(R.id.SensorStatus);
     }
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
@@ -111,18 +114,24 @@ boolean compensating=false;
         }
     };
     public void lookForCompensation(BleNotification notif){
-        if(notif.valueX>20||notif.valueX<-20){
+        if(notif.valueX>-50||notif.valueX<-90){
             constraintLayout.setBackgroundColor(Color.parseColor("#cc0000"));
             compensating=true;
-        }else if(notif.valueY>20||notif.valueY<-20){
+            setSensorStatus("X axis is "+notif.valueX);
+        }else if(notif.valueY>40||notif.valueY<0){
             constraintLayout.setBackgroundColor(Color.parseColor("#cc0000"));
             compensating=true;
-        }else if(notif.valueZ>20||notif.valueZ>340){
+            setSensorStatus("Y axis is "+notif.valueY);
+        }else if(notif.valueZ>70||notif.valueZ<30){
             constraintLayout.setBackgroundColor(Color.parseColor("#cc0000"));
             compensating=true;
+            setSensorStatus("Z axis is "+notif.valueZ);
         }else{
             compensating=false;
-            constraintLayout.setBackgroundColor(Color.parseColor("#ffffff"));
+            if(!stimming){
+                constraintLayout.setBackgroundColor(Color.parseColor("#ffffff"));
+            }
+            setSensorStatus("not compensating");
         }
     }
     public void determineStim(BleNotification notif){
@@ -136,12 +145,26 @@ boolean compensating=false;
         if(!compensating){
             if(notif.valueX>0&&notif.valueX>seekBarPos.getProgress()){
                 constraintLayout.setBackgroundColor(Color.parseColor("#66ff33"));
+                stimming=true;
             } else if(notif.valueX<0&&notif.valueX<-1*seekBarNeg.getProgress()){
                 constraintLayout.setBackgroundColor(Color.parseColor("#66ff33"));
+                stimming=true;
             }else{
                 constraintLayout.setBackgroundColor(Color.parseColor("#ffffff"));
+                stimming=false;
             }
         }
+    }
+    public void setSensorStatus(final String message) {
+        //final String msg = "Sensor " + message;
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+
+                sensorStatus.setText(message);
+
+            }
+        });
     }
     public void returnToMain(View v){
         finish();
