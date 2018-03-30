@@ -19,12 +19,31 @@ public class BicepFlexMeasurement extends AppCompatActivity {
 String tag="BicepFlex";
 ProgressBar progressBarPos;
 ProgressBar progressBarNeg;
+
+ProgressBar progCompXPos;
+ProgressBar progCompXNeg;
+SeekBar seekCompXPos;
+SeekBar seekCompXNeg;
+
+    ProgressBar progCompYPos;
+    ProgressBar progCompYNeg;
+    SeekBar seekCompYPos;
+    SeekBar seekCompYNeg;
+
+    ProgressBar progCompZPos;
+    ProgressBar progCompZNeg;
+    SeekBar seekCompZPos;
+    SeekBar seekCompZNeg;
+
 SeekBar seekBarPos;
 SeekBar seekBarNeg;
+
 ConstraintLayout constraintLayout;
 ImageButton imageButton;
 TextView textView;
-private TextView sensorStatus;
+private TextView sensorStatusX;
+    private TextView sensorStatusY;
+    private TextView sensorStatusZ;
 boolean compensating=false;
 boolean stimming=false;
 
@@ -43,7 +62,26 @@ boolean stimming=false;
         constraintLayout=(ConstraintLayout)findViewById(R.id.bicep_layout);
         imageButton=(ImageButton)findViewById(R.id.returnHome);
         textView=(TextView)findViewById(R.id.bicepValue);
-        sensorStatus=(TextView)findViewById(R.id.SensorStatus);
+
+        sensorStatusX=(TextView)findViewById(R.id.SensorStatusX);
+        sensorStatusY=(TextView)findViewById(R.id.SensorStatusY);
+        sensorStatusZ=(TextView)findViewById(R.id.SensorStatusZ);
+
+        progCompXPos=(ProgressBar)findViewById(R.id.progressCompXPos);
+        progCompXNeg=(ProgressBar)findViewById(R.id.progressBarCompXNeg);
+        seekCompXPos=(SeekBar) findViewById(R.id.seekBarCompXPos);
+        seekCompXNeg=(SeekBar)findViewById(R.id.seekBarCompXNeg);
+
+        progCompYPos=(ProgressBar)findViewById(R.id.progressBarCompYPos);
+        progCompYNeg=(ProgressBar)findViewById(R.id.progressBarCompYNeg);
+        seekCompYPos=(SeekBar) findViewById(R.id.seekBarCompYPos);
+        seekCompYNeg=(SeekBar)findViewById(R.id.seekBarCompYNeg);
+
+        progCompZPos=(ProgressBar)findViewById(R.id.progressBarCompZPos);
+        progCompZNeg=(ProgressBar)findViewById(R.id.progressBarCompZNeg);
+        seekCompZPos=(SeekBar) findViewById(R.id.seekBarCompZPos);
+        seekCompZNeg=(SeekBar)findViewById(R.id.seekBarCompZNeg);
+
     }
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
@@ -114,26 +152,49 @@ boolean stimming=false;
         }
     };
     public void lookForCompensation(BleNotification notif){
-        if(notif.valueX>-50||notif.valueX<-90){
+        if(notif.valueX>seekCompXPos.getProgress()||notif.valueX<-1*seekCompXNeg.getProgress()){
             constraintLayout.setBackgroundColor(Color.parseColor("#cc0000"));
             compensating=true;
-            setSensorStatus("X axis is "+notif.valueX);
-        }else if(notif.valueY>40||notif.valueY<0){
+        }else if(notif.valueY>seekCompYPos.getProgress()||notif.valueY<-1*seekCompYNeg.getProgress()){
             constraintLayout.setBackgroundColor(Color.parseColor("#cc0000"));
             compensating=true;
-            setSensorStatus("Y axis is "+notif.valueY);
-        }else if(notif.valueZ>70||notif.valueZ<30){
+        }else if(notif.valueZ>seekCompZPos.getProgress()||notif.valueZ<-1*seekCompZNeg.getProgress()){
             constraintLayout.setBackgroundColor(Color.parseColor("#cc0000"));
             compensating=true;
-            setSensorStatus("Z axis is "+notif.valueZ);
-        }else{
-            compensating=false;
-            if(!stimming){
+        }else {
+            compensating = false;
+            if (!stimming) {
                 constraintLayout.setBackgroundColor(Color.parseColor("#ffffff"));
             }
-            setSensorStatus("not compensating");
+            setSensorStatusX("not compensating");
+            setSensorStatusY("not compensating");
+            setSensorStatusZ("not compensating");
         }
-    }
+        setSensorStatusX("X axis is "+notif.valueX+"should be "+seekCompXPos.getProgress()+" to "+-1*seekCompXNeg.getProgress());
+        setSensorStatusY("Y axis is "+notif.valueY+"should be "+seekCompYPos.getProgress()+" to "+-1*seekCompYNeg.getProgress());
+        setSensorStatusZ("Z axis is "+notif.valueZ+"should be "+seekCompZPos.getProgress()+" to "+-1*seekCompZNeg.getProgress());
+            if(notif.valueX>0){
+                progCompXPos.setProgress((int)notif.valueX);
+                progCompXNeg.setProgress(0);
+            }else{
+                progCompXNeg.setProgress(-1*(int)notif.valueX);
+                progCompXPos.setProgress(0);
+            }
+            if(notif.valueY>0){
+                progCompYPos.setProgress((int)notif.valueY);
+                progCompYNeg.setProgress(0);
+            }else{
+                progCompYNeg.setProgress(-1*(int)notif.valueY);
+                progCompYPos.setProgress(0);
+            }
+            if(notif.valueZ>0){
+                progCompZPos.setProgress((int)notif.valueZ);
+                progCompZNeg.setProgress(0);
+            }else{
+                progCompZNeg.setProgress(-1*(int)notif.valueZ);
+                progCompZPos.setProgress(0);
+            }
+        }
     public void determineStim(BleNotification notif){
         if(notif.valueX>0){
             progressBarPos.setProgress((int)notif.valueX);
@@ -155,13 +216,35 @@ boolean stimming=false;
             }
         }
     }
-    public void setSensorStatus(final String message) {
+    public void setSensorStatusX(final String message) {
         //final String msg = "Sensor " + message;
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
 
-                sensorStatus.setText(message);
+                sensorStatusX.setText(message);
+
+            }
+        });
+    }
+    public void setSensorStatusY(final String message) {
+        //final String msg = "Sensor " + message;
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+
+                sensorStatusY.setText(message);
+
+            }
+        });
+    }
+    public void setSensorStatusZ(final String message) {
+        //final String msg = "Sensor " + message;
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+
+                sensorStatusZ.setText(message);
 
             }
         });
