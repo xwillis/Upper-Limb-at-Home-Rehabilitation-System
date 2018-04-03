@@ -134,7 +134,8 @@
                 android:resource="@xml/provider_paths" />
         </provider>
 
-        <activity android:name=".BicepFlexMeasurement"></activity>
+        <activity android:name=".BicepFlexMeasurement" />
+        <activity android:name=".SupinationMeasurement"></activity>
     </application>
 
 </manifest>

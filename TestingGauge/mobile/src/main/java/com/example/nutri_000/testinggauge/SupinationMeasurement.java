@@ -15,15 +15,15 @@ import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-public class BicepFlexMeasurement extends AppCompatActivity {
-String tag="BicepFlex";
-ProgressBar progressBarPos;
-ProgressBar progressBarNeg;
+public class SupinationMeasurement extends AppCompatActivity {
+    String tag="Supination";
+    ProgressBar progressBarPos;
+    ProgressBar progressBarNeg;
 
-ProgressBar progCompXPos;
-ProgressBar progCompXNeg;
-SeekBar seekCompXPos;
-SeekBar seekCompXNeg;
+    ProgressBar progCompXPos;
+    ProgressBar progCompXNeg;
+    SeekBar seekCompXPos;
+    SeekBar seekCompXNeg;
 
     ProgressBar progCompYPos;
     ProgressBar progCompYNeg;
@@ -35,17 +35,17 @@ SeekBar seekCompXNeg;
     SeekBar seekCompZ;
     //SeekBar seekCompZNeg;
 
-SeekBar seekBarPos;
-SeekBar seekBarNeg;
+    SeekBar seekBarPos;
+    SeekBar seekBarNeg;
 
-ConstraintLayout constraintLayout;
-ImageButton imageButton;
-TextView textView;
-private TextView sensorStatusX;
+    ConstraintLayout constraintLayout;
+    ImageButton imageButton;
+    TextView supinationValue;
+    private TextView sensorStatusX;
     private TextView sensorStatusY;
     private TextView sensorStatusZ;
-boolean compensating=false;
-boolean stimming=false;
+    boolean compensating=false;
+    boolean stimming=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +71,7 @@ boolean stimming=false;
         seekBarNeg=(SeekBar)findViewById(R.id.seekBarBicepFlexNeg);
         constraintLayout=(ConstraintLayout)findViewById(R.id.bicep_layout);
         imageButton=(ImageButton)findViewById(R.id.returnHome);
-        textView=(TextView)findViewById(R.id.bicepValue);
+        supinationValue=(TextView)findViewById(R.id.bicepValue);
 
         sensorStatusX=(TextView)findViewById(R.id.SensorStatusX);
         sensorStatusY=(TextView)findViewById(R.id.SensorStatusY);
@@ -100,60 +100,20 @@ boolean stimming=false;
             //Log.v(tag,"Event type is "+eventType);
 
             if (eventType.equals("notification")) {
-               // Log.v(tag,"You have mail event");
                 BleNotification notification = intent.getParcelableExtra("notifyObject");
-                //notification object is null for wrist, but works normally for chest...
-                // Log.v(tag, "notification gatt is "+notification.gatt);
                 if (notification.gatt.equals("chest")) {
-                   // Log.v(tag," from the chest");
-                    //find value x, switched to different value coding
-                  //  Log.v(tag, "Value x from object is "+notification.valueX);
-                   // setBicepValue((int)notification.valueX,chestUI,0);
-                    //find value y, switched to different value coding
-                    //Log.v(tag, "Value y from object is "+notification.valueY);
-                    //setBicepValue((int)notification.valueY,chestUI,1);
-                    //find value z, switched to different value coding
-                    //Log.v(tag, "Value z from object is "+notification.valueZ);
-                    //setBicepValue((int)notification.valueZ,chestUI,2);
                     lookForCompensation(notification);
 
                 }else if(notification.gatt.equals("bicep")) {
-                   // Log.v(tag, " from the bicep");
-                    //find value x, switched to different value coding
-                    //Log.v(tag, "Value x from object is " + notification.valueX);
-                    //setBicepValue((int) notification.valueX, bicepUI, 0);
-                    //find value y, switched to different value coding
-                    //Log.v(tag, "Value y from object is " + notification.valueY);
-                    //setBicepValue((int) notification.valueY, bicepUI, 1);
-                    //find value z, switched to different value coding
-                    //Log.v(tag, "Value z from object is " + notification.valueZ);
-                    //setBicepValue((int)notification.valueZ,bicepUI,2);
+
                     lookForCompensation(notification);
                 }else if(notification.gatt.equals("wrist")) {
-                    //Log.v(tag, " from the wrist");
-                    //find value x, switched to different value coding
-                    //Log.v(tag, "Value x from object is " + notification.valueX);
-                    //setBicepValue((int) notification.valueX, wristUI, 0);
-                    //find value y, switched to different value coding
-                    //Log.v(tag, "Value y from object is " + notification.valueY);
-                    //setBicepValue((int) notification.valueY, wristUI, 1);
-                    //find value z, switched to different value coding
-                    //Log.v(tag, "Value z from object is " + notification.valueZ);
-                    //setBicepValue((int)notification.valueZ,wristUI,2);
-                    textView.setText(Integer.toString((int)notification.valueX));
+
+                    supinationValue.setText(Integer.toString((int)notification.valueY));
                     determineStim(notification);
                 }
                 else if(notification.gatt.equals("hand")){
-                    Log.v(tag," from the hand");
-                    //find value x, switched to different value coding
-                    Log.v(tag, "Value x from object is "+notification.valueX);
-                    //setBicepValue((int)notification.valueX,handUI,0);
-                    //find value y, switched to different value coding
-                    Log.v(tag, "Value y from object is "+notification.valueY);
-                    //setBicepValue((int)notification.valueY,handUI,1);
-                    //find value z, switched to different value coding
-                    Log.v(tag, "Value z from object is "+notification.valueZ);
-                    //setBicepValue((int)notification.valueZ,handUI,2);
+
                 }
 
             }
@@ -181,35 +141,35 @@ boolean stimming=false;
         setSensorStatusX("X axis is "+notif.valueX+"should be "+seekCompXPos.getProgress()+" to "+-1*seekCompXNeg.getProgress());
         setSensorStatusY("Y axis is "+notif.valueY+"should be "+seekCompYPos.getProgress()+" to "+-1*seekCompYNeg.getProgress());
         setSensorStatusZ("Z axis is "+notif.valueZ+"should be less than"+seekCompZ.getProgress());
-            if(notif.valueX>0){
-                progCompXPos.setProgress((int)notif.valueX);
-                progCompXNeg.setProgress(0);
-            }else{
-                progCompXNeg.setProgress(-1*(int)notif.valueX);
-                progCompXPos.setProgress(0);
-            }
-            if(notif.valueY>0){
-                progCompYPos.setProgress((int)notif.valueY);
-                progCompYNeg.setProgress(0);
-            }else{
-                progCompYNeg.setProgress(-1*(int)notif.valueY);
-                progCompYPos.setProgress(0);
-            }
-                progCompZ.setProgress((int)notif.valueZ);
-        }
-    public void determineStim(BleNotification notif){
         if(notif.valueX>0){
-            progressBarPos.setProgress((int)notif.valueX);
+            progCompXPos.setProgress((int)notif.valueX);
+            progCompXNeg.setProgress(0);
+        }else{
+            progCompXNeg.setProgress(-1*(int)notif.valueX);
+            progCompXPos.setProgress(0);
+        }
+        if(notif.valueY>0){
+            progCompYPos.setProgress((int)notif.valueY);
+            progCompYNeg.setProgress(0);
+        }else{
+            progCompYNeg.setProgress(-1*(int)notif.valueY);
+            progCompYPos.setProgress(0);
+        }
+        progCompZ.setProgress((int)notif.valueZ);
+    }
+    public void determineStim(BleNotification notif){
+        if(notif.valueY>0){
+            progressBarPos.setProgress((int)notif.valueY);
             progressBarNeg.setProgress(0);
         }else{
-            progressBarNeg.setProgress(-1*(int)notif.valueX);
+            progressBarNeg.setProgress(-1*(int)notif.valueY);
             progressBarPos.setProgress(0);
         }
         if(!compensating){
-            if(notif.valueX>0&&notif.valueX>seekBarPos.getProgress()){
+            if(notif.valueY>0&&notif.valueY>seekBarPos.getProgress()){
                 constraintLayout.setBackgroundColor(Color.parseColor("#66ff33"));
                 stimming=true;
-            } else if(notif.valueX<0&&notif.valueX<-1*seekBarNeg.getProgress()){
+            } else if(notif.valueY<0&&notif.valueY<-1*seekBarNeg.getProgress()){
                 constraintLayout.setBackgroundColor(Color.parseColor("#66ff33"));
                 stimming=true;
             }else{
@@ -254,8 +214,40 @@ boolean stimming=false;
     public void returnToMain(View v){
         finish();
     }
-    public void toSupination(View v){
-        Intent intent=new Intent(this,SupinationMeasurement.class);
-        startActivity(intent);
+ /*   public void setBicepValue(int value){
+
     }
+    //new added stuff
+    // glow red outside +/- 5 degrees
+                if( (sensor.progressBars[0][axis].getProgress() >= 5 | sensor.progressBars[0][axis].getProgress() <= 5) & sensor == chestUI){
+        Log.v(tag,"Chest IMU outside range +/- 5 degrees");
+        if( (sensor.progressBars[0][axis].getProgress() >= 5 | sensor.progressBars[0][axis].getProgress() <= 5) & sensor == bicepUI) {
+            Log.v(tag,"Bicep IMU outside range +/- 5 degrees");
+            sensor.setSensorBackgroundColor("red");
+        }
+    }
+    // glow green if within range & wrist greater than seekbar set value
+                else if( !((sensor.progressBars[0][axis].getProgress() >= 5 | sensor.progressBars[0][axis].getProgress() <= 5)) & sensor == chestUI){
+        //chest and bicep IMU not outside range
+        //check if current wrist value greater than set seekbar value
+        if( !((sensor.progressBars[0][axis].getProgress() >= 5 | sensor.progressBars[0][axis].getProgress() <= 5)) & sensor == bicepUI) {
+            Log.v(tag,"User within compensation values, stim");
+            sensor.setSensorBackgroundColor("#008542"); //flash green
+        }
+
+    }
+//end of new added stuf,
+//check if bicep and chest are outside +/- 5 degrees
+// flash red to indicate outside range
+public void flashRed(final int value, final SensorUI sensor, final int axis){
+
+    //check Chest IMU
+    if(sensor == chestUI){
+        if(value >= 5 | value <= 5){
+
+        }
+
+    }
+
+}*/
 }
