@@ -135,7 +135,12 @@
         </provider>
 
         <activity android:name=".BicepFlexMeasurement" />
-        <activity android:name=".SupinationMeasurement"></activity>
+        <activity android:name=".SupinationMeasurement" />
+        <activity android:name=".ShoulderFlexion" />
+        <activity android:name=".ShoulderRotation" />
+        <activity android:name=".ShoulderAbduction" />
+        <activity android:name=".WristDeflection" />
+        <activity android:name=".WristFlexion"></activity>
     </application>
 
 </manifest>
