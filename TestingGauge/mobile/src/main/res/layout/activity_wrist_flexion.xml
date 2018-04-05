@@ -252,15 +252,7 @@
                 android:onClick="returnToMain"
                 android:visibility="visible" />
 
-            <ImageButton
-                android:id="@+id/toSupination"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:background="@drawable/rightarrow"
-                android:onClick="toSupination"
-                android:visibility="visible"
-                android:layout_marginLeft="300dp"
-                app:layout_constraintLeft_toRightOf="@id/returnHome"/>
+          
         </android.support.constraint.ConstraintLayout>
     </ScrollView>
 
