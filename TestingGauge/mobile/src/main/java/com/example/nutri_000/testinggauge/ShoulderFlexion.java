@@ -114,7 +114,7 @@ public class ShoulderFlexion extends AppCompatActivity {
                 }else if(notification.gatt.equals("wrist")) {
                     //put this code at the IMU we're measuring, and choose valueX,Y,Z based on axis
                     textView.setText(Integer.toString((int)notification.valueX));
-                    determineStim(notification);
+                    determineStim((int)notification.valueX);
                 }
                 else if(notification.gatt.equals("hand")){
                     //leave IMUs below the measured IMU blank
@@ -161,19 +161,20 @@ public class ShoulderFlexion extends AppCompatActivity {
         }
         progCompZ.setProgress((int)notif.valueZ);
     }
-    public void determineStim(BleNotification notif){
-        if(notif.valueX>0){
-            progressBarPos.setProgress((int)notif.valueX);
+
+    public void determineStim(int value){
+        if(value>0){
+            progressBarPos.setProgress(value);
             progressBarNeg.setProgress(0);
         }else{
-            progressBarNeg.setProgress(-1*(int)notif.valueX);
+            progressBarNeg.setProgress(-1*value);
             progressBarPos.setProgress(0);
         }
         if(!compensating){
-            if(notif.valueX>0&&notif.valueX>seekBarPos.getProgress()){
+            if(value>0&&value>seekBarPos.getProgress()){
                 constraintLayout.setBackgroundColor(Color.parseColor("#66ff33"));
                 stimming=true;
-            } else if(notif.valueX<0&&notif.valueX<-1*seekBarNeg.getProgress()){
+            } else if(value<0&&value<-1*seekBarNeg.getProgress()){
                 constraintLayout.setBackgroundColor(Color.parseColor("#66ff33"));
                 stimming=true;
             }else{

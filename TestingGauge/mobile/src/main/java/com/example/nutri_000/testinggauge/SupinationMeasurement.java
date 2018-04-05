@@ -16,7 +16,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 public class SupinationMeasurement extends AppCompatActivity {
-    String tag="Supination";
+    String tag="WristSupination";
     ProgressBar progressBarPos;
     ProgressBar progressBarNeg;
 
@@ -40,7 +40,7 @@ public class SupinationMeasurement extends AppCompatActivity {
 
     ConstraintLayout constraintLayout;
     ImageButton imageButton;
-    TextView supinationValue;
+    TextView textView;
     private TextView sensorStatusX;
     private TextView sensorStatusY;
     private TextView sensorStatusZ;
@@ -50,7 +50,7 @@ public class SupinationMeasurement extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_bicep_flex_measurement);
+        setContentView(R.layout.activity_supination_measurement);
         bindViews();
         seekCompXNeg.setProgress(50);
         seekCompXPos.setProgress(50);
@@ -71,7 +71,7 @@ public class SupinationMeasurement extends AppCompatActivity {
         seekBarNeg=(SeekBar)findViewById(R.id.seekBarBicepFlexNeg);
         constraintLayout=(ConstraintLayout)findViewById(R.id.bicep_layout);
         imageButton=(ImageButton)findViewById(R.id.returnHome);
-        supinationValue=(TextView)findViewById(R.id.bicepValue);
+        textView=(TextView)findViewById(R.id.bicepValue);
 
         sensorStatusX=(TextView)findViewById(R.id.SensorStatusX);
         sensorStatusY=(TextView)findViewById(R.id.SensorStatusY);
@@ -100,20 +100,24 @@ public class SupinationMeasurement extends AppCompatActivity {
             //Log.v(tag,"Event type is "+eventType);
 
             if (eventType.equals("notification")) {
+                // Log.v(tag,"You have mail event");
                 BleNotification notification = intent.getParcelableExtra("notifyObject");
+                //notification object is null for wrist, but works normally for chest...
+                // Log.v(tag, "notification gatt is "+notification.gatt);
                 if (notification.gatt.equals("chest")) {
+                    //put this code in all IMUs above the one we're measuring
                     lookForCompensation(notification);
 
                 }else if(notification.gatt.equals("bicep")) {
-
+                    //put this code in all IMUs above the one we're measuring
                     lookForCompensation(notification);
                 }else if(notification.gatt.equals("wrist")) {
-
-                    supinationValue.setText(Integer.toString((int)notification.valueY));
-                    determineStim(notification);
+                    //put this code at the IMU we're measuring, and choose valueX,Y,Z based on axis
+                    textView.setText(Integer.toString((int)notification.valueX));
+                    determineStim((int)notification.valueX);
                 }
                 else if(notification.gatt.equals("hand")){
-
+                    //leave IMUs below the measured IMU blank
                 }
 
             }
@@ -157,19 +161,20 @@ public class SupinationMeasurement extends AppCompatActivity {
         }
         progCompZ.setProgress((int)notif.valueZ);
     }
-    public void determineStim(BleNotification notif){
-        if(notif.valueY>0){
-            progressBarPos.setProgress((int)notif.valueY);
+
+    public void determineStim(int value){
+        if(value>0){
+            progressBarPos.setProgress(value);
             progressBarNeg.setProgress(0);
         }else{
-            progressBarNeg.setProgress(-1*(int)notif.valueY);
+            progressBarNeg.setProgress(-1*value);
             progressBarPos.setProgress(0);
         }
         if(!compensating){
-            if(notif.valueY>0&&notif.valueY>seekBarPos.getProgress()){
+            if(value>0&&value>seekBarPos.getProgress()){
                 constraintLayout.setBackgroundColor(Color.parseColor("#66ff33"));
                 stimming=true;
-            } else if(notif.valueY<0&&notif.valueY<-1*seekBarNeg.getProgress()){
+            } else if(value<0&&value<-1*seekBarNeg.getProgress()){
                 constraintLayout.setBackgroundColor(Color.parseColor("#66ff33"));
                 stimming=true;
             }else{
@@ -214,40 +219,8 @@ public class SupinationMeasurement extends AppCompatActivity {
     public void returnToMain(View v){
         finish();
     }
- /*   public void setBicepValue(int value){
-
+    public void toSupination(View v){
+        Intent intent=new Intent(this,SupinationMeasurement.class);
+        startActivity(intent);
     }
-    //new added stuff
-    // glow red outside +/- 5 degrees
-                if( (sensor.progressBars[0][axis].getProgress() >= 5 | sensor.progressBars[0][axis].getProgress() <= 5) & sensor == chestUI){
-        Log.v(tag,"Chest IMU outside range +/- 5 degrees");
-        if( (sensor.progressBars[0][axis].getProgress() >= 5 | sensor.progressBars[0][axis].getProgress() <= 5) & sensor == bicepUI) {
-            Log.v(tag,"Bicep IMU outside range +/- 5 degrees");
-            sensor.setSensorBackgroundColor("red");
-        }
-    }
-    // glow green if within range & wrist greater than seekbar set value
-                else if( !((sensor.progressBars[0][axis].getProgress() >= 5 | sensor.progressBars[0][axis].getProgress() <= 5)) & sensor == chestUI){
-        //chest and bicep IMU not outside range
-        //check if current wrist value greater than set seekbar value
-        if( !((sensor.progressBars[0][axis].getProgress() >= 5 | sensor.progressBars[0][axis].getProgress() <= 5)) & sensor == bicepUI) {
-            Log.v(tag,"User within compensation values, stim");
-            sensor.setSensorBackgroundColor("#008542"); //flash green
-        }
-
-    }
-//end of new added stuf,
-//check if bicep and chest are outside +/- 5 degrees
-// flash red to indicate outside range
-public void flashRed(final int value, final SensorUI sensor, final int axis){
-
-    //check Chest IMU
-    if(sensor == chestUI){
-        if(value >= 5 | value <= 5){
-
-        }
-
-    }
-
-}*/
 }
