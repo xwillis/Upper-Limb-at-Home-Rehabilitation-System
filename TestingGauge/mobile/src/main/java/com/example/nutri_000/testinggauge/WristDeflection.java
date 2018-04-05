@@ -16,7 +16,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 public class WristDeflection extends AppCompatActivity {
-    String tag="BicepFlex";
+    String tag="WristDefl";
     ProgressBar progressBarPos;
     ProgressBar progressBarNeg;
 
@@ -50,7 +50,7 @@ public class WristDeflection extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_bicep_flex_measurement);
+        setContentView(R.layout.activity_wrist_deflection);
         bindViews();
         seekCompXNeg.setProgress(50);
         seekCompXPos.setProgress(50);
