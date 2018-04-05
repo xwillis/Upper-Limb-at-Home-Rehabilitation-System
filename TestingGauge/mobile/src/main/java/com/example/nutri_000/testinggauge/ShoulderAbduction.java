@@ -105,55 +105,19 @@ public class ShoulderAbduction extends AppCompatActivity {
                 //notification object is null for wrist, but works normally for chest...
                 // Log.v(tag, "notification gatt is "+notification.gatt);
                 if (notification.gatt.equals("chest")) {
-                    // Log.v(tag," from the chest");
-                    //find value x, switched to different value coding
-                    //  Log.v(tag, "Value x from object is "+notification.valueX);
-                    // setBicepValue((int)notification.valueX,chestUI,0);
-                    //find value y, switched to different value coding
-                    //Log.v(tag, "Value y from object is "+notification.valueY);
-                    //setBicepValue((int)notification.valueY,chestUI,1);
-                    //find value z, switched to different value coding
-                    //Log.v(tag, "Value z from object is "+notification.valueZ);
-                    //setBicepValue((int)notification.valueZ,chestUI,2);
+                    //put this code in all IMUs above the one we're measuring
                     lookForCompensation(notification);
 
                 }else if(notification.gatt.equals("bicep")) {
-                    // Log.v(tag, " from the bicep");
-                    //find value x, switched to different value coding
-                    //Log.v(tag, "Value x from object is " + notification.valueX);
-                    //setBicepValue((int) notification.valueX, bicepUI, 0);
-                    //find value y, switched to different value coding
-                    //Log.v(tag, "Value y from object is " + notification.valueY);
-                    //setBicepValue((int) notification.valueY, bicepUI, 1);
-                    //find value z, switched to different value coding
-                    //Log.v(tag, "Value z from object is " + notification.valueZ);
-                    //setBicepValue((int)notification.valueZ,bicepUI,2);
+                    //put this code in all IMUs above the one we're measuring
                     lookForCompensation(notification);
                 }else if(notification.gatt.equals("wrist")) {
-                    //Log.v(tag, " from the wrist");
-                    //find value x, switched to different value coding
-                    //Log.v(tag, "Value x from object is " + notification.valueX);
-                    //setBicepValue((int) notification.valueX, wristUI, 0);
-                    //find value y, switched to different value coding
-                    //Log.v(tag, "Value y from object is " + notification.valueY);
-                    //setBicepValue((int) notification.valueY, wristUI, 1);
-                    //find value z, switched to different value coding
-                    //Log.v(tag, "Value z from object is " + notification.valueZ);
-                    //setBicepValue((int)notification.valueZ,wristUI,2);
+                    //put this code at the IMU we're measuring, and choose valueX,Y,Z based on axis
                     textView.setText(Integer.toString((int)notification.valueX));
-                    determineStim(notification);
+                    determineStim((int)notification.valueX);
                 }
                 else if(notification.gatt.equals("hand")){
-                    Log.v(tag," from the hand");
-                    //find value x, switched to different value coding
-                    Log.v(tag, "Value x from object is "+notification.valueX);
-                    //setBicepValue((int)notification.valueX,handUI,0);
-                    //find value y, switched to different value coding
-                    Log.v(tag, "Value y from object is "+notification.valueY);
-                    //setBicepValue((int)notification.valueY,handUI,1);
-                    //find value z, switched to different value coding
-                    Log.v(tag, "Value z from object is "+notification.valueZ);
-                    //setBicepValue((int)notification.valueZ,handUI,2);
+                    //leave IMUs below the measured IMU blank
                 }
 
             }
@@ -197,19 +161,20 @@ public class ShoulderAbduction extends AppCompatActivity {
         }
         progCompZ.setProgress((int)notif.valueZ);
     }
-    public void determineStim(BleNotification notif){
-        if(notif.valueX>0){
-            progressBarPos.setProgress((int)notif.valueX);
+
+    public void determineStim(int value){
+        if(value>0){
+            progressBarPos.setProgress(value);
             progressBarNeg.setProgress(0);
         }else{
-            progressBarNeg.setProgress(-1*(int)notif.valueX);
+            progressBarNeg.setProgress(-1*value);
             progressBarPos.setProgress(0);
         }
         if(!compensating){
-            if(notif.valueX>0&&notif.valueX>seekBarPos.getProgress()){
+            if(value>0&&value>seekBarPos.getProgress()){
                 constraintLayout.setBackgroundColor(Color.parseColor("#66ff33"));
                 stimming=true;
-            } else if(notif.valueX<0&&notif.valueX<-1*seekBarNeg.getProgress()){
+            } else if(value<0&&value<-1*seekBarNeg.getProgress()){
                 constraintLayout.setBackgroundColor(Color.parseColor("#66ff33"));
                 stimming=true;
             }else{

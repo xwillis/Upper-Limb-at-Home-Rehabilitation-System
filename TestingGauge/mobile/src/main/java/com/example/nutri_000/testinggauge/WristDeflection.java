@@ -105,55 +105,19 @@ public class WristDeflection extends AppCompatActivity {
                 //notification object is null for wrist, but works normally for chest...
                 // Log.v(tag, "notification gatt is "+notification.gatt);
                 if (notification.gatt.equals("chest")) {
-                    // Log.v(tag," from the chest");
-                    //find value x, switched to different value coding
-                    //  Log.v(tag, "Value x from object is "+notification.valueX);
-                    // setBicepValue((int)notification.valueX,chestUI,0);
-                    //find value y, switched to different value coding
-                    //Log.v(tag, "Value y from object is "+notification.valueY);
-                    //setBicepValue((int)notification.valueY,chestUI,1);
-                    //find value z, switched to different value coding
-                    //Log.v(tag, "Value z from object is "+notification.valueZ);
-                    //setBicepValue((int)notification.valueZ,chestUI,2);
+                    //put this code in all IMUs above the one we're measuring
                     lookForCompensation(notification);
 
                 }else if(notification.gatt.equals("bicep")) {
-                    // Log.v(tag, " from the bicep");
-                    //find value x, switched to different value coding
-                    //Log.v(tag, "Value x from object is " + notification.valueX);
-                    //setBicepValue((int) notification.valueX, bicepUI, 0);
-                    //find value y, switched to different value coding
-                    //Log.v(tag, "Value y from object is " + notification.valueY);
-                    //setBicepValue((int) notification.valueY, bicepUI, 1);
-                    //find value z, switched to different value coding
-                    //Log.v(tag, "Value z from object is " + notification.valueZ);
-                    //setBicepValue((int)notification.valueZ,bicepUI,2);
+                    //put this code in all IMUs above the one we're measuring
                     lookForCompensation(notification);
                 }else if(notification.gatt.equals("wrist")) {
-                    //Log.v(tag, " from the wrist");
-                    //find value x, switched to different value coding
-                    //Log.v(tag, "Value x from object is " + notification.valueX);
-                    //setBicepValue((int) notification.valueX, wristUI, 0);
-                    //find value y, switched to different value coding
-                    //Log.v(tag, "Value y from object is " + notification.valueY);
-                    //setBicepValue((int) notification.valueY, wristUI, 1);
-                    //find value z, switched to different value coding
-                    //Log.v(tag, "Value z from object is " + notification.valueZ);
-                    //setBicepValue((int)notification.valueZ,wristUI,2);
+                    //put this code at the IMU we're measuring, and choose valueX,Y,Z based on axis
                     textView.setText(Integer.toString((int)notification.valueX));
                     determineStim(notification);
                 }
                 else if(notification.gatt.equals("hand")){
-                    Log.v(tag," from the hand");
-                    //find value x, switched to different value coding
-                    Log.v(tag, "Value x from object is "+notification.valueX);
-                    //setBicepValue((int)notification.valueX,handUI,0);
-                    //find value y, switched to different value coding
-                    Log.v(tag, "Value y from object is "+notification.valueY);
-                    //setBicepValue((int)notification.valueY,handUI,1);
-                    //find value z, switched to different value coding
-                    Log.v(tag, "Value z from object is "+notification.valueZ);
-                    //setBicepValue((int)notification.valueZ,handUI,2);
+                    //leave IMUs below the measured IMU blank
                 }
 
             }
