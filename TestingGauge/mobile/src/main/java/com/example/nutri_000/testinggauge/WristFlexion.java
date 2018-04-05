@@ -219,8 +219,4 @@ public class WristFlexion extends AppCompatActivity {
     public void returnToMain(View v){
         finish();
     }
-    public void toSupination(View v){
-        Intent intent=new Intent(this,SupinationMeasurement.class);
-        startActivity(intent);
-    }
 }
