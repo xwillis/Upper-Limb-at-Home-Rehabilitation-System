@@ -135,7 +135,8 @@
         </provider>
 
         <activity android:name=".BicepFlexMeasurement" />
-        <activity android:name=".SupinationMeasurement"></activity>
+        <activity android:name=".SupinationMeasurement" />
+        <activity android:name=".displayArmValues"></activity>
     </application>
 
 </manifest>
