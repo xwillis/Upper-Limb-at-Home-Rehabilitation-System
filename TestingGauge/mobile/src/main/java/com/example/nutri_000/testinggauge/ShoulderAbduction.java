@@ -59,8 +59,8 @@ public class ShoulderAbduction extends AppCompatActivity {
         seekCompYPos.setProgress(50);
 
         seekCompZ.setProgress(50);
-        seekCompZ.setMax(360);
-        progCompZ.setMax(360);
+        seekCompZ.setMax(180);
+        progCompZ.setMax(180);
 
         registerReceiver(broadcastReceiver, new IntentFilter("bleService"));
     }
@@ -91,6 +91,7 @@ public class ShoulderAbduction extends AppCompatActivity {
         seekCompZ=(SeekBar) findViewById(R.id.seekBarCompZ);
 
     }
+    //only change this
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -109,14 +110,14 @@ public class ShoulderAbduction extends AppCompatActivity {
                     lookForCompensation(notification);
 
                 }else if(notification.gatt.equals("bicep")) {
-                    //put this code in all IMUs above the one we're measuring
-                    lookForCompensation(notification);
-                }else if(notification.gatt.equals("wrist")) {
                     //put this code at the IMU we're measuring, and choose valueX,Y,Z based on axis
                     textView.setText(Integer.toString((int)notification.valueX));
                     determineStim((int)notification.valueX);
                 }
                 else if(notification.gatt.equals("hand")){
+                    //leave IMUs below the measured IMU blank
+                }
+                else if(notification.gatt.equals("wrist")) {
                     //leave IMUs below the measured IMU blank
                 }
 
@@ -163,6 +164,7 @@ public class ShoulderAbduction extends AppCompatActivity {
     }
 
     public void determineStim(int value){
+        //this section just sets the progressbar values
         if(value>0){
             progressBarPos.setProgress(value);
             progressBarNeg.setProgress(0);
@@ -170,6 +172,7 @@ public class ShoulderAbduction extends AppCompatActivity {
             progressBarNeg.setProgress(-1*value);
             progressBarPos.setProgress(0);
         }
+        //this section determines if stim or not
         if(!compensating){
             if(value>0&&value>seekBarPos.getProgress()){
                 constraintLayout.setBackgroundColor(Color.parseColor("#66ff33"));

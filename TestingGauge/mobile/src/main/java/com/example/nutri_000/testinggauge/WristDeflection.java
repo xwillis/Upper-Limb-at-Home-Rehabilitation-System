@@ -59,8 +59,8 @@ public class WristDeflection extends AppCompatActivity {
         seekCompYPos.setProgress(50);
 
         seekCompZ.setProgress(50);
-        seekCompZ.setMax(360);
-        progCompZ.setMax(360);
+        seekCompZ.setMax(180);
+        progCompZ.setMax(180);
 
         registerReceiver(broadcastReceiver, new IntentFilter("bleService"));
     }
@@ -113,11 +113,13 @@ public class WristDeflection extends AppCompatActivity {
                     lookForCompensation(notification);
                 }else if(notification.gatt.equals("wrist")) {
                     //put this code at the IMU we're measuring, and choose valueX,Y,Z based on axis
+                    lookForCompensation(notification);
                     textView.setText(Integer.toString((int)notification.valueX));
                     determineStim((int)notification.valueX);
                 }
                 else if(notification.gatt.equals("hand")){
-                    //leave IMUs below the measured IMU blank
+                    textView.setText(Integer.toString((int)notification.valueX));
+                    determineStim((int)notification.valueZ);
                 }
 
             }

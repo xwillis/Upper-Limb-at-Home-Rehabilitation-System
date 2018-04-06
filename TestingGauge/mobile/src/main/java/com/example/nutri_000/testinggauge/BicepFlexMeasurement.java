@@ -59,12 +59,13 @@ boolean stimming=false;
         seekCompYPos.setProgress(50);
 
         seekCompZ.setProgress(50);
-        seekCompZ.setMax(360);
-        progCompZ.setMax(360);
+        seekCompZ.setMax(180);
+        progCompZ.setMax(180);
 
         registerReceiver(broadcastReceiver, new IntentFilter("bleService"));
     }
     public void bindViews(){
+        //displays movement values we want to see
         progressBarPos=(ProgressBar)findViewById(R.id.progressBarBicepFlexPos);
         progressBarNeg=(ProgressBar)findViewById(R.id.progressBarBicepFlexNeg);
         seekBarPos=(SeekBar)findViewById(R.id.seekBarBicepFlexPos);
@@ -72,11 +73,11 @@ boolean stimming=false;
         constraintLayout=(ConstraintLayout)findViewById(R.id.bicep_layout);
         imageButton=(ImageButton)findViewById(R.id.returnHome);
         textView=(TextView)findViewById(R.id.bicepValue);
-
+        //prints out compensation values
         sensorStatusX=(TextView)findViewById(R.id.SensorStatusX);
         sensorStatusY=(TextView)findViewById(R.id.SensorStatusY);
         sensorStatusZ=(TextView)findViewById(R.id.SensorStatusZ);
-
+        //seek and progressbars for the x compensation for bicep
         progCompXPos=(ProgressBar)findViewById(R.id.progressCompXPos);
         progCompXNeg=(ProgressBar)findViewById(R.id.progressBarCompXNeg);
         seekCompXPos=(SeekBar) findViewById(R.id.seekBarCompXPos);
@@ -102,58 +103,21 @@ boolean stimming=false;
             if (eventType.equals("notification")) {
                // Log.v(tag,"You have mail event");
                 BleNotification notification = intent.getParcelableExtra("notifyObject");
-                //notification object is null for wrist, but works normally for chest...
-                // Log.v(tag, "notification gatt is "+notification.gatt);
+
                 if (notification.gatt.equals("chest")) {
-                   // Log.v(tag," from the chest");
-                    //find value x, switched to different value coding
-                  //  Log.v(tag, "Value x from object is "+notification.valueX);
-                   // setBicepValue((int)notification.valueX,chestUI,0);
-                    //find value y, switched to different value coding
-                    //Log.v(tag, "Value y from object is "+notification.valueY);
-                    //setBicepValue((int)notification.valueY,chestUI,1);
-                    //find value z, switched to different value coding
-                    //Log.v(tag, "Value z from object is "+notification.valueZ);
-                    //setBicepValue((int)notification.valueZ,chestUI,2);
+
                     lookForCompensation(notification);
 
                 }else if(notification.gatt.equals("bicep")) {
-                   // Log.v(tag, " from the bicep");
-                    //find value x, switched to different value coding
-                    //Log.v(tag, "Value x from object is " + notification.valueX);
-                    //setBicepValue((int) notification.valueX, bicepUI, 0);
-                    //find value y, switched to different value coding
-                    //Log.v(tag, "Value y from object is " + notification.valueY);
-                    //setBicepValue((int) notification.valueY, bicepUI, 1);
-                    //find value z, switched to different value coding
-                    //Log.v(tag, "Value z from object is " + notification.valueZ);
-                    //setBicepValue((int)notification.valueZ,bicepUI,2);
+
                     lookForCompensation(notification);
                 }else if(notification.gatt.equals("wrist")) {
-                    //Log.v(tag, " from the wrist");
-                    //find value x, switched to different value coding
-                    //Log.v(tag, "Value x from object is " + notification.valueX);
-                    //setBicepValue((int) notification.valueX, wristUI, 0);
-                    //find value y, switched to different value coding
-                    //Log.v(tag, "Value y from object is " + notification.valueY);
-                    //setBicepValue((int) notification.valueY, wristUI, 1);
-                    //find value z, switched to different value coding
-                    //Log.v(tag, "Value z from object is " + notification.valueZ);
-                    //setBicepValue((int)notification.valueZ,wristUI,2);
+
                     textView.setText(Integer.toString((int)notification.valueX));
                     determineStim(notification);
                 }
                 else if(notification.gatt.equals("hand")){
-                    Log.v(tag," from the hand");
-                    //find value x, switched to different value coding
-                    Log.v(tag, "Value x from object is "+notification.valueX);
-                    //setBicepValue((int)notification.valueX,handUI,0);
-                    //find value y, switched to different value coding
-                    Log.v(tag, "Value y from object is "+notification.valueY);
-                    //setBicepValue((int)notification.valueY,handUI,1);
-                    //find value z, switched to different value coding
-                    Log.v(tag, "Value z from object is "+notification.valueZ);
-                    //setBicepValue((int)notification.valueZ,handUI,2);
+
                 }
 
             }

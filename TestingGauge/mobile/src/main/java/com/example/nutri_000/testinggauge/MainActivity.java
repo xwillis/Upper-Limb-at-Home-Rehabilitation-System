@@ -342,11 +342,43 @@ public class MainActivity extends AppCompatActivity {
             disconnectSensor(handUI,3);
         }
     }
+    //Sends to bicep flex screen
     public void startBicepFlex(View v){
         Intent intent=new Intent(this,BicepFlexMeasurement.class);
         startActivity(intent);
 
     }
+    public void startShoulderAbduction(View v){
+        Intent intent=new Intent(this,ShoulderAbduction.class);
+        startActivity(intent);
+
+    }
+    public void startShoulderFlexion(View v){
+        Intent intent=new Intent(this,ShoulderFlexion.class);
+        startActivity(intent);
+
+    }
+    public void startShoulderRotation(View v){
+        Intent intent=new Intent(this,ShoulderRotation.class);
+        startActivity(intent);
+
+    }
+    public void startWristSupination(View v){
+        Intent intent=new Intent(this,SupinationMeasurement.class);
+        startActivity(intent);
+
+    }
+    public void startWristDeflection(View v){
+        Intent intent=new Intent(this,WristDeflection.class);
+        startActivity(intent);
+
+    }
+    public void startWristFlexion(View v){
+        Intent intent=new Intent(this,WristFlexion.class);
+        startActivity(intent);
+
+    }
+
     public void searchForSensor(SensorUI sensor,int position){
         Log.v(tag,"Looking For Sensor");
         setSensorStatus("Searching");
