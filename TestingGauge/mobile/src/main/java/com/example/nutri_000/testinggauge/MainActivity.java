@@ -343,7 +343,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     public void startBicepFlex(View v){
-        Intent intent=new Intent(this,BicepFlexMeasurement.class);
+        Intent intent=new Intent(this,displayArmValues.class);
         startActivity(intent);
 
     }

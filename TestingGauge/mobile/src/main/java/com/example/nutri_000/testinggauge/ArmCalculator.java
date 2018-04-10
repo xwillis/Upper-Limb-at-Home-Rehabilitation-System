@@ -21,11 +21,38 @@ public class ArmCalculator
 
 
     //constructor
+    public ArmCalculator(){
+        //new armCalculator Objext created with default values
+    }
     public ArmCalculator(double[] chestValues, double[] bicepValues, double[] wristValues, double[] handValues){
         xyzChest=chestValues;
         xyzBicep=bicepValues;
         xyzWrist=wristValues;
         xyzHand=handValues;
+    }
+    private double[] notificationToXYZArray(BleNotification notification) {
+        double[] values=new double[3];
+        values[0]=notification.valueX;
+        values[1]=notification.valueY;
+        values[2]=notification.valueZ;
+        return values;
+    }
+    public double[] updateChest(BleNotification notification){
+        xyzChest=notificationToXYZArray(notification);
+        return findJointAngles();
+    }
+
+    public double[] updateBicep(BleNotification notification){
+        xyzChest=notificationToXYZArray(notification);
+        return findJointAngles();
+    }
+    public double[] updateWrist(BleNotification notification){
+        xyzChest=notificationToXYZArray(notification);
+        return findJointAngles();
+    }
+    public double[] updateHand(BleNotification notification){
+        xyzChest=notificationToXYZArray(notification);
+        return findJointAngles();
     }
     public double[] findJointAngles(){
         deltaChestBicep=subtractIMU2fromIMU1(xyzBicep, xyzChest);
