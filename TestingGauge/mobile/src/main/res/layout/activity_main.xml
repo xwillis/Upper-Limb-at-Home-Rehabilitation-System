@@ -920,7 +920,7 @@
                 android:layout_width="84dp"
                 android:layout_height="84dp"
                 android:background="@drawable/handwhite"
-                android:onClick="connectWrist"
+                android:onClick="connectHand"
                 android:layout_marginTop="5dp"
                 app:layout_constraintTop_toBottomOf="@id/progressBarWristLeftZ"
                 app:layout_constraintLeft_toLeftOf="parent"
