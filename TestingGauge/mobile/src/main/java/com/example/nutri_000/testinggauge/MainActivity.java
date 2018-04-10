@@ -117,6 +117,18 @@ public class MainActivity extends AppCompatActivity {
             wristUI.green = R.drawable.wristgreen;
             wristUI.yellow = R.drawable.wristyellow;
             wristUI.white = R.drawable.wristwhite;
+
+            int[] rightPBHand={R.id.progressBarHandXRight, R.id.progressBarHandRightY, R.id.progressBarHandRightZ};
+            int[] leftPBHand={R.id.progressBarHandXLeft, R.id.progressBarHandLeftY, R.id.progressBarHandLeftZ};
+            int[] rightSBHand={R.id.seekBarHandXRight, R.id.seekBarHandYRight, R.id.seekBarHandZRight};
+            int[] leftSBHand={R.id.seekBarHandXLeft, R.id.seekBarHandYLeft, R.id.seekBarHandZLeft};
+            int[] rightTVHand={R.id.handAngleXRight, R.id.handAngleYRight, R.id.handAngleZRight};
+            int[] leftTVHand={R.id.handAngleXLeft, R.id.handAngleYLeft, R.id.handAngleZLeft};
+            handUI=new SensorUI(R.id.handButton, rightPBHand, leftPBHand, rightSBHand, leftSBHand, rightTVHand, leftTVHand, R.id.relativeHip, this);
+            handUI.green = R.drawable.handgreen;
+            handUI.yellow = R.drawable.handyellow;
+            handUI.white = R.drawable.handwhite;
+
             sensorStatus = (TextView) findViewById(R.id.SensorStatus);
             requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_REQUEST_COARSE_LOCATION);
             if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
@@ -293,6 +305,9 @@ public class MainActivity extends AppCompatActivity {
                             }
                             if (bleService.gattArray[2] == null) {
                                 wristUI.connect.setBackgroundResource(R.drawable.chestwhite);
+                            }
+                            if (bleService.gattArray[3] == null) {
+                                handUI.connect.setBackgroundResource(R.drawable.handwhite);
                             }
                         }
                     });
