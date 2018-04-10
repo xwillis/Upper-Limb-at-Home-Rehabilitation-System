@@ -19,7 +19,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import java.text.DateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 
 
@@ -564,4 +563,12 @@ public class MainActivity extends AppCompatActivity {
             setSensorStatus("Sensor Disconnected");
             //Log.v("BLUETOOTH", "DISCONNECTED");
         }
+
+        //start the Uart Activity
+    public void startUart(View v){
+            Intent intent = new Intent(this, MainActivityA.class);
+            startActivity(intent);
+    }
+
+
     }

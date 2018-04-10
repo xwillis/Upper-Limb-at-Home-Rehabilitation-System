@@ -9,6 +9,10 @@ android {
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
+
+        //enabling multidex support
+        multiDexEnabled true
+
     }
 
     useLibrary 'org.apache.http.legacy'
@@ -61,6 +65,8 @@ dependencies {
 
     compile 'com.commonsware.cwac:provider:0.5.1'
 
+    //multidex suppport
+    compile 'com.android.support:multidex:1.0.0'
 
     testCompile 'junit:junit:4.12'
 }

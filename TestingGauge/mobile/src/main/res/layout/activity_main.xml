@@ -922,6 +922,20 @@
             app:layout_constraintRight_toRightOf="parent"
             tools:layout_editor_absoluteX="354dp"
             tools:layout_editor_absoluteY="957dp" />
+
+        <!--button to start UART Activity !-->
+        <Button
+            android:id="@+id/startUartActivity"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:color="#80ff0000"
+            android:layout_gravity="top|right"
+            android:layout_marginLeft="120dp"
+            android:onClick="startUart"
+            android:visibility="visible"
+            app:layout_constraintLeft_toRightOf="@id/chestButton"
+            tools:layout_editor_absoluteY="50dp" />
+
     </android.support.constraint.ConstraintLayout>
 </ScrollView>
 </android.support.constraint.ConstraintLayout>

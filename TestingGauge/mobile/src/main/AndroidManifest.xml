@@ -43,6 +43,7 @@
             </intent-filter>
         </activity>
 
+
         <!-- Added from Adafruit's Manifest -->
         <activity
             android:name=".MainActivityA"
