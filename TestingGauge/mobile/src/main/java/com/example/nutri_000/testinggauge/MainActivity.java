@@ -117,6 +117,18 @@ public class MainActivity extends AppCompatActivity {
             wristUI.green = R.drawable.wristgreen;
             wristUI.yellow = R.drawable.wristyellow;
             wristUI.white = R.drawable.wristwhite;
+
+            int[] rightPBHand={R.id.progressBarHandXRight, R.id.progressBarHandRightY, R.id.progressBarHandRightZ};
+            int[] leftPBHand={R.id.progressBarHandXLeft, R.id.progressBarHandLeftY, R.id.progressBarHandLeftZ};
+            int[] rightSBHand={R.id.seekBarHandXRight, R.id.seekBarHandYRight, R.id.seekBarHandZRight};
+            int[] leftSBHand={R.id.seekBarHandXLeft, R.id.seekBarHandYLeft, R.id.seekBarHandZLeft};
+            int[] rightTVHand={R.id.handAngleXRight, R.id.handAngleYRight, R.id.handAngleZRight};
+            int[] leftTVHand={R.id.handAngleXLeft, R.id.handAngleYLeft, R.id.handAngleZLeft};
+            handUI=new SensorUI(R.id.handButton, rightPBHand, leftPBHand, rightSBHand, leftSBHand, rightTVHand, leftTVHand, R.id.relativeHip, this);
+            handUI.green = R.drawable.handgreen;
+            handUI.yellow = R.drawable.handyellow;
+            handUI.white = R.drawable.handwhite;
+
             sensorStatus = (TextView) findViewById(R.id.SensorStatus);
             requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_REQUEST_COARSE_LOCATION);
             if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
@@ -210,39 +222,10 @@ public class MainActivity extends AppCompatActivity {
                     sensor.progressBars[1][axis].setProgress(-1*value);
                     sensor.progressBars[0][axis].setProgress(0);
 
-                    /*if (sensor == chestUI) {
-                        chestData.add(Integer.toString(value) + " ");
-                        chestData.add(Long.toString(System.currentTimeMillis()) + "\n");
-                    }*/
-
                 } else if (value > 0 & value < 90) {
                     sensor.progressBars[1][axis].setProgress(0);
                     sensor.progressBars[0][axis].setProgress(value);
-                    /*if (sensor == chestUI) {
-                        chestData.add(Integer.toString(value) + " ");
-                        chestData.add(Long.toString(System.currentTimeMillis()) + "\n");
-                    }*/
                 }
-                /*//cool glowy you did it color
-                if (value > sensor.seekBars[0][axis].getProgress() & value < 90) {
-                    Log.v(tag,"Activate stim, value higher than goals set positive");
-                    sensor.setSensorBackgroundColor("#008542");
-
-                }
-
-                //cool glowy you did it color
-                if ((value * -1) > sensor.seekBars[1][axis].getProgress() & (value * -1) < 90) {
-                    Log.v(tag,"Activate stim, value higher than goals set negative");
-                    sensor.setSensorBackgroundColor("#008542");
-
-                }
-//normal color
-                if (value < sensor.seekBars[0][axis].getProgress() & (value * -1) < sensor.seekBars[1][axis].getProgress()) {
-                    sensor.setSensorBackgroundColor("#404040");
-
-                }*/
-                //now display values
-                //ignore seekbar values now
                 if (value >= 0) {
                     sensor.textViews[0][axis].setText(Integer.toString(value));// + "/" + Integer.toString(sensor.seekBars[0][axis].getProgress()));
                     sensor.textViews[1][axis].setText("0/");// + Integer.toString(sensor.seekBars[1][axis].getProgress()));
@@ -289,10 +272,13 @@ public class MainActivity extends AppCompatActivity {
                                 chestUI.connect.setBackgroundResource(R.drawable.chestwhite);
                             }
                             if (bleService.gattArray[1] == null) {
-                                bicepUI.connect.setBackgroundResource(R.drawable.chestwhite);
+                                bicepUI.connect.setBackgroundResource(R.drawable.bicepwhite);
                             }
                             if (bleService.gattArray[2] == null) {
-                                wristUI.connect.setBackgroundResource(R.drawable.chestwhite);
+                                wristUI.connect.setBackgroundResource(R.drawable.wristwhite);
+                            }
+                            if (bleService.gattArray[3] == null) {
+                                handUI.connect.setBackgroundResource(R.drawable.handwhite);
                             }
                         }
                     });
@@ -342,7 +328,7 @@ public class MainActivity extends AppCompatActivity {
             disconnectSensor(handUI,3);
         }
     }
-    public void startBicepFlex(View v){
+    public void startArmVals(View v){
         Intent intent=new Intent(this,displayArmValues.class);
         startActivity(intent);
 
@@ -487,50 +473,34 @@ public class MainActivity extends AppCompatActivity {
                     //notification object is null for wrist, but works normally for chest...
                     // Log.v(tag, "notification gatt is "+notification.gatt);
                     if (notification.gatt.equals("chest")) {
-                       // Log.v(tag," from the chest");
                         //find value x, switched to different value coding
-                       // Log.v(tag, "Value x from object is "+notification.valueX);
                         setGaugeValue((int)notification.valueX,chestUI,0);
                         //find value y, switched to different value coding
-                      //  Log.v(tag, "Value y from object is "+notification.valueY);
                         setGaugeValue((int)notification.valueY,chestUI,1);
                         //find value z, switched to different value coding
-                      //  Log.v(tag, "Value z from object is "+notification.valueZ);
                         setGaugeValue((int)notification.valueZ,chestUI,2);
 
                     }else if(notification.gatt.equals("bicep")) {
-                      //  Log.v(tag, " from the bicep");
                         //find value x, switched to different value coding
-                      //  Log.v(tag, "Value x from object is " + notification.valueX);
                         setGaugeValue((int) notification.valueX, bicepUI, 0);
                         //find value y, switched to different value coding
-                       // Log.v(tag, "Value y from object is " + notification.valueY);
                         setGaugeValue((int) notification.valueY, bicepUI, 1);
                         //find value z, switched to different value coding
-                      //  Log.v(tag, "Value z from object is " + notification.valueZ);
                         setGaugeValue((int)notification.valueZ,bicepUI,2);
                     }else if(notification.gatt.equals("wrist")) {
-                       // Log.v(tag, " from the wrist");
                         //find value x, switched to different value coding
-                      //  Log.v(tag, "Value x from object is " + notification.valueX);
                         setGaugeValue((int) notification.valueX, wristUI, 0);
                         //find value y, switched to different value coding
-                      //  Log.v(tag, "Value y from object is " + notification.valueY);
                         setGaugeValue((int) notification.valueY, wristUI, 1);
                         //find value z, switched to different value coding
-                       // Log.v(tag, "Value z from object is " + notification.valueZ);
                         setGaugeValue((int)notification.valueZ,wristUI,2);
                     }
                     else if(notification.gatt.equals("hand")){
-                       // Log.v(tag," from the hand");
                         //find value x, switched to different value coding
-                       // Log.v(tag, "Value x from object is "+notification.valueX);
                         setGaugeValue((int)notification.valueX,handUI,0);
                         //find value y, switched to different value coding
-                       // Log.v(tag, "Value y from object is "+notification.valueY);
                         setGaugeValue((int)notification.valueY,handUI,1);
                         //find value z, switched to different value coding
-                       // Log.v(tag, "Value z from object is "+notification.valueZ);
                         setGaugeValue((int)notification.valueZ,handUI,2);
                     }
 
