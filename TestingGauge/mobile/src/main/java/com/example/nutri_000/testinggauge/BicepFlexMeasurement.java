@@ -24,15 +24,14 @@ ProgressBar progCompBicepXNeg;
 SeekBar seekCompBicepXPos;
 SeekBar seekCompBicepXNeg;
 
-    ProgressBar progCompBicepYPos;
-    ProgressBar progCompBicepYNeg;
-    SeekBar seekCompBicepYPos;
-    SeekBar seekCompBicepYNeg;
+ProgressBar progCompBicepYPos;
+ProgressBar progCompBicepYNeg;
+SeekBar seekCompBicepYPos;
+SeekBar seekCompBicepYNeg;
 
-    ProgressBar progCompBicepZ;
-    //ProgressBar progCompZNeg;
-    SeekBar seekCompBicepZ;
-    //SeekBar seekCompZNeg;
+ProgressBar progCompBicepZ;
+SeekBar seekCompBicepZ;
+
 
 SeekBar seekBarBicepPos;
 SeekBar seekBarBicepNeg;
@@ -58,8 +57,8 @@ boolean stimming=false;
         seekCompBicepYPos.setProgress(50);
 
         seekCompBicepZ.setProgress(50);
-        seekCompBicepZ.setMax(180);
-        progCompBicepZ.setMax(180);
+        seekCompBicepZ.setMax(360);
+        progCompBicepZ.setMax(360);
 
         registerReceiver(broadcastReceiver, new IntentFilter("bleService"));
     }
