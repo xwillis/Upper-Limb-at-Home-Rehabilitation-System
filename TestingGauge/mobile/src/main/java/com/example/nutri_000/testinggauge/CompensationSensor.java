@@ -9,13 +9,22 @@ import android.widget.TextView;
 public class CompensationSensor {
     public ProgressBar[][] progressBars;
     public SeekBar[][] seekBars;//0 is neg/left, 0-2 is x-z
-    public TextView[][] textViews;
+    public TextView[] textViews;
+
     boolean compensating=false;
 
-    public CompensationSensor(ProgressBar[][] progressBars, SeekBar[][] seekBars, TextView[][] textViews){
+    public CompensationSensor(ProgressBar[][] progressBars, SeekBar[][] seekBars, TextView[] textViews){
         this.progressBars=progressBars;
         this.seekBars=seekBars;
         this.textViews=textViews;
+        for(int i=0;i<2;i++){
+            for(int ii=0;ii<2;ii++){
+                this.progressBars[ii][i].setMax(180);
+                this.seekBars[ii][i].setMax(180);
+            }
+        }
+        progressBars[0][2].setMax(360);
+        seekBars[0][2].setMax(360);
     }
     public void setProgressValues(BleNotification notification){
         if(notification.valueX>0){

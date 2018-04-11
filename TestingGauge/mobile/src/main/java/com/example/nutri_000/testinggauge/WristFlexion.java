@@ -83,6 +83,10 @@ public class WristFlexion extends AppCompatActivity {
     private TextView sensorStatusWristY;
     private TextView sensorStatusWristZ;
 
+    private CompensationSensor chestCompSens;
+    private CompensationSensor bicepCompSens;
+    private CompensationSensor wristCompSens;
+
     boolean compensating=false;
     boolean stimming=false;
 
@@ -91,20 +95,6 @@ public class WristFlexion extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wrist_flexion);
         bindViews();
-        seekCompBicepXNeg.setProgress(50);
-        seekCompBicepXNeg.setMax(180);
-        seekCompBicepXPos.setProgress(50);
-        seekCompBicepXPos.setMax(180);
-
-        seekCompBicepYNeg.setProgress(50);
-        seekCompBicepYNeg.setMax(180);
-        seekCompBicepYPos.setProgress(50);
-        seekCompBicepYPos.setMax(180);
-
-        seekCompBicepZ.setProgress(50);
-        seekCompBicepZ.setMax(360);
-        progCompBicepZ.setMax(360);
-
         registerReceiver(broadcastReceiver, new IntentFilter("bleService"));
     }
     public void bindViews(){
@@ -119,6 +109,7 @@ public class WristFlexion extends AppCompatActivity {
         sensorStatusBicepX =(TextView)findViewById(R.id.SensorStatusBicepX);
         sensorStatusBicepY =(TextView)findViewById(R.id.SensorStatusBicepY);
         sensorStatusBicepZ =(TextView)findViewById(R.id.SensorStatusBicepZ);
+        TextView[] bicepViews={sensorStatusBicepX,sensorStatusBicepY, sensorStatusBicepZ};
 
         progCompBicepXPos =(ProgressBar)findViewById(R.id.progressCompBicepXPos);
         progCompBicepXNeg =(ProgressBar)findViewById(R.id.progressBarCompBicepXNeg);
@@ -132,11 +123,12 @@ public class WristFlexion extends AppCompatActivity {
 
         progCompBicepZ =(ProgressBar)findViewById(R.id.progressBarCompBicepZ);
         seekCompBicepZ =(SeekBar) findViewById(R.id.seekBarCompBicepZ);
-
+        ProgressBar[][] bicepProgress={{progCompBicepXNeg, progCompBicepYNeg, progCompBicepZ},{progCompBicepXPos, progCompBicepYPos}};
+        SeekBar[][] bicepSeek={{seekCompBicepXNeg, seekCompBicepYNeg, seekCompBicepZ},{seekCompBicepXPos, seekCompBicepYPos}};
         sensorStatusChestX =(TextView)findViewById(R.id.SensorStatusChestX);
         sensorStatusChestY =(TextView)findViewById(R.id.SensorStatusChestY);
         sensorStatusChestZ =(TextView)findViewById(R.id.SensorStatusChestZ);
-
+        TextView[] chestViews={sensorStatusChestX,sensorStatusChestY, sensorStatusChestZ};
         progCompChestXPos =(ProgressBar)findViewById(R.id.progressCompChestXPos);
         progCompChestXNeg =(ProgressBar)findViewById(R.id.progressBarCompChestXNeg);
         seekCompChestXPos =(SeekBar) findViewById(R.id.seekBarCompChestXPos);
@@ -149,11 +141,12 @@ public class WristFlexion extends AppCompatActivity {
 
         progCompChestZ =(ProgressBar)findViewById(R.id.progressBarCompChestZ);
         seekCompChestZ =(SeekBar) findViewById(R.id.seekBarCompChestZ);
-
+        ProgressBar[][] chestProgress={{progCompChestXNeg, progCompChestYNeg, progCompChestZ},{progCompChestXPos, progCompChestYPos}};
+        SeekBar[][] chestSeek={{seekCompChestXNeg, seekCompChestYNeg, seekCompChestZ},{seekCompChestXPos, seekCompChestYPos}};
         sensorStatusWristX =(TextView)findViewById(R.id.SensorStatusWristX);
         sensorStatusWristY =(TextView)findViewById(R.id.SensorStatusWristY);
         sensorStatusWristZ =(TextView)findViewById(R.id.SensorStatusWristZ);
-
+        TextView[] wristViews={sensorStatusWristX,sensorStatusWristY, sensorStatusWristZ};
         progCompWristXPos =(ProgressBar)findViewById(R.id.progressCompWristXPos);
         progCompWristXNeg =(ProgressBar)findViewById(R.id.progressBarCompWristXNeg);
         seekCompWristXPos =(SeekBar) findViewById(R.id.seekBarCompWristXPos);
@@ -166,6 +159,11 @@ public class WristFlexion extends AppCompatActivity {
 
         progCompWristZ =(ProgressBar)findViewById(R.id.progressBarCompWristZ);
         seekCompWristZ =(SeekBar) findViewById(R.id.seekBarCompWristZ);
+        ProgressBar[][] wristProgress={{progCompWristXNeg, progCompWristYNeg, progCompWristZ},{progCompWristXPos, progCompWristYPos}};
+        SeekBar[][] wristSeek={{seekCompWristXNeg, seekCompWristYNeg, seekCompWristZ},{seekCompWristXPos, seekCompWristYPos}};
+        chestCompSens=new CompensationSensor(chestProgress, chestSeek, chestViews);
+        bicepCompSens=new CompensationSensor(bicepProgress, bicepSeek, bicepViews);
+        wristCompSens=new CompensationSensor(wristProgress, wristSeek, wristViews);
 
     }
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
@@ -183,14 +181,14 @@ public class WristFlexion extends AppCompatActivity {
                 // Log.v(tag, "notification gatt is "+notification.gatt);
                 if (notification.gatt.equals("chest")) {
                     //put this code in all IMUs above the one we're measuring
-                    lookForCompensation(notification,0);
+                    chestCompSens.determineCompensation(notification, constraintLayout, stimming);
 
                 }else if(notification.gatt.equals("bicep")) {
                     //put this code in all IMUs above the one we're measuring
-                    lookForCompensation(notification,1);
+                    bicepCompSens.determineCompensation(notification, constraintLayout, stimming);
                 }else if(notification.gatt.equals("wrist")) {
                     //put this code at the IMU we're measuring, and choose valueX,Y,Z based on axis
-                    lookForCompensation(notification,2);
+                    wristCompSens.determineCompensation(notification, constraintLayout, stimming);
                 }
                 else if(notification.gatt.equals("hand")){
                     textView.setText(Integer.toString((int)notification.valueX));
@@ -200,44 +198,7 @@ public class WristFlexion extends AppCompatActivity {
             }
         }
     };
-    public void lookForCompensation(BleNotification notif, int position){
-        if(notif.valueX> seekCompBicepXPos.getProgress()||notif.valueX<-1* seekCompBicepXNeg.getProgress()){
-            constraintLayout.setBackgroundColor(Color.parseColor("#cc0000"));
-            compensating=true;
-        }else if(notif.valueY> seekCompBicepYPos.getProgress()||notif.valueY<-1* seekCompBicepYNeg.getProgress()){
-            constraintLayout.setBackgroundColor(Color.parseColor("#cc0000"));
-            compensating=true;
-        }else if(notif.valueZ> seekCompBicepZ.getProgress()){//||notif.valueZ<seekCompBicepZ.getProgress()){//one day will need to have 2 seekbars? or range or something idk
-            constraintLayout.setBackgroundColor(Color.parseColor("#cc0000"));
-            compensating=true;
-        }else {
-            compensating = false;
-            if (!stimming) {
-                constraintLayout.setBackgroundColor(Color.parseColor("#ffffff"));
-            }
-            setSensorStatusBicepX("not compensating");
-            setSensorStatusBicepY("not compensating");
-            setSensorStatusBicepZ("not compensating");
-        }
-        setSensorStatusBicepX("X axis is "+notif.valueX+"should be "+ seekCompBicepXPos.getProgress()+" to "+-1* seekCompBicepXNeg.getProgress());
-        setSensorStatusBicepY("Y axis is "+notif.valueY+"should be "+ seekCompBicepYPos.getProgress()+" to "+-1* seekCompBicepYNeg.getProgress());
-        setSensorStatusBicepZ("Z axis is "+notif.valueZ+"should be less than"+ seekCompBicepZ.getProgress());
-        if(notif.valueX>0){
-            progCompBicepXPos.setProgress((int)notif.valueX);
-            progCompBicepXNeg.setProgress(0);
-        }else{
-            progCompBicepXNeg.setProgress(-1*(int)notif.valueX);
-            progCompBicepXPos.setProgress(0);
-        }
-        if(notif.valueY>0){
-            progCompBicepYPos.setProgress((int)notif.valueY);
-            progCompBicepYNeg.setProgress(0);
-        }else{
-            progCompBicepYNeg.setProgress(-1*(int)notif.valueY);
-            progCompBicepYPos.setProgress(0);
-        }
-        progCompBicepZ.setProgress((int)notif.valueZ);
-    }
+
 
     public void determineStim(int value){
         if(value>0){
