@@ -405,13 +405,13 @@ public class MainActivity extends AppCompatActivity {
             chestUI.connect.setBackgroundResource(R.drawable.chestyellow);
             bleService.searchingChest = true;
         }else if(position==1){
-            bicepUI.connect.setBackgroundResource(R.drawable.chestyellow);
+            bicepUI.connect.setBackgroundResource(R.drawable.bicepyellow);
             bleService.searchingBicep = true;
         }else if(position==2){
-            wristUI.connect.setBackgroundResource(R.drawable.ankleyellow);
+            wristUI.connect.setBackgroundResource(R.drawable.wristyellow);
             bleService.searchingWrist = true;
         }else if(position==3){
-            handUI.connect.setBackgroundResource(R.drawable.chestyellow);
+            handUI.connect.setBackgroundResource(R.drawable.handyellow);
             bleService.searchingHand = true;
         }
         bleService.scanner.startScan(bleService.mScanCallback);
