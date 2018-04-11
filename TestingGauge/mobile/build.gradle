@@ -46,7 +46,7 @@ dependencies {
     compile 'com.github.Triggertrap:SeekArc:v1.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'org.adw.library:discrete-seekbar:1.0.1'
-
+    compile 'pl.droidsonroids.gif:android-gif-drawable:1.2.4'
     compile 'no.nordicsemi.android:dfu:1.0.4'
     compile(group: 'org.eclipse.paho', name: 'org.eclipse.paho.android.service', version: '1.0.2') {
         exclude module: 'support-v4'
