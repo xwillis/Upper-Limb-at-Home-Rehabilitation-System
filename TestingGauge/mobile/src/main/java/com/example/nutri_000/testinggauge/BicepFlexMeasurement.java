@@ -32,18 +32,6 @@ SeekBar seekCompBicepYNeg;
 ProgressBar progCompBicepZ;
 SeekBar seekCompBicepZ;
 
-    ProgressBar progCompChestXPos;
-    ProgressBar progCompChestXNeg;
-    SeekBar seekCompChestXPos;
-    SeekBar seekCompChestXNeg;
-
-    ProgressBar progCompChestYPos;
-    ProgressBar progCompChestYNeg;
-    SeekBar seekCompChestYPos;
-    SeekBar seekCompChestYNeg;
-
-    ProgressBar progCompChestZ;
-    SeekBar seekCompChestZ;
 
 SeekBar seekBarBicepPos;
 SeekBar seekBarBicepNeg;
@@ -71,16 +59,6 @@ boolean stimming=false;
         seekCompBicepZ.setProgress(50);
         seekCompBicepZ.setMax(360);
         progCompBicepZ.setMax(360);
-
-        seekCompChestXNeg.setProgress(50);
-        seekCompChestXPos.setProgress(50);
-
-        seekCompChestYNeg.setProgress(50);
-        seekCompChestYPos.setProgress(50);
-
-        seekCompChestZ.setProgress(50);
-        seekCompChestZ.setMax(360);
-        progCompChestZ.setMax(360);
 
         registerReceiver(broadcastReceiver, new IntentFilter("bleService"));
     }
@@ -110,23 +88,6 @@ boolean stimming=false;
 
         progCompBicepZ =(ProgressBar)findViewById(R.id.progressBarCompBicepZ);
         seekCompBicepZ =(SeekBar) findViewById(R.id.seekBarCompBicepZ);
-
-        sensorStatusBicepX =(TextView)findViewById(R.id.SensorStatusBicepX);
-        sensorStatusBicepY =(TextView)findViewById(R.id.SensorStatusBicepY);
-        sensorStatusBicepZ =(TextView)findViewById(R.id.SensorStatusBicepZ);
-        //seek and progressbars for the x compensation for bicep
-        progCompChestXPos =(ProgressBar)findViewById(R.id.progressCompBicepXPos);
-        progCompChestXNeg =(ProgressBar)findViewById(R.id.progressBarCompBicepXNeg);
-        seekCompChestXPos =(SeekBar) findViewById(R.id.seekBarCompBicepXPos);
-        seekCompChestXNeg =(SeekBar)findViewById(R.id.seekBarCompBicepXNeg);
-
-        progCompChestYPos =(ProgressBar)findViewById(R.id.progressBarCompBicepYPos);
-        progCompChestYNeg =(ProgressBar)findViewById(R.id.progressBarCompBicepYNeg);
-        seekCompChestYPos =(SeekBar) findViewById(R.id.seekBarCompBicepYPos);
-        seekCompChestYNeg =(SeekBar)findViewById(R.id.seekBarCompBicepYNeg);
-
-        progCompChestZ =(ProgressBar)findViewById(R.id.progressBarCompBicepZ);
-        seekCompChestZ =(SeekBar) findViewById(R.id.seekBarCompBicepZ);
 
     }
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
