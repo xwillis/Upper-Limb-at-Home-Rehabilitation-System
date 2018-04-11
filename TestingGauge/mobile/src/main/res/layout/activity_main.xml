@@ -1218,6 +1218,78 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/seekBarHandZRight" />
+
+            <ImageButton
+                android:id="@+id/MenuBicepFlexPic"
+                android:layout_width="137dp"
+                android:layout_height="137dp"
+                android:layout_marginLeft="30dp"
+                android:background="@drawable/bicepfleximage"
+                android:onClick="startBicepFlex"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/Menu" />
+
+            <ImageButton
+                android:id="@+id/MenuShoulderAbductionPic"
+                android:layout_width="137dp"
+                android:layout_height="137dp"
+                android:layout_marginLeft="50dp"
+                android:background="@drawable/shoulderabductionimage"
+                android:onClick="startShoulderAbduction"
+                app:layout_constraintLeft_toRightOf="@+id/MenuBicepFlexPic"
+                app:layout_constraintTop_toBottomOf="@+id/Menu" />
+
+            <ImageButton
+                android:id="@+id/ShoulderFlexionPic"
+                android:layout_width="137dp"
+                android:layout_height="137dp"
+                android:layout_marginLeft="30dp"
+                android:background="@drawable/shoulderfleximage"
+                android:onClick="startShoulderFlexion"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/MenuBicepFlexPic" />
+
+            <ImageButton
+                android:id="@+id/ShoulderRotationPic"
+                android:layout_width="137dp"
+                android:layout_height="137dp"
+                android:layout_marginLeft="50dp"
+                android:background="@drawable/shoulderrotationimage"
+                android:onClick="startShoulderRotation"
+                app:layout_constraintLeft_toRightOf="@+id/MenuBicepFlexPic"
+                app:layout_constraintTop_toBottomOf="@+id/MenuShoulderAbductionPic" />
+
+            <ImageButton
+                android:id="@+id/MenuWristSupinationPic"
+                android:layout_width="137dp"
+                android:layout_height="137dp"
+                android:layout_marginLeft="30dp"
+                android:background="@drawable/wristsupimage"
+                android:onClick="startWristSupination"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ShoulderFlexionPic" />
+
+            <ImageButton
+                android:id="@+id/MenuWristDeflectionPic"
+                android:layout_width="137dp"
+                android:layout_height="137dp"
+                android:layout_marginLeft="50dp"
+                android:background="@drawable/wristdeflectionimage"
+                android:onClick="startWristDeflection"
+                app:layout_constraintLeft_toRightOf="@+id/MenuBicepFlexPic"
+                app:layout_constraintTop_toBottomOf="@+id/ShoulderRotationPic" />
+
+            <ImageButton
+                android:id="@+id/MenuWristFlexionPic"
+                android:layout_width="137dp"
+                android:layout_height="137dp"
+                android:background="@drawable/wristdeflectionimage"
+                android:onClick="startWristFlexion"
+                app:layout_constraintHorizontal_bias="0.516"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/MenuWristDeflectionPic" />
+
             <Button
                 android:id="@+id/MenuBicepFlex"
                 android:layout_width="wrap_content"
@@ -1227,7 +1299,7 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 tools:layout_editor_absoluteY="1200dp"
-                app:layout_constraintTop_toBottomOf="@+id/Menu"/>
+                app:layout_constraintTop_toBottomOf="@+id/MenuWristFlexionPic"/>
             <Button
                 android:id="@+id/MenuShoulderAbduction"
                 android:layout_width="wrap_content"

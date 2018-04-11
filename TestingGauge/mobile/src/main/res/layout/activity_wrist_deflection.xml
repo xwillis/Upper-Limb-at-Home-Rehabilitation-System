@@ -518,17 +518,17 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/SensorStatusWristZ" />
-            <ImageView
+
+            <pl.droidsonroids.gif.GifImageView
                 android:id="@+id/armPic"
-                android:layout_width="311dp"
+                android:layout_width="346dp"
                 android:layout_height="314dp"
-                android:layout_marginTop="5dp"
                 android:scaleType="center"
-                android:src="@drawable/armbent"
+                android:src="@drawable/wristdef"
                 app:layout_constraintHorizontal_bias="0.506"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/progressBarCompWristZ"/>
+                app:layout_constraintTop_toBottomOf="@id/progressBarCompWristZ" />
             <TextView
                 android:id="@+id/bicepValue"
                 android:layout_width="match_parent"
