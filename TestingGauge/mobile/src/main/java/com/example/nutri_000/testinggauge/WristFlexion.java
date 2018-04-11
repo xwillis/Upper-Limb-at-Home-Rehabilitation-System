@@ -34,6 +34,37 @@ public class WristFlexion extends AppCompatActivity {
     SeekBar seekCompBicepZ;
     //SeekBar seekCompZNeg;
 
+
+    ProgressBar progCompChestXPos;
+    ProgressBar progCompChestXNeg;
+    SeekBar seekCompChestXPos;
+    SeekBar seekCompChestXNeg;
+
+    ProgressBar progCompChestYPos;
+    ProgressBar progCompChestYNeg;
+    SeekBar seekCompChestYPos;
+    SeekBar seekCompChestYNeg;
+
+    ProgressBar progCompChestZ;
+    //ProgressBar progCompZNeg;
+    SeekBar seekCompChestZ;
+    //SeekBar seekCompZNeg;
+
+    ProgressBar progCompWristXPos;
+    ProgressBar progCompWristXNeg;
+    SeekBar seekCompWristXPos;
+    SeekBar seekCompWristXNeg;
+
+    ProgressBar progCompWristYPos;
+    ProgressBar progCompWristYNeg;
+    SeekBar seekCompWristYPos;
+    SeekBar seekCompWristYNeg;
+
+    ProgressBar progCompWristZ;
+    //ProgressBar progCompZNeg;
+    SeekBar seekCompWristZ;
+    //SeekBar seekCompZNeg;
+
     SeekBar seekBarBicepPos;
     SeekBar seekBarBicepNeg;
 
@@ -43,6 +74,15 @@ public class WristFlexion extends AppCompatActivity {
     private TextView sensorStatusBicepX;
     private TextView sensorStatusBicepY;
     private TextView sensorStatusBicepZ;
+
+    private TextView sensorStatusChestX;
+    private TextView sensorStatusChestY;
+    private TextView sensorStatusChestZ;
+
+    private TextView sensorStatusWristX;
+    private TextView sensorStatusWristY;
+    private TextView sensorStatusWristZ;
+
     boolean compensating=false;
     boolean stimming=false;
 
@@ -52,14 +92,18 @@ public class WristFlexion extends AppCompatActivity {
         setContentView(R.layout.activity_wrist_flexion);
         bindViews();
         seekCompBicepXNeg.setProgress(50);
+        seekCompBicepXNeg.setMax(180);
         seekCompBicepXPos.setProgress(50);
+        seekCompBicepXPos.setMax(180);
 
         seekCompBicepYNeg.setProgress(50);
+        seekCompBicepYNeg.setMax(180);
         seekCompBicepYPos.setProgress(50);
+        seekCompBicepYPos.setMax(180);
 
         seekCompBicepZ.setProgress(50);
-        seekCompBicepZ.setMax(180);
-        progCompBicepZ.setMax(180);
+        seekCompBicepZ.setMax(360);
+        progCompBicepZ.setMax(360);
 
         registerReceiver(broadcastReceiver, new IntentFilter("bleService"));
     }
@@ -89,6 +133,40 @@ public class WristFlexion extends AppCompatActivity {
         progCompBicepZ =(ProgressBar)findViewById(R.id.progressBarCompBicepZ);
         seekCompBicepZ =(SeekBar) findViewById(R.id.seekBarCompBicepZ);
 
+        sensorStatusChestX =(TextView)findViewById(R.id.SensorStatusChestX);
+        sensorStatusChestY =(TextView)findViewById(R.id.SensorStatusChestY);
+        sensorStatusChestZ =(TextView)findViewById(R.id.SensorStatusChestZ);
+
+        progCompChestXPos =(ProgressBar)findViewById(R.id.progressCompChestXPos);
+        progCompChestXNeg =(ProgressBar)findViewById(R.id.progressBarCompChestXNeg);
+        seekCompChestXPos =(SeekBar) findViewById(R.id.seekBarCompChestXPos);
+        seekCompChestXNeg =(SeekBar)findViewById(R.id.seekBarCompChestXNeg);
+
+        progCompChestYPos =(ProgressBar)findViewById(R.id.progressBarCompChestYPos);
+        progCompChestYNeg =(ProgressBar)findViewById(R.id.progressBarCompChestYNeg);
+        seekCompChestYPos =(SeekBar) findViewById(R.id.seekBarCompChestYPos);
+        seekCompChestYNeg =(SeekBar)findViewById(R.id.seekBarCompChestYNeg);
+
+        progCompChestZ =(ProgressBar)findViewById(R.id.progressBarCompChestZ);
+        seekCompChestZ =(SeekBar) findViewById(R.id.seekBarCompChestZ);
+
+        sensorStatusWristX =(TextView)findViewById(R.id.SensorStatusWristX);
+        sensorStatusWristY =(TextView)findViewById(R.id.SensorStatusWristY);
+        sensorStatusWristZ =(TextView)findViewById(R.id.SensorStatusWristZ);
+
+        progCompWristXPos =(ProgressBar)findViewById(R.id.progressCompWristXPos);
+        progCompWristXNeg =(ProgressBar)findViewById(R.id.progressBarCompWristXNeg);
+        seekCompWristXPos =(SeekBar) findViewById(R.id.seekBarCompWristXPos);
+        seekCompWristXNeg =(SeekBar)findViewById(R.id.seekBarCompWristXNeg);
+
+        progCompWristYPos =(ProgressBar)findViewById(R.id.progressBarCompWristYPos);
+        progCompWristYNeg =(ProgressBar)findViewById(R.id.progressBarCompWristYNeg);
+        seekCompWristYPos =(SeekBar) findViewById(R.id.seekBarCompWristYPos);
+        seekCompWristYNeg =(SeekBar)findViewById(R.id.seekBarCompWristYNeg);
+
+        progCompWristZ =(ProgressBar)findViewById(R.id.progressBarCompWristZ);
+        seekCompWristZ =(SeekBar) findViewById(R.id.seekBarCompWristZ);
+
     }
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
@@ -105,14 +183,14 @@ public class WristFlexion extends AppCompatActivity {
                 // Log.v(tag, "notification gatt is "+notification.gatt);
                 if (notification.gatt.equals("chest")) {
                     //put this code in all IMUs above the one we're measuring
-                    lookForCompensation(notification);
+                    lookForCompensation(notification,0);
 
                 }else if(notification.gatt.equals("bicep")) {
                     //put this code in all IMUs above the one we're measuring
-                    lookForCompensation(notification);
+                    lookForCompensation(notification,1);
                 }else if(notification.gatt.equals("wrist")) {
                     //put this code at the IMU we're measuring, and choose valueX,Y,Z based on axis
-                    lookForCompensation(notification);
+                    lookForCompensation(notification,2);
                 }
                 else if(notification.gatt.equals("hand")){
                     textView.setText(Integer.toString((int)notification.valueX));
@@ -122,7 +200,7 @@ public class WristFlexion extends AppCompatActivity {
             }
         }
     };
-    public void lookForCompensation(BleNotification notif){
+    public void lookForCompensation(BleNotification notif, int position){
         if(notif.valueX> seekCompBicepXPos.getProgress()||notif.valueX<-1* seekCompBicepXNeg.getProgress()){
             constraintLayout.setBackgroundColor(Color.parseColor("#cc0000"));
             compensating=true;
