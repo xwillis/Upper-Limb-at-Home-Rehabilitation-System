@@ -158,7 +158,7 @@ boolean stimming=false;
 
                     bicepCompSens.determineCompensation(notification,constraintLayout,stimming);
                 }else if(notification.gatt.equals("wrist")) {
-                    determineStim(notification);
+                    determineStim((int)notification.valueX);
                 }
                 else if(notification.gatt.equals("hand")){
 
@@ -168,19 +168,19 @@ boolean stimming=false;
         }
     };
 
-    public void determineStim(BleNotification notif){
-        if(notif.valueX>0){
-            progressBarBicepPos.setProgress((int)notif.valueX);
+    public void determineStim(int value){
+        if(value>0){
+            progressBarBicepPos.setProgress(value);
             progressBarBicepNeg.setProgress(0);
         }else{
-            progressBarBicepNeg.setProgress(-1*(int)notif.valueX);
+            progressBarBicepNeg.setProgress(-1*value);
             progressBarBicepPos.setProgress(0);
         }
         if(!compensating){
-            if(notif.valueX>0&&notif.valueX> seekBarBicepPos.getProgress()){
+            if(value>0&&value> seekBarBicepPos.getProgress()){
                 constraintLayout.setBackgroundColor(Color.parseColor("#66ff33"));
                 stimming=true;
-            } else if(notif.valueX<0&&notif.valueX<-1* seekBarBicepNeg.getProgress()){
+            } else if(value<0&&value<-1* seekBarBicepNeg.getProgress()){
                 constraintLayout.setBackgroundColor(Color.parseColor("#66ff33"));
                 stimming=true;
             }else{
