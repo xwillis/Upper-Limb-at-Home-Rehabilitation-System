@@ -1283,7 +1283,7 @@
                 android:id="@+id/MenuWristFlexionPic"
                 android:layout_width="137dp"
                 android:layout_height="137dp"
-                android:background="@drawable/wristdeflectionimage"
+                android:background="@drawable/wristflexionimage"
                 android:onClick="startWristFlexion"
                 app:layout_constraintHorizontal_bias="0.516"
                 app:layout_constraintLeft_toLeftOf="parent"
