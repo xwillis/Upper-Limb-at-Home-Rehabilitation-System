@@ -49,7 +49,7 @@ public class WristDeflection extends AppCompatActivity {
     private TextView sensorStatusBicepZ;
     boolean compensating=false;
     boolean stimming=false;
-
+//todo does not update progressbar for measured
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

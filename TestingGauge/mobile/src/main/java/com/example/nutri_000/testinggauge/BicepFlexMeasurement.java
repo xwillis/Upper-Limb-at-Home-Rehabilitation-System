@@ -50,7 +50,7 @@ private TextView sensorStatusBicepX;
     private TextView sensorStatusBicepZ;
 boolean compensating=false;
 boolean stimming=false;
-
+//todo does not update measured progress bar
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

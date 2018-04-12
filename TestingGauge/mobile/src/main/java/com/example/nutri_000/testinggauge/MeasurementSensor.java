@@ -6,31 +6,27 @@ import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 //todo does not update compensation bars on any
-public class CompensationSensor {
-    public ProgressBar[][] progressBars;
-    public SeekBar[][] seekBars;//0 is neg/left, 0-2 is x-z
+public class MeasurementSensor {
+    public ProgressBar[] progressBars;
+    public SeekBar[] seekBars;//0 is neg/left
     public TextView[] textViews;
 
     boolean compensating=false;
 
-    public CompensationSensor(ProgressBar[][] progressBars, SeekBar[][] seekBars, TextView[] textViews){
+    public MeasurementSensor(ProgressBar[] progressBars, SeekBar[] seekBars, TextView[] textViews){
         this.progressBars=progressBars;
         this.seekBars=seekBars;
         this.textViews=textViews;
-        for(int i=0;i<2;i++){
-            for(int ii=0;ii<2;ii++){
-                this.progressBars[ii][i].setMax(180);
-                this.seekBars[ii][i].setMax(180);
+        for(int i=0;i<1;i++){
 
-                this.progressBars[ii][i].setProgress(90);
-                this.seekBars[ii][i].setProgress(90);
-            }
+                this.progressBars[i].setMax(180);
+                this.seekBars[i].setMax(180);
+
+                this.progressBars[i].setProgress(90);
+                this.seekBars[i].setProgress(90);
+
         }
-        progressBars[0][2].setMax(360);
-        seekBars[0][2].setMax(360);
 
-        progressBars[0][2].setProgress(180);
-        seekBars[0][2].setProgress(180);
     }
     public void setProgressValues(BleNotification notification){
         if(notification.valueX>0){

@@ -161,6 +161,7 @@ public class ShoulderAbduction extends AppCompatActivity {
     };
 
 
+    //todo change this
     public void determineStim(int value){
         //this section just sets the progressbar values
         if(value>0){
