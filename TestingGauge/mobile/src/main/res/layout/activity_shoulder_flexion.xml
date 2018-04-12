@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/bicep_layout">
+    android:id="@+id/shoulderAbd_layout">
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -14,7 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
-                android:id="@+id/SensorStatusBicepX"
+                android:id="@+id/SensorStatusChestX"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
@@ -29,7 +29,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:layout_editor_absoluteY="0dp" />
             <ProgressBar
-                android:id="@+id/progressCompBicepXPos"
+                android:id="@+id/progressCompChestXPos"
                 style="@android:style/Widget.ProgressBar.Horizontal"
                 android:layout_width="180dp"
                 android:layout_height="wrap_content"
@@ -42,10 +42,10 @@
                 android:progressTint="#9933ff"
                 android:visibility="visible"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/SensorStatusBicepX"
+                app:layout_constraintTop_toBottomOf="@+id/SensorStatusChestX"
                 tools:visibility="visible" />
             <ProgressBar
-                android:id="@+id/progressBarCompBicepXNeg"
+                android:id="@+id/progressBarCompChestXNeg"
                 style="@android:style/Widget.ProgressBar.Horizontal"
                 android:layout_width="180dp"
                 android:layoutDirection="rtl"
@@ -57,28 +57,28 @@
                 android:progress="50"
                 android:progressTint="#9933ff"
                 android:visibility="visible"
-                app:layout_constraintTop_toTopOf="@+id/seekBarCompBicepXNeg"
+                app:layout_constraintTop_toTopOf="@+id/seekBarCompChestXNeg"
                 tools:visibility="visible" />
             <SeekBar
-                android:id="@+id/seekBarCompBicepXPos"
+                android:id="@+id/seekBarCompChestXPos"
                 android:layout_width="180dp"
                 android:layout_height="16dp"
                 android:layout_marginLeft="200dp"
                 android:rotation="0"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/SensorStatusBicepX" />
+                app:layout_constraintTop_toBottomOf="@id/SensorStatusChestX" />
             <SeekBar
-                android:id="@+id/seekBarCompBicepXNeg"
+                android:id="@+id/seekBarCompChestXNeg"
                 android:layout_width="180dp"
                 android:layout_height="16dp"
                 android:layoutDirection="rtl"
                 android:rotation="0"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/SensorStatusBicepX"
+                app:layout_constraintTop_toBottomOf="@id/SensorStatusChestX"
                 />
             <TextView
-                android:id="@+id/SensorStatusBicepY"
+                android:id="@+id/SensorStatusChestY"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
@@ -89,9 +89,9 @@
                 android:textSize="20dp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/progressCompBicepXPos" />
+                app:layout_constraintTop_toBottomOf="@id/progressCompChestXPos" />
             <ProgressBar
-                android:id="@+id/progressBarCompBicepYPos"
+                android:id="@+id/progressBarCompChestYPos"
                 style="@android:style/Widget.ProgressBar.Horizontal"
                 android:layout_width="180dp"
                 android:layout_height="wrap_content"
@@ -104,10 +104,10 @@
                 android:progressTint="#9933ff"
                 android:visibility="visible"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/seekBarCompBicepYPos"
+                app:layout_constraintTop_toTopOf="@+id/seekBarCompChestYPos"
                 tools:visibility="visible" />
             <ProgressBar
-                android:id="@+id/progressBarCompBicepYNeg"
+                android:id="@+id/progressBarCompChestYNeg"
                 style="@android:style/Widget.ProgressBar.Horizontal"
                 android:layout_width="180dp"
                 android:layoutDirection="rtl"
@@ -119,28 +119,28 @@
                 android:progress="50"
                 android:progressTint="#9933ff"
                 android:visibility="visible"
-                app:layout_constraintTop_toTopOf="@+id/seekBarCompBicepYNeg"
+                app:layout_constraintTop_toTopOf="@+id/seekBarCompChestYNeg"
                 tools:visibility="visible" />
             <SeekBar
-                android:id="@+id/seekBarCompBicepYPos"
+                android:id="@+id/seekBarCompChestYPos"
                 android:layout_width="180dp"
                 android:layout_height="16dp"
                 android:layout_marginLeft="200dp"
                 android:rotation="0"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/SensorStatusBicepY" />
+                app:layout_constraintTop_toBottomOf="@id/SensorStatusChestY" />
             <SeekBar
-                android:id="@+id/seekBarCompBicepYNeg"
+                android:id="@+id/seekBarCompChestYNeg"
                 android:layout_width="180dp"
                 android:layout_height="16dp"
                 android:layoutDirection="rtl"
                 android:rotation="0"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/SensorStatusBicepY"
+                app:layout_constraintTop_toBottomOf="@id/SensorStatusChestY"
                 />
             <TextView
-                android:id="@+id/SensorStatusBicepZ"
+                android:id="@+id/SensorStatusChestZ"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
@@ -151,9 +151,9 @@
                 android:textSize="20dp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/progressBarCompBicepYNeg" />
+                app:layout_constraintTop_toBottomOf="@+id/progressBarCompChestYNeg" />
             <ProgressBar
-                android:id="@+id/progressBarCompBicepZ"
+                android:id="@+id/progressBarCompChestZ"
                 style="@android:style/Widget.ProgressBar.Horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -165,16 +165,16 @@
                 android:progressTint="#9933ff"
                 android:visibility="visible"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/seekBarCompBicepZ"
+                app:layout_constraintTop_toTopOf="@+id/seekBarCompChestZ"
                 tools:visibility="visible" />
             <SeekBar
-                android:id="@+id/seekBarCompBicepZ"
+                android:id="@+id/seekBarCompChestZ"
                 android:layout_width="match_parent"
                 android:layout_height="16dp"
                 android:rotation="0"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/SensorStatusBicepZ" />
+                app:layout_constraintTop_toBottomOf="@id/SensorStatusChestZ" />
             <pl.droidsonroids.gif.GifImageView
                 android:id="@+id/armPic"
                 android:layout_width="311dp"
@@ -185,9 +185,9 @@
                 app:layout_constraintHorizontal_bias="0.506"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/progressBarCompBicepZ"/>
+                app:layout_constraintTop_toBottomOf="@id/progressBarCompChestZ"/>
             <TextView
-                android:id="@+id/bicepValue"
+                android:id="@+id/measuredValue"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Arm Value"
@@ -195,7 +195,7 @@
                 android:textSize="20dp"
                 app:layout_constraintTop_toBottomOf="@id/armPic"/>
             <ProgressBar
-                android:id="@+id/progressBarBicepFlexPos"
+                android:id="@+id/progressBarMeasuredPos"
                 style="@android:style/Widget.ProgressBar.Horizontal"
                 android:layout_width="180dp"
                 android:layout_height="wrap_content"
@@ -208,10 +208,10 @@
                 android:progressTint="#9933ff"
                 android:visibility="visible"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/seekBarBicepFlexPos"
+                app:layout_constraintTop_toTopOf="@+id/seekBarMeasuredPos"
                 tools:visibility="visible" />
             <ProgressBar
-                android:id="@+id/progressBarBicepFlexNeg"
+                android:id="@+id/progressBarMeasuredNeg"
                 style="@android:style/Widget.ProgressBar.Horizontal"
                 android:layout_width="180dp"
                 android:layoutDirection="rtl"
@@ -223,25 +223,25 @@
                 android:progress="50"
                 android:progressTint="#9933ff"
                 android:visibility="visible"
-                app:layout_constraintTop_toTopOf="@+id/seekBarBicepFlexNeg"
+                app:layout_constraintTop_toTopOf="@+id/seekBarMeasuredNeg"
                 tools:visibility="visible" />
             <SeekBar
-                android:id="@+id/seekBarBicepFlexPos"
+                android:id="@+id/seekBarMeasuredPos"
                 android:layout_width="180dp"
                 android:layout_height="16dp"
                 android:layout_marginLeft="200dp"
                 android:rotation="0"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/bicepValue" />
+                app:layout_constraintTop_toBottomOf="@id/measuredValue" />
             <SeekBar
-                android:id="@+id/seekBarBicepFlexNeg"
+                android:id="@+id/seekBarMeasuredNeg"
                 android:layout_width="180dp"
                 android:layout_height="16dp"
                 android:layoutDirection="rtl"
                 android:rotation="0"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/bicepValue"
+                app:layout_constraintTop_toBottomOf="@id/measuredValue"
                 />
             <ImageButton
                 android:id="@+id/returnHome"

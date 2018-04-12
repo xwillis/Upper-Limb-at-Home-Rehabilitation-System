@@ -16,37 +16,37 @@ import android.widget.TextView;
 
 public class ShoulderFlexion extends AppCompatActivity {
     String tag="ShoulderFlex";
-    ProgressBar progressBarBicepPos;
-    ProgressBar progressBarBicepNeg;
+    ProgressBar progressBarMeasuredPos;
+    ProgressBar progressBarMeasuredNeg;
 
-    ProgressBar progCompBicepXPos;
-    ProgressBar progCompBicepXNeg;
-    SeekBar seekCompBicepXPos;
-    SeekBar seekCompBicepXNeg;
+    ProgressBar progCompMeasuredXPos;
+    ProgressBar progCompMeasuredXNeg;
+    SeekBar seekCompMeasuredXPos;
+    SeekBar seekCompMeasuredXNeg;
 
-    ProgressBar progCompBicepYPos;
-    ProgressBar progCompBicepYNeg;
-    SeekBar seekCompBicepYPos;
-    SeekBar seekCompBicepYNeg;
+    ProgressBar progCompMeasuredYPos;
+    ProgressBar progCompMeasuredYNeg;
+    SeekBar seekCompMeasuredYPos;
+    SeekBar seekCompMeasuredYNeg;
 
-    ProgressBar progCompBicepZ;
+    ProgressBar progCompMeasuredZ;
     //ProgressBar progCompZNeg;
-    SeekBar seekCompBicepZ;
+    SeekBar seekCompMeasuredZ;
     //SeekBar seekCompZNeg;
 
-    SeekBar seekBarBicepPos;
-    SeekBar seekBarBicepNeg;
+    SeekBar seekBarMeasuredPos;
+    SeekBar seekBarMeasuredNeg;
 
     private CompensationSensor chestCompSens;
-    private CompensationSensor bicepCompSens;
+    private CompensationSensor MeasuredCompSens;
     private CompensationSensor wristCompSens;
 
     ConstraintLayout constraintLayout;
     ImageButton imageButton;
     TextView textView;
-    private TextView sensorStatusBicepX;
-    private TextView sensorStatusBicepY;
-    private TextView sensorStatusBicepZ;
+    private TextView sensorStatusMeasuredX;
+    private TextView sensorStatusMeasuredY;
+    private TextView sensorStatusMeasuredZ;
     boolean compensating=false;
     boolean stimming=false;
 
@@ -55,46 +55,37 @@ public class ShoulderFlexion extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shoulder_flexion);
         bindViews();
-        seekCompBicepXNeg.setProgress(50);
-        seekCompBicepXPos.setProgress(50);
-
-        seekCompBicepYNeg.setProgress(50);
-        seekCompBicepYPos.setProgress(50);
-
-        seekCompBicepZ.setProgress(50);
-        seekCompBicepZ.setMax(180);
-        progCompBicepZ.setMax(180);
 
         registerReceiver(broadcastReceiver, new IntentFilter("bleService"));
     }
     public void bindViews(){
-        progressBarBicepPos =(ProgressBar)findViewById(R.id.progressBarBicepFlexPos);
-        progressBarBicepNeg =(ProgressBar)findViewById(R.id.progressBarBicepFlexNeg);
-        seekBarBicepPos =(SeekBar)findViewById(R.id.seekBarBicepFlexPos);
-        seekBarBicepNeg =(SeekBar)findViewById(R.id.seekBarBicepFlexNeg);
-        constraintLayout=(ConstraintLayout)findViewById(R.id.bicep_layout);
+        progressBarMeasuredPos =(ProgressBar)findViewById(R.id.progressBarMeasuredPos);
+        progressBarMeasuredNeg =(ProgressBar)findViewById(R.id.progressBarMeasuredNeg);
+        seekBarMeasuredPos =(SeekBar)findViewById(R.id.seekBarMeasuredPos);
+        seekBarMeasuredNeg =(SeekBar)findViewById(R.id.seekBarMeasuredNeg);
+        constraintLayout=(ConstraintLayout)findViewById(R.id.shoulderAbd_layout);
         imageButton=(ImageButton)findViewById(R.id.returnHome);
-        textView=(TextView)findViewById(R.id.bicepValue);
+        textView=(TextView)findViewById(R.id.measuredValue);
 //prints out compensation values
-       /* sensorStatusBicepX =(TextView)findViewById(R.id.SensorStatusBicepX);
-        sensorStatusBicepY =(TextView)findViewById(R.id.SensorStatusBicepY);
-        sensorStatusBicepZ =(TextView)findViewById(R.id.SensorStatusBicepZ);
-        TextView[] bicepViews={sensorStatusBicepX,sensorStatusBicepY, sensorStatusBicepZ};
+       /* sensorStatusMeasuredX =(TextView)findViewById(R.id.SensorStatusMeasuredX);
+        sensorStatusMeasuredY =(TextView)findViewById(R.id.SensorStatusMeasuredY);
+        sensorStatusMeasuredZ =(TextView)findViewById(R.id.SensorStatusMeasuredZ);
+        TextView[] MeasuredViews={sensorStatusMeasuredX,sensorStatusMeasuredY, sensorStatusMeasuredZ};
 
-        progCompBicepXPos =(ProgressBar)findViewById(R.id.progressCompBicepXPos);
-        progCompBicepXNeg =(ProgressBar)findViewById(R.id.progressBarCompBicepXNeg);
-        seekCompBicepXPos =(SeekBar) findViewById(R.id.seekBarCompBicepXPos);
-        seekCompBicepXNeg =(SeekBar)findViewById(R.id.seekBarCompBicepXNeg);
+        progCompMeasuredXPos =(ProgressBar)findViewById(R.id.progressCompMeasuredXPos);
+        progCompMeasuredXNeg =(ProgressBar)findViewById(R.id.progressBarCompMeasuredXNeg);
+        seekCompMeasuredXPos =(SeekBar) findViewById(R.id.seekBarCompMeasuredXPos);
+        seekCompMeasuredXNeg =(SeekBar)findViewById(R.id.seekBarCompMeasuredXNeg);
 
-        progCompBicepYPos =(ProgressBar)findViewById(R.id.progressBarCompBicepYPos);
-        progCompBicepYNeg =(ProgressBar)findViewById(R.id.progressBarCompBicepYNeg);
-        seekCompBicepYPos =(SeekBar) findViewById(R.id.seekBarCompBicepYPos);
-        seekCompBicepYNeg =(SeekBar)findViewById(R.id.seekBarCompBicepYNeg);
+        progCompMeasuredYPos =(ProgressBar)findViewById(R.id.progressBarCompMeasuredYPos);
+        progCompMeasuredYNeg =(ProgressBar)findViewById(R.id.progressBarCompMeasuredYNeg);
+        seekCompMeasuredYPos =(SeekBar) findViewById(R.id.seekBarCompMeasuredYPos);
+        seekCompMeasuredYNeg =(SeekBar)findViewById(R.id.seekBarCompMeasuredYNeg);
 
-        progCompBicepZ =(ProgressBar)findViewById(R.id.progressBarCompBicepZ);
-        seekCompBicepZ =(SeekBar) findViewById(R.id.seekBarCompBicepZ);
-        ProgressBar[][] bicepProgress={{progCompBicepXNeg, progCompBicepYNeg, progCompBicepZ},{progCompBicepXPos, progCompBicepYPos}};
-        SeekBar[][] bicepSeek={{seekCompBicepXNeg, seekCompBicepYNeg, seekCompBicepZ},{seekCompBicepXPos, seekCompBicepYPos}};*/
+        progCompMeasuredZ =(ProgressBar)findViewById(R.id.progressBarCompMeasuredZ);
+        seekCompMeasuredZ =(SeekBar) findViewById(R.id.seekBarCompMeasuredZ);
+        ProgressBar[][] MeasuredProgress={{progCompMeasuredXNeg, progCompMeasuredYNeg, progCompMeasuredZ},{progCompMeasuredXPos, progCompMeasuredYPos}};
+        SeekBar[][] MeasuredSeek={{seekCompMeasuredXNeg, seekCompMeasuredYNeg, seekCompMeasuredZ},{seekCompMeasuredXPos, seekCompMeasuredYPos}};*/
         TextView sensorStatusChestX =(TextView)findViewById(R.id.SensorStatusChestX);
         TextView sensorStatusChestY =(TextView)findViewById(R.id.SensorStatusChestY);
         TextView sensorStatusChestZ =(TextView)findViewById(R.id.SensorStatusChestZ);
@@ -132,7 +123,7 @@ public class ShoulderFlexion extends AppCompatActivity {
         ProgressBar[][] wristProgress={{progCompWristXNeg, progCompWristYNeg, progCompWristZ},{progCompWristXPos, progCompWristYPos}};
         SeekBar[][] wristSeek={{seekCompWristXNeg, seekCompWristYNeg, seekCompWristZ},{seekCompWristXPos, seekCompWristYPos}};*/
         chestCompSens=new CompensationSensor(chestProgress, chestSeek, chestViews);
-        //bicepCompSens=new CompensationSensor(bicepProgress, bicepSeek, bicepViews);
+        //MeasuredCompSens=new CompensationSensor(MeasuredProgress, MeasuredSeek, MeasuredViews);
         //wristCompSens=new CompensationSensor(wristProgress, wristSeek, wristViews);
 
     }
@@ -170,17 +161,17 @@ public class ShoulderFlexion extends AppCompatActivity {
 
     public void determineStim(int value){
         if(value>0){
-            progressBarBicepPos.setProgress(value);
-            progressBarBicepNeg.setProgress(0);
+            progressBarMeasuredPos.setProgress(value);
+            progressBarMeasuredNeg.setProgress(0);
         }else{
-            progressBarBicepNeg.setProgress(-1*value);
-            progressBarBicepPos.setProgress(0);
+            progressBarMeasuredNeg.setProgress(-1*value);
+            progressBarMeasuredPos.setProgress(0);
         }
         if(!compensating){
-            if(value>0&&value> seekBarBicepPos.getProgress()){
+            if(value>0&&value> seekBarMeasuredPos.getProgress()){
                 constraintLayout.setBackgroundColor(Color.parseColor("#66ff33"));
                 stimming=true;
-            } else if(value<0&&value<-1* seekBarBicepNeg.getProgress()){
+            } else if(value<0&&value<-1* seekBarMeasuredNeg.getProgress()){
                 constraintLayout.setBackgroundColor(Color.parseColor("#66ff33"));
                 stimming=true;
             }else{
@@ -189,35 +180,35 @@ public class ShoulderFlexion extends AppCompatActivity {
             }
         }
     }
-    public void setSensorStatusBicepX(final String message) {
+    public void setSensorStatusMeasuredX(final String message) {
         //final String msg = "Sensor " + message;
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
 
-                sensorStatusBicepX.setText(message);
+                sensorStatusMeasuredX.setText(message);
 
             }
         });
     }
-    public void setSensorStatusBicepY(final String message) {
+    public void setSensorStatusMeasuredY(final String message) {
         //final String msg = "Sensor " + message;
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
 
-                sensorStatusBicepY.setText(message);
+                sensorStatusMeasuredY.setText(message);
 
             }
         });
     }
-    public void setSensorStatusBicepZ(final String message) {
+    public void setSensorStatusMeasuredZ(final String message) {
         //final String msg = "Sensor " + message;
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
 
-                sensorStatusBicepZ.setText(message);
+                sensorStatusMeasuredZ.setText(message);
 
             }
         });

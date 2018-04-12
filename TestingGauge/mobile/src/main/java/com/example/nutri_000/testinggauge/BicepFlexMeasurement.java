@@ -56,15 +56,6 @@ boolean stimming=false;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bicep_flex_measurement);
         bindViews();
-        seekCompBicepXNeg.setProgress(50);
-        seekCompBicepXPos.setProgress(50);
-
-        seekCompBicepYNeg.setProgress(50);
-        seekCompBicepYPos.setProgress(50);
-
-        seekCompBicepZ.setProgress(50);
-        seekCompBicepZ.setMax(360);
-        progCompBicepZ.setMax(360);
 
         registerReceiver(broadcastReceiver, new IntentFilter("bleService"));
     }
