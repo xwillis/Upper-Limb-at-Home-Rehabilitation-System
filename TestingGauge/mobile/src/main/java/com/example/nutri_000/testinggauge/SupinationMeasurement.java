@@ -113,7 +113,7 @@ public class SupinationMeasurement extends AppCompatActivity {
         SeekBar seekCompChestZ =(SeekBar) findViewById(R.id.seekBarCompChestZ);
         ProgressBar[][] chestProgress={{progCompChestXNeg, progCompChestYNeg, progCompChestZ},{progCompChestXPos, progCompChestYPos}};
         SeekBar[][] chestSeek={{seekCompChestXNeg, seekCompChestYNeg, seekCompChestZ},{seekCompChestXPos, seekCompChestYPos}};
-        TextView sensorStatusWristX =(TextView)findViewById(R.id.SensorStatusWristX);
+        /*TextView sensorStatusWristX =(TextView)findViewById(R.id.SensorStatusWristX);
         TextView sensorStatusWristY =(TextView)findViewById(R.id.SensorStatusWristY);
         TextView sensorStatusWristZ =(TextView)findViewById(R.id.SensorStatusWristZ);
         TextView[] wristViews={sensorStatusWristX,sensorStatusWristY, sensorStatusWristZ};
@@ -130,10 +130,10 @@ public class SupinationMeasurement extends AppCompatActivity {
         ProgressBar progCompWristZ =(ProgressBar)findViewById(R.id.progressBarCompWristZ);
         SeekBar seekCompWristZ =(SeekBar) findViewById(R.id.seekBarCompWristZ);
         ProgressBar[][] wristProgress={{progCompWristXNeg, progCompWristYNeg, progCompWristZ},{progCompWristXPos, progCompWristYPos}};
-        SeekBar[][] wristSeek={{seekCompWristXNeg, seekCompWristYNeg, seekCompWristZ},{seekCompWristXPos, seekCompWristYPos}};
+        SeekBar[][] wristSeek={{seekCompWristXNeg, seekCompWristYNeg, seekCompWristZ},{seekCompWristXPos, seekCompWristYPos}};*/
         chestCompSens=new CompensationSensor(chestProgress, chestSeek, chestViews);
         bicepCompSens=new CompensationSensor(bicepProgress, bicepSeek, bicepViews);
-        wristCompSens=new CompensationSensor(wristProgress, wristSeek, wristViews);
+        //wristCompSens=new CompensationSensor(wristProgress, wristSeek, wristViews);
 
     }
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {

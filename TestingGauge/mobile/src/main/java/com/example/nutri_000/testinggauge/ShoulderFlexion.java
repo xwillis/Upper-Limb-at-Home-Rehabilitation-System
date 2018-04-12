@@ -76,7 +76,7 @@ public class ShoulderFlexion extends AppCompatActivity {
         imageButton=(ImageButton)findViewById(R.id.returnHome);
         textView=(TextView)findViewById(R.id.bicepValue);
 //prints out compensation values
-        sensorStatusBicepX =(TextView)findViewById(R.id.SensorStatusBicepX);
+       /* sensorStatusBicepX =(TextView)findViewById(R.id.SensorStatusBicepX);
         sensorStatusBicepY =(TextView)findViewById(R.id.SensorStatusBicepY);
         sensorStatusBicepZ =(TextView)findViewById(R.id.SensorStatusBicepZ);
         TextView[] bicepViews={sensorStatusBicepX,sensorStatusBicepY, sensorStatusBicepZ};
@@ -94,7 +94,7 @@ public class ShoulderFlexion extends AppCompatActivity {
         progCompBicepZ =(ProgressBar)findViewById(R.id.progressBarCompBicepZ);
         seekCompBicepZ =(SeekBar) findViewById(R.id.seekBarCompBicepZ);
         ProgressBar[][] bicepProgress={{progCompBicepXNeg, progCompBicepYNeg, progCompBicepZ},{progCompBicepXPos, progCompBicepYPos}};
-        SeekBar[][] bicepSeek={{seekCompBicepXNeg, seekCompBicepYNeg, seekCompBicepZ},{seekCompBicepXPos, seekCompBicepYPos}};
+        SeekBar[][] bicepSeek={{seekCompBicepXNeg, seekCompBicepYNeg, seekCompBicepZ},{seekCompBicepXPos, seekCompBicepYPos}};*/
         TextView sensorStatusChestX =(TextView)findViewById(R.id.SensorStatusChestX);
         TextView sensorStatusChestY =(TextView)findViewById(R.id.SensorStatusChestY);
         TextView sensorStatusChestZ =(TextView)findViewById(R.id.SensorStatusChestZ);
@@ -113,7 +113,7 @@ public class ShoulderFlexion extends AppCompatActivity {
         SeekBar seekCompChestZ =(SeekBar) findViewById(R.id.seekBarCompChestZ);
         ProgressBar[][] chestProgress={{progCompChestXNeg, progCompChestYNeg, progCompChestZ},{progCompChestXPos, progCompChestYPos}};
         SeekBar[][] chestSeek={{seekCompChestXNeg, seekCompChestYNeg, seekCompChestZ},{seekCompChestXPos, seekCompChestYPos}};
-        TextView sensorStatusWristX =(TextView)findViewById(R.id.SensorStatusWristX);
+        /*TextView sensorStatusWristX =(TextView)findViewById(R.id.SensorStatusWristX);
         TextView sensorStatusWristY =(TextView)findViewById(R.id.SensorStatusWristY);
         TextView sensorStatusWristZ =(TextView)findViewById(R.id.SensorStatusWristZ);
         TextView[] wristViews={sensorStatusWristX,sensorStatusWristY, sensorStatusWristZ};
@@ -130,10 +130,10 @@ public class ShoulderFlexion extends AppCompatActivity {
         ProgressBar progCompWristZ =(ProgressBar)findViewById(R.id.progressBarCompWristZ);
         SeekBar seekCompWristZ =(SeekBar) findViewById(R.id.seekBarCompWristZ);
         ProgressBar[][] wristProgress={{progCompWristXNeg, progCompWristYNeg, progCompWristZ},{progCompWristXPos, progCompWristYPos}};
-        SeekBar[][] wristSeek={{seekCompWristXNeg, seekCompWristYNeg, seekCompWristZ},{seekCompWristXPos, seekCompWristYPos}};
+        SeekBar[][] wristSeek={{seekCompWristXNeg, seekCompWristYNeg, seekCompWristZ},{seekCompWristXPos, seekCompWristYPos}};*/
         chestCompSens=new CompensationSensor(chestProgress, chestSeek, chestViews);
-        bicepCompSens=new CompensationSensor(bicepProgress, bicepSeek, bicepViews);
-        wristCompSens=new CompensationSensor(wristProgress, wristSeek, wristViews);
+        //bicepCompSens=new CompensationSensor(bicepProgress, bicepSeek, bicepViews);
+        //wristCompSens=new CompensationSensor(wristProgress, wristSeek, wristViews);
 
     }
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
