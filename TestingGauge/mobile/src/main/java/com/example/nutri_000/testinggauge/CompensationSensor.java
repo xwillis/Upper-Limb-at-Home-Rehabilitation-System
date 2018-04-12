@@ -21,10 +21,16 @@ public class CompensationSensor {
             for(int ii=0;ii<2;ii++){
                 this.progressBars[ii][i].setMax(180);
                 this.seekBars[ii][i].setMax(180);
+
+                this.progressBars[ii][i].setProgress(90);
+                this.seekBars[ii][i].setProgress(90);
             }
         }
         progressBars[0][2].setMax(360);
         seekBars[0][2].setMax(360);
+
+        progressBars[0][2].setProgress(180);
+        seekBars[0][2].setProgress(180);
     }
     public void setProgressValues(BleNotification notification){
         if(notification.valueX>0){

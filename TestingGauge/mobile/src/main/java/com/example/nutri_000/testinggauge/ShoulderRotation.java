@@ -55,15 +55,6 @@ public class ShoulderRotation extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shoulder_rotation);
         bindViews();
-        seekCompBicepXNeg.setProgress(50);
-        seekCompBicepXPos.setProgress(50);
-
-        seekCompBicepYNeg.setProgress(50);
-        seekCompBicepYPos.setProgress(50);
-
-        seekCompBicepZ.setProgress(50);
-        seekCompBicepZ.setMax(180);
-        progCompBicepZ.setMax(180);
 
         registerReceiver(broadcastReceiver, new IntentFilter("bleService"));
     }
