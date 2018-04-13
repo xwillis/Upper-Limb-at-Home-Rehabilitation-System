@@ -120,27 +120,7 @@ public class ShoulderRotation extends AppCompatActivity {
     };
 
 
-    public void determineStim(int value){
-        if(value>0){
-            progressBarMeasuredPos.setProgress(value);
-            progressBarMeasuredNeg.setProgress(0);
-        }else{
-            progressBarMeasuredNeg.setProgress(-1*value);
-            progressBarMeasuredPos.setProgress(0);
-        }
-        if(!compensating){
-            if(value>0&&value> seekBarMeasuredPos.getProgress()){
-                constraintLayout.setBackgroundColor(Color.parseColor("#66ff33"));
-                stimming=true;
-            } else if(value<0&&value<-1* seekBarMeasuredNeg.getProgress()){
-                constraintLayout.setBackgroundColor(Color.parseColor("#66ff33"));
-                stimming=true;
-            }else{
-                constraintLayout.setBackgroundColor(Color.parseColor("#ffffff"));
-                stimming=false;
-            }
-        }
-    }
+
     public void returnToMain(View v){
         unregisterReceiver(broadcastReceiver);
         finish();

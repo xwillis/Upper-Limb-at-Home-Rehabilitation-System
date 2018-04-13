@@ -159,66 +159,8 @@ public class ShoulderAbduction extends AppCompatActivity {
             }
         }
     };
-
-
-    //todo change this
-    public void determineStim(int value){
-        //this section just sets the progressbar values
-        if(value>0){
-            progressBarBicepPos.setProgress(value);
-            progressBarBicepNeg.setProgress(0);
-        }else{
-            progressBarBicepNeg.setProgress(-1*value);
-            progressBarBicepPos.setProgress(0);
-        }
-        //this section determines if stim or not
-        if(!compensating){
-            if(value>0&&value>seekBarBicepPos.getProgress()){
-                constraintLayout.setBackgroundColor(Color.parseColor("#66ff33"));
-                stimming=true;
-            } else if(value<0&&value<-1*seekBarBicepNeg.getProgress()){
-                constraintLayout.setBackgroundColor(Color.parseColor("#66ff33"));
-                stimming=true;
-            }else{
-                constraintLayout.setBackgroundColor(Color.parseColor("#ffffff"));
-                stimming=false;
-            }
-        }
-    }
-    public void setSensorStatusX(final String message) {
-        //final String msg = "Sensor " + message;
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-
-                sensorStatusBicepX.setText(message);
-
-            }
-        });
-    }
-    public void setSensorStatusY(final String message) {
-        //final String msg = "Sensor " + message;
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-
-                sensorStatusBicepY.setText(message);
-
-            }
-        });
-    }
-    public void setSensorStatusZ(final String message) {
-        //final String msg = "Sensor " + message;
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-
-                sensorStatusBicepZ.setText(message);
-
-            }
-        });
-    }
     public void returnToMain(View v){
+        unregisterReceiver(broadcastReceiver);
         finish();
     }
 

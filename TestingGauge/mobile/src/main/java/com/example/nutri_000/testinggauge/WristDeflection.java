@@ -159,63 +159,8 @@ public class WristDeflection extends AppCompatActivity {
             }
         }
     };
-
-
-    public void determineStim(int value){
-        if(value>0){
-            progressBarBicepPos.setProgress(value);
-            progressBarBicepNeg.setProgress(0);
-        }else{
-            progressBarBicepNeg.setProgress(-1*value);
-            progressBarBicepPos.setProgress(0);
-        }
-        if(!compensating){
-            if(value>0&&value> seekBarBicepPos.getProgress()){
-                constraintLayout.setBackgroundColor(Color.parseColor("#66ff33"));
-                stimming=true;
-            } else if(value<0&&value<-1* seekBarBicepNeg.getProgress()){
-                constraintLayout.setBackgroundColor(Color.parseColor("#66ff33"));
-                stimming=true;
-            }else{
-                constraintLayout.setBackgroundColor(Color.parseColor("#ffffff"));
-                stimming=false;
-            }
-        }
-    }
-    public void setSensorStatusBicepX(final String message) {
-        //final String msg = "Sensor " + message;
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-
-                sensorStatusBicepX.setText(message);
-
-            }
-        });
-    }
-    public void setSensorStatusBicepY(final String message) {
-        //final String msg = "Sensor " + message;
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-
-                sensorStatusBicepY.setText(message);
-
-            }
-        });
-    }
-    public void setSensorStatusBicepZ(final String message) {
-        //final String msg = "Sensor " + message;
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-
-                sensorStatusBicepZ.setText(message);
-
-            }
-        });
-    }
     public void returnToMain(View v){
+        unregisterReceiver(broadcastReceiver);
         finish();
     }
 }

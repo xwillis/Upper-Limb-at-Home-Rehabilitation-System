@@ -17,72 +17,7 @@ import android.widget.TextView;
 
 public class WristFlexion extends AppCompatActivity {
     String tag="ShoulderAb";
-    /*ProgressBar progressBarBicepPos;
-    ProgressBar progressBarBicepNeg;
 
-    ProgressBar progCompBicepXPos;
-    ProgressBar progCompBicepXNeg;
-    SeekBar seekCompBicepXPos;
-    SeekBar seekCompBicepXNeg;
-
-    ProgressBar progCompBicepYPos;
-    ProgressBar progCompBicepYNeg;
-    SeekBar seekCompBicepYPos;
-    SeekBar seekCompBicepYNeg;
-
-    ProgressBar progCompBicepZ;
-    //ProgressBar progCompZNeg;
-    SeekBar seekCompBicepZ;
-    //SeekBar seekCompZNeg;
-
-
-    ProgressBar progCompChestXPos;
-    ProgressBar progCompChestXNeg;
-    SeekBar seekCompChestXPos;
-    SeekBar seekCompChestXNeg;
-
-    ProgressBar progCompChestYPos;
-    ProgressBar progCompChestYNeg;
-    SeekBar seekCompChestYPos;
-    SeekBar seekCompChestYNeg;
-
-    ProgressBar progCompChestZ;
-    //ProgressBar progCompZNeg;
-    SeekBar seekCompChestZ;
-    //SeekBar seekCompZNeg;
-
-    ProgressBar progCompWristXPos;
-    ProgressBar progCompWristXNeg;
-    SeekBar seekCompWristXPos;
-    SeekBar seekCompWristXNeg;
-
-    ProgressBar progCompWristYPos;
-    ProgressBar progCompWristYNeg;
-    SeekBar seekCompWristYPos;
-    SeekBar seekCompWristYNeg;
-
-    ProgressBar progCompWristZ;
-    //ProgressBar progCompZNeg;
-    SeekBar seekCompWristZ;
-    //SeekBar seekCompZNeg;
-
-    SeekBar seekBarBicepPos;
-    SeekBar seekBarBicepNeg;
-
-
-
-    TextView textView;
-    private TextView sensorStatusBicepX;
-    private TextView sensorStatusBicepY;
-    private TextView sensorStatusBicepZ;
-
-    private TextView sensorStatusChestX;
-    private TextView sensorStatusChestY;
-    private TextView sensorStatusChestZ;
-
-    private TextView sensorStatusWristX;
-    private TextView sensorStatusWristY;
-    private TextView sensorStatusWristZ;*/
     ConstraintLayout constraintLayout;
     ImageButton imageButton;
     private MeasurementSensor handMeasSens;
@@ -90,8 +25,6 @@ public class WristFlexion extends AppCompatActivity {
     private CompensationSensor bicepCompSens;
     private CompensationSensor wristCompSens;
 
-    /*boolean compensating=false;
-    boolean stimming=false;*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -164,39 +97,6 @@ public class WristFlexion extends AppCompatActivity {
         }
     };
 
-   /* public void setSensorStatusBicepX(final String message) {
-        //final String msg = "Sensor " + message;
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-
-                sensorStatusBicepX.setText(message);
-
-            }
-        });
-    }
-    public void setSensorStatusBicepY(final String message) {
-        //final String msg = "Sensor " + message;
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-
-                sensorStatusBicepY.setText(message);
-
-            }
-        });
-    }
-    public void setSensorStatusBicepZ(final String message) {
-        //final String msg = "Sensor " + message;
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-
-                sensorStatusBicepZ.setText(message);
-
-            }
-        });
-    }*/
     public void returnToMain(View v){
         unregisterReceiver(broadcastReceiver);
         finish();
