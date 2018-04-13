@@ -2,11 +2,13 @@ package com.example.nutri_000.testinggauge;
 
 import android.graphics.Color;
 import android.support.constraint.ConstraintLayout;
+import android.util.Log;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 //todo does not update compensation bars on any
 public class CompensationSensor {
+    String tag="Compensation Sensor";
     public ProgressBar[][] progressBars;
     public SeekBar[][] seekBars;//0 is neg/left, 0-2 is x-z
     public TextView[] textViews;
@@ -62,6 +64,7 @@ public class CompensationSensor {
         }else {
             compensating = false;
             if (!stimming) {
+                //Log.d(tag, "Background -> white, not compensating or stimming");
                 constraintLayout.setBackgroundColor(Color.parseColor("#ffffff"));
             }
         }
