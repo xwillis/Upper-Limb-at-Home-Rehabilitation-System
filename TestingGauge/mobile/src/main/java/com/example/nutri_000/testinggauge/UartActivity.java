@@ -115,7 +115,10 @@ public class UartActivity extends UartInterfaceActivity implements MqttManager.M
     private int maxPacketsToPaintAsText;
 
     //store flex sensor values in array
-    float[] arrayFlexValues;
+    int[] flexSensor = {19,22,411,4,41};
+    double angle;
+    double[] angleArray;
+    double[] flexSensorArray;
 
 
     @Override
@@ -624,13 +627,18 @@ public class UartActivity extends UartInterfaceActivity implements MqttManager.M
                 //display bytes received to strings
                 String s = new String(bytes);
                 System.out.println("Text Decrypted: " + s);
-                //convert flex sensor resistance value received to int
-                float resistance = Float.parseFloat(s);
-                //calibration equation between resistance and angle
-                //double angle = (resistance - 121612)/1594.5;
-                //System.out.println("Angle from Calibration equation: " + angle);
 
-                //store values read from flex sensor
+                //convert flex sensor resistance value received to int
+                //float resistance = Float.parseFloat(s);
+
+                //store the first five resistance values in an array
+                //thumb, index finger, middle finger, ring finger, pinky
+                for (int i =0;i<=5;i++){
+                    //pass resistance values into corresponding calibration curve equations
+                    angleArray[i] = flexSensorCalibration(flexSensorArray[i], flexSensor[i]);
+                    System.out.println("Flex sensor: " + flexSensor[i] + " Angle: " + angleArray[i]);
+
+                }
 
 
 
@@ -862,4 +870,73 @@ public class UartActivity extends UartInterfaceActivity implements MqttManager.M
         }
     }
     // endregion
+
+    //flex sensor calibration curve equations
+    public double flexSensorCalibration(double resistance, int flexSensor){
+        if(flexSensor == 19) {
+            //Sensor 19
+            angle = (resistance - 93538) / 1544.5;
+        }
+        else if(flexSensor == 22) {
+            //Sensor 22
+            angle = (resistance - 120436) / 1963.4;
+        }
+        else if(flexSensor == 411) {
+            //Sensor 4 with tape
+            angle = (resistance - 125951) / 1872.2;
+        }
+        else if(flexSensor == 4) {
+            //Sensor 4
+            angle = (resistance - 73942) / 1627.7;
+        }
+        else if(flexSensor == 41) {
+            // Sensor 41
+            angle = (resistance - 117017) / 1083.9;
+        }
+        else if(flexSensor == 27) {
+            // Sensor 27
+            angle = (resistance - 93086) / 1878.2;
+        }
+        else if(flexSensor == 26) {
+            // Sensor 26
+            angle = (resistance - 167201) / 1596.2;
+        }
+        else if(flexSensor == 11) {
+            // Sensor 11
+            angle = (resistance - 99423) / 1950;
+        }
+        else if(flexSensor == 9) {
+            // Sensor 9
+            angle = (resistance - 11448) / 2096.8;
+        }
+        else if(flexSensor == 2) {
+            // Sensor 2
+            angle = (resistance - 103636) / 805.89;
+        }
+        else if(flexSensor == 221) {
+            // Sensor 22 que?
+            angle = (resistance - 139338) / 1552.8;
+        }
+        else if(flexSensor == 7) {
+            // Sensor 7
+            angle = (resistance - 174899) / 633.01;
+        }
+        else if(flexSensor == 54) {
+            // Sensor 54
+            angle = (resistance - 151423) / 1884.2;
+        }
+        else if(flexSensor == 8) {
+            // Sensor 8
+            angle = (resistance - 118637) / 1729.6;
+        }
+        else if(flexSensor == 211) {
+            // Sensor 2 yolo
+            angle = (resistance - 131169) / 1699.1;
+        }
+
+        return angle;
+    }
+
+
+
 }
