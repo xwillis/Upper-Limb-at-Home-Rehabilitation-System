@@ -624,25 +624,44 @@ public class UartActivity extends UartInterfaceActivity implements MqttManager.M
             if (characteristic.getUuid().toString().equalsIgnoreCase(UUID_RX)) {
                 final byte[] bytes = characteristic.getValue();
 
-                //display bytes received to strings
-                String s = new String(bytes);
-                System.out.println("Text Decrypted: " + s);
+                //look for 0xFF
 
+
+                //convert bytes to float value
+                //ByteBuffer buf = ByteBuffer.wrap(bytes);
+                //float value = ByteBuffer.wrap(bytes).getFloat();
+                //float value = byteValue(bytes);
+                //System.out.println("byteValue: " + value);
+                //display bytes received to strings
+                 //String s = new String(bytes);
+                //System.out.println("Text Decrypted: " + s);
+
+                /*
                 //convert flex sensor resistance value received to int
                 //float resistance = Float.parseFloat(s);
 
                 //store the first five resistance values in an array
                 //thumb, index finger, middle finger, ring finger, pinky
-                for (int i =0;i<=5;i++){
+                flexSensorArray=new double[10];
+                angleArray = new double[10];
+                for (int i =0;i<5;i++){
+                    float resistance = Float.parseFloat(s);
+                    Log.v(tag, "Calibrating flex sensors");
+                    //store resistance values in array
+                    flexSensorArray[i] = resistance;
+                    System.out.println("flexSensor array value: " + flexSensorArray[i] + " value: " + i);
                     //pass resistance values into corresponding calibration curve equations
                     angleArray[i] = flexSensorCalibration(flexSensorArray[i], flexSensor[i]);
                     System.out.println("Flex sensor: " + flexSensor[i] + " Angle: " + angleArray[i]);
 
-                }
+                }*/
+
 
 
 
                 mReceivedBytes += bytes.length;
+
+                //System.out.println("Bytes length: " + bytes.length);
 
                 final UartDataChunk dataChunk = new UartDataChunk(System.currentTimeMillis(), UartDataChunk.TRANSFERMODE_RX, bytes);
                 mDataBuffer.add(dataChunk);

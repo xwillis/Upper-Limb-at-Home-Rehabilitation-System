@@ -22,8 +22,5 @@ class UartDataChunk {
         return mMode;
     }
 
-    public byte[] getData() {
-
-        return mData;
-    }
+    public byte[] getData() { return mData; }
 }
