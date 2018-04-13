@@ -15,40 +15,13 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 public class ShoulderRotation extends AppCompatActivity {
-    String tag="ShoulderAb";
-    ProgressBar progressBarMeasuredPos;
-    ProgressBar progressBarMeasuredNeg;
+    String tag="ShoulderRot";
 
-    ProgressBar progCompMeasuredXPos;
-    ProgressBar progCompMeasuredXNeg;
-    SeekBar seekCompMeasuredXPos;
-    SeekBar seekCompMeasuredXNeg;
-
-    ProgressBar progCompMeasuredYPos;
-    ProgressBar progCompMeasuredYNeg;
-    SeekBar seekCompMeasuredYPos;
-    SeekBar seekCompMeasuredYNeg;
-
-    ProgressBar progCompMeasuredZ;
-    //ProgressBar progCompZNeg;
-    SeekBar seekCompMeasuredZ;
-    //SeekBar seekCompZNeg;
-
-    SeekBar seekBarMeasuredPos;
-    SeekBar seekBarMeasuredNeg;
-
+    private MeasurementSensor bicepMeasSens;
     private CompensationSensor chestCompSens;
-    private CompensationSensor MeasuredCompSens;
-    private CompensationSensor wristCompSens;
 
     ConstraintLayout constraintLayout;
     ImageButton imageButton;
-    TextView textView;
-    private TextView sensorStatusMeasuredX;
-    private TextView sensorStatusMeasuredY;
-    private TextView sensorStatusMeasuredZ;
-    boolean compensating=false;
-    boolean stimming=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,33 +32,19 @@ public class ShoulderRotation extends AppCompatActivity {
         registerReceiver(broadcastReceiver, new IntentFilter("bleService"));
     }
     public void bindViews(){
-        progressBarMeasuredPos =(ProgressBar)findViewById(R.id.progressBarMeasuredPos);
-        progressBarMeasuredNeg =(ProgressBar)findViewById(R.id.progressBarMeasuredNeg);
-        seekBarMeasuredPos =(SeekBar)findViewById(R.id.seekBarMeasuredPos);
-        seekBarMeasuredNeg =(SeekBar)findViewById(R.id.seekBarMeasuredNeg);
-        constraintLayout=(ConstraintLayout)findViewById(R.id.shoulderAbd_layout);
-        imageButton=(ImageButton)findViewById(R.id.returnHome);
-        textView=(TextView)findViewById(R.id.measuredValue);
-//prints out compensation values
-        TextView sensorStatusChestX =(TextView)findViewById(R.id.SensorStatusChestX);
-        TextView sensorStatusChestY =(TextView)findViewById(R.id.SensorStatusChestY);
-        TextView sensorStatusChestZ =(TextView)findViewById(R.id.SensorStatusChestZ);
-        TextView[] chestViews={sensorStatusChestX,sensorStatusChestY, sensorStatusChestZ};
-        ProgressBar progCompChestXPos =(ProgressBar)findViewById(R.id.progressCompChestXPos);
-        ProgressBar progCompChestXNeg =(ProgressBar)findViewById(R.id.progressBarCompChestXNeg);
-        SeekBar seekCompChestXPos =(SeekBar) findViewById(R.id.seekBarCompChestXPos);
-        SeekBar seekCompChestXNeg =(SeekBar)findViewById(R.id.seekBarCompChestXNeg);
+        constraintLayout=(ConstraintLayout)findViewById(R.id.bicep_layout);
+        ImageButton imageButton=(ImageButton)findViewById(R.id.returnHome);
 
-        ProgressBar progCompChestYPos =(ProgressBar)findViewById(R.id.progressBarCompChestYPos);
-        ProgressBar progCompChestYNeg =(ProgressBar)findViewById(R.id.progressBarCompChestYNeg);
-        SeekBar seekCompChestYPos =(SeekBar) findViewById(R.id.seekBarCompChestYPos);
-        SeekBar seekCompChestYNeg =(SeekBar)findViewById(R.id.seekBarCompChestYNeg);
-
-        ProgressBar progCompChestZ =(ProgressBar)findViewById(R.id.progressBarCompChestZ);
-        SeekBar seekCompChestZ =(SeekBar) findViewById(R.id.seekBarCompChestZ);
-        ProgressBar[][] chestProgress={{progCompChestXNeg, progCompChestYNeg, progCompChestZ},{progCompChestXPos, progCompChestYPos}};
-        SeekBar[][] chestSeek={{seekCompChestXNeg, seekCompChestYNeg, seekCompChestZ},{seekCompChestXPos, seekCompChestYPos}};
+        ProgressBar[][] chestProgress={{(ProgressBar)findViewById(R.id.progressBarCompChestXNeg), (ProgressBar)findViewById(R.id.progressBarCompChestYNeg), (ProgressBar)findViewById(R.id.progressBarCompChestZ)},
+                {(ProgressBar)findViewById(R.id.progressCompChestXPos), (ProgressBar)findViewById(R.id.progressBarCompChestYPos)}};
+        SeekBar[][] chestSeek={{(SeekBar)findViewById(R.id.seekBarCompChestXNeg), (SeekBar)findViewById(R.id.seekBarCompChestYNeg), (SeekBar) findViewById(R.id.seekBarCompChestZ)},
+                {(SeekBar) findViewById(R.id.seekBarCompChestXPos), (SeekBar) findViewById(R.id.seekBarCompChestYPos)}};
+        TextView[] chestViews={(TextView)findViewById(R.id.SensorStatusChestX),(TextView)findViewById(R.id.SensorStatusChestY), (TextView)findViewById(R.id.SensorStatusChestZ)};
         chestCompSens=new CompensationSensor(chestProgress, chestSeek, chestViews);
+
+        ProgressBar[] measProg = {(ProgressBar)findViewById(R.id.progressBarMeasuredNeg), (ProgressBar)findViewById(R.id.progressBarMeasuredPos)};
+        SeekBar[] measSeek={(SeekBar)findViewById(R.id.seekBarMeasuredNeg), (SeekBar)findViewById(R.id.seekBarMeasuredPos)};
+        bicepMeasSens=new MeasurementSensor(measProg,measSeek,(TextView)findViewById(R.id.measuredValue));
 
     }
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
@@ -103,11 +62,11 @@ public class ShoulderRotation extends AppCompatActivity {
                 // Log.v(tag, "notification gatt is "+notification.gatt);
                 if (notification.gatt.equals("chest")) {
                     //put this code in all IMUs above the one we're measuring
-                    chestCompSens.determineCompensation(notification,constraintLayout,stimming);
+                    chestCompSens.determineCompensation(notification,constraintLayout,bicepMeasSens.stimming);
 
                 }else if(notification.gatt.equals("bicep")) {
                     //put this code at the IMU we're measuring, and choose valueX,Y,Z based on axis
-                    determineStim((int)notification.valueY);
+                    bicepMeasSens.determineStim((int)notification.valueY,constraintLayout,chestCompSens.compensating);
                 }else if(notification.gatt.equals("wrist")) {
                     //leave IMUs below the measured IMU blank
                 }

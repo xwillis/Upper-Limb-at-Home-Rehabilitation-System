@@ -16,7 +16,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 public class WristFlexion extends AppCompatActivity {
-    String tag="ShoulderAb";
+    String tag="WristFl";
 
     ConstraintLayout constraintLayout;
     ImageButton imageButton;
