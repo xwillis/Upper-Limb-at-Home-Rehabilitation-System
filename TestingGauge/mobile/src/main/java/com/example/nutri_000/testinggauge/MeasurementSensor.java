@@ -11,7 +11,7 @@ public class MeasurementSensor {
     public SeekBar[] seekBars;//0 is neg/left
     public TextView[] textViews;
 
-    boolean compensating=false;
+    boolean stimming=false;
 
     public MeasurementSensor(ProgressBar[] progressBars, SeekBar[] seekBars, TextView[] textViews){
         this.progressBars=progressBars;
@@ -24,45 +24,34 @@ public class MeasurementSensor {
 
                 this.progressBars[i].setProgress(90);
                 this.seekBars[i].setProgress(90);
-
         }
 
     }
-    public void setProgressValues(BleNotification notification){
-        if(notification.valueX>0){
-            progressBars[1][0].setProgress((int)notification.valueX);
-            progressBars[0][0].setProgress(0);
+
+    public void setProgressValues(int value){
+        if(value>0){
+            progressBars[1].setProgress(value);
+            progressBars[0].setProgress(0);
         }else{
-            progressBars[0][0].setProgress(-1*(int)notification.valueX);
-            progressBars[1][0].setProgress(0);
+            progressBars[0].setProgress(-1*value);
+            progressBars[1].setProgress(0);
         }
-        if(notification.valueY>0){
-            progressBars[1][1].setProgress((int)notification.valueY);
-            progressBars[0][1].setProgress(0);
-        }else{
-            progressBars[0][1].setProgress(-1*(int)notification.valueY);
-            progressBars[1][1].setProgress(0);
-        }
-        progressBars[0][2].setProgress((int)notification.valueZ);
     }
-    public void determineCompensation(BleNotification notification, ConstraintLayout constraintLayout, boolean stimming){
-        if(notification.valueX> seekBars[1][0].getProgress()||notification.valueX<-1* seekBars[0][0].getProgress()){
-            constraintLayout.setBackgroundColor(Color.parseColor("#cc0000"));
-            compensating=true;
-        }else if(notification.valueY> seekBars[1][1].getProgress()||notification.valueY<-1* seekBars[0][1].getProgress()){
-            constraintLayout.setBackgroundColor(Color.parseColor("#cc0000"));
-            compensating=true;
-        }else if(notification.valueZ> seekBars[0][2].getProgress()){
-            constraintLayout.setBackgroundColor(Color.parseColor("#cc0000"));
-            compensating=true;
-        }else {
-            compensating = false;
-            if (!stimming) {
-                constraintLayout.setBackgroundColor(Color.parseColor("#ffffff"));
+
+    public void determineStim(int value,ConstraintLayout constraintLayout, boolean compensating){
+            setProgressValues(value);
+            if(!compensating){
+                if(value>0&&value> seekBars[1].getProgress()){
+                    constraintLayout.setBackgroundColor(Color.parseColor("#66ff33"));
+                    stimming=true;
+                } else if(value<0&&value<-1* seekBars[0].getProgress()){
+                    constraintLayout.setBackgroundColor(Color.parseColor("#66ff33"));
+                    stimming=true;
+                }else{
+                    constraintLayout.setBackgroundColor(Color.parseColor("#ffffff"));
+                    stimming=false;
+                }
             }
-        }
-
-        setProgressValues(notification);
 
     }
 }
