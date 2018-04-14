@@ -40,6 +40,7 @@ public class MeasurementSensor {
             progressBars[0].setProgress(-1*value);
             progressBars[1].setProgress(0);
         }
+        textView.setText(value+"/"+seekBars[1].getProgress()+" or "+(-1)*seekBars[0].getProgress());
     }
 
     public void determineStim(int value,ConstraintLayout constraintLayout, boolean compensating){

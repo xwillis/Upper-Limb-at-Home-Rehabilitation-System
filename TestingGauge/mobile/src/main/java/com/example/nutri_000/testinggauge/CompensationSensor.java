@@ -50,6 +50,9 @@ public class CompensationSensor {
             progressBars[1][1].setProgress(0);
         }
         progressBars[0][2].setProgress((int)notification.valueZ);
+        textViews[0].setText((int)notification.valueX+"/"+seekBars[1][0].getProgress()+" or "+(-1)*seekBars[0][0].getProgress());
+        textViews[1].setText((int)notification.valueY+"/"+seekBars[1][1].getProgress()+" or "+(-1)*seekBars[0][1].getProgress());
+        textViews[2].setText((int)notification.valueZ+"/"+seekBars[0][2].getProgress());
     }
     public void determineCompensation(BleNotification notification, ConstraintLayout constraintLayout, boolean stimming){
         if(notification.valueX> seekBars[1][0].getProgress()||notification.valueX<-1* seekBars[0][0].getProgress()){
