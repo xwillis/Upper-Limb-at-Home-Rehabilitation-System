@@ -12,6 +12,7 @@ public class MeasurementSensor {
     public SeekBar[] seekBars;//0 is neg/left
     public TextView textView;
 
+    private int offset=0;
     boolean stimming=false;
 
     public MeasurementSensor(ProgressBar[] progressBars, SeekBar[] seekBars, TextView textView){
@@ -31,20 +32,24 @@ public class MeasurementSensor {
     public void setText(int value){
         textView.setText(Integer.toString(value));
     }
+    public void calibrate(int value){
+        offset=value;
+    }
 
     public void setProgressValues(int value){
         if(value>0){
-            progressBars[1].setProgress(value);
+            progressBars[1].setProgress(value-offset);
             progressBars[0].setProgress(0);
         }else{
-            progressBars[0].setProgress(-1*value);
+            progressBars[0].setProgress(-1*value-offset);
             progressBars[1].setProgress(0);
         }
-        textView.setText(value+"/"+seekBars[1].getProgress()+" or "+(-1)*seekBars[0].getProgress());
+        textView.setText(value-offset+"/"+seekBars[1].getProgress()+" or "+(-1)*seekBars[0].getProgress());
     }
 
     public void determineStim(int value,ConstraintLayout constraintLayout, boolean compensating){
-            setProgressValues(value);
+        value=value-offset;
+        setProgressValues(value);
             if(!compensating){
                 //Log.d(tag, "Not compensating");
                 if(value>0&&value> seekBars[1].getProgress()){

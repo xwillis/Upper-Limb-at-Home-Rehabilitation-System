@@ -13,6 +13,7 @@ public class CompensationSensor {
     public SeekBar[][] seekBars;//0 is neg/left, 0-2 is x-z
     public TextView[] textViews;
 
+    private int[] offsets={0,0,0};
     boolean compensating=false;
 
     public CompensationSensor(ProgressBar[][] progressBars, SeekBar[][] seekBars, TextView[] textViews){
@@ -35,33 +36,39 @@ public class CompensationSensor {
         seekBars[0][2].setProgress(180);
     }
     public void setProgressValues(BleNotification notification){
-        if(notification.valueX>0){
-            progressBars[1][0].setProgress((int)notification.valueX);
+        int x=(int)notification.valueX-offsets[0];
+        int y=(int)notification.valueY-offsets[1];
+        int z=(int)notification.valueZ-offsets[2];
+        if(x>0){
+            progressBars[1][0].setProgress(x);
             progressBars[0][0].setProgress(0);
         }else{
-            progressBars[0][0].setProgress(-1*(int)notification.valueX);
+            progressBars[0][0].setProgress(-1*x);
             progressBars[1][0].setProgress(0);
         }
-        if(notification.valueY>0){
-            progressBars[1][1].setProgress((int)notification.valueY);
+        if(y>0){
+            progressBars[1][1].setProgress(y);
             progressBars[0][1].setProgress(0);
         }else{
-            progressBars[0][1].setProgress(-1*(int)notification.valueY);
+            progressBars[0][1].setProgress(-1*y);
             progressBars[1][1].setProgress(0);
         }
-        progressBars[0][2].setProgress((int)notification.valueZ);
-        textViews[0].setText((int)notification.valueX+"/"+seekBars[1][0].getProgress()+" or "+(-1)*seekBars[0][0].getProgress());
-        textViews[1].setText((int)notification.valueY+"/"+seekBars[1][1].getProgress()+" or "+(-1)*seekBars[0][1].getProgress());
-        textViews[2].setText((int)notification.valueZ+"/"+seekBars[0][2].getProgress());
+        progressBars[0][2].setProgress(z);
+        textViews[0].setText(x+"/"+seekBars[1][0].getProgress()+" or "+(-1)*seekBars[0][0].getProgress());
+        textViews[1].setText(y+"/"+seekBars[1][1].getProgress()+" or "+(-1)*seekBars[0][1].getProgress());
+        textViews[2].setText(z+"/"+seekBars[0][2].getProgress());
     }
     public void determineCompensation(BleNotification notification, ConstraintLayout constraintLayout, boolean stimming){
-        if(notification.valueX> seekBars[1][0].getProgress()||notification.valueX<-1* seekBars[0][0].getProgress()){
+        int x=(int)notification.valueX-offsets[0];
+        int y=(int)notification.valueY-offsets[1];
+        int z=(int)notification.valueZ-offsets[2];
+        if(x> seekBars[1][0].getProgress()||x<-1* seekBars[0][0].getProgress()){
             constraintLayout.setBackgroundColor(Color.parseColor("#cc0000"));
             compensating=true;
-        }else if(notification.valueY> seekBars[1][1].getProgress()||notification.valueY<-1* seekBars[0][1].getProgress()){
+        }else if(y> seekBars[1][1].getProgress()||y<-1* seekBars[0][1].getProgress()){
             constraintLayout.setBackgroundColor(Color.parseColor("#cc0000"));
             compensating=true;
-        }else if(notification.valueZ> seekBars[0][2].getProgress()){
+        }else if(z> seekBars[0][2].getProgress()){
             constraintLayout.setBackgroundColor(Color.parseColor("#cc0000"));
             compensating=true;
         }else {
@@ -74,5 +81,9 @@ public class CompensationSensor {
 
         setProgressValues(notification);
 
+    }
+    public void calibrate(BleNotification notification){
+        int[] temp={(int)notification.valueX,(int)notification.valueY,(int)notification.valueZ};
+        offsets=temp;
     }
 }
