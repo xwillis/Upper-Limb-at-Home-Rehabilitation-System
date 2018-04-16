@@ -625,7 +625,12 @@ public class UartActivity extends UartInterfaceActivity implements MqttManager.M
                 final byte[] bytes = characteristic.getValue();
 
                 //look for 0xFF
+                int MSB = bytes[0] << 8;
+                int LSB = bytes[0] & 0x000000FF;//convert the first two entries to doubles
+                int val = MSB | LSB;
+                float value = val * 0.0625f;
 
+                System.out.println("Value: " + value);
 
                 //convert bytes to float value
                 //ByteBuffer buf = ByteBuffer.wrap(bytes);
