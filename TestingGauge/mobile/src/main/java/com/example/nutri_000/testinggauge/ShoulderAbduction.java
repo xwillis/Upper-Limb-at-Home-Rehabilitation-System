@@ -33,7 +33,7 @@ public class ShoulderAbduction extends AppCompatActivity {
         registerReceiver(broadcastReceiver, new IntentFilter("bleService"));
     }
     public void bindViews(){
-        constraintLayout=(ConstraintLayout)findViewById(R.id.bicep_layout);
+        constraintLayout=(ConstraintLayout)findViewById(R.id.shoulder_abd);
         ImageButton imageButton=(ImageButton)findViewById(R.id.returnHome);
 
         ProgressBar[][] chestProgress={{(ProgressBar)findViewById(R.id.progressBarCompChestXNeg), (ProgressBar)findViewById(R.id.progressBarCompChestYNeg), (ProgressBar)findViewById(R.id.progressBarCompChestZ)},

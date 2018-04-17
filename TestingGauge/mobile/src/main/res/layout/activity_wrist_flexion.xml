@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/bicep_layout">
+    android:id="@+id/wrist_flex">
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -181,12 +181,19 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/SensorStatusChestZ" />
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/calButChest"
+                android:text="calibrate chest"
+                android:onClick="calibrateChest"
+                app:layout_constraintTop_toBottomOf="@id/seekBarCompChestZ"/>
             <TextView
                 android:id="@+id/bicepLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="BICEP"
-                app:layout_constraintTop_toBottomOf="@id/progressBarCompChestZ"/>
+                app:layout_constraintTop_toBottomOf="@id/calButChest"/>
 
             <TextView
                 android:id="@+id/SensorStatusBicepX"
@@ -350,12 +357,19 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/SensorStatusBicepZ" />
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/calButBicep"
+                android:text="Calibrate bicep"
+                android:onClick="calibrateBicep"
+                app:layout_constraintTop_toBottomOf="@+id/seekBarCompBicepZ"/>
             <TextView
                 android:id="@+id/wristLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="WRIST"
-                app:layout_constraintTop_toBottomOf="@id/progressBarCompBicepZ"/>
+                app:layout_constraintTop_toBottomOf="@id/calButBicep"/>
             <TextView
                 android:id="@+id/SensorStatusWristX"
                 android:layout_width="match_parent"
