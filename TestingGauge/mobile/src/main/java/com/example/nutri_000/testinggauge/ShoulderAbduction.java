@@ -68,7 +68,7 @@ public class ShoulderAbduction extends AppCompatActivity {
 
                 }else if(notification.gatt.equals("bicep")) {
                     //put this code at the IMU we're measuring, and choose valueX,Y,Z based on axis
-                    bicepMeasSens.setText((int)notification.valueX);
+                    //bicepMeasSens.setText((int)notification.valueX);
                     bicepMeasSens.determineStim((int)notification.valueX, constraintLayout, chestCompSens.compensating);
                 }
                 else if(notification.gatt.equals("hand")){

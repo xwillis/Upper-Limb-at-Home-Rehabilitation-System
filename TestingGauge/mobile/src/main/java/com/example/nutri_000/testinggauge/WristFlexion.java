@@ -74,44 +74,20 @@ public class WristFlexion extends AppCompatActivity {
             //Log.v(tag,"Event type is "+eventType);
 
             if (eventType.equals("notification")) {
-                // Log.v(tag,"You have mail event");
                 BleNotification notification = intent.getParcelableExtra("notifyObject");
-                //notification object is null for wrist, but works normally for chest...
-                // Log.v(tag, "notification gatt is "+notification.gatt);
+
                 if (notification.gatt.equals("chest")) {
-                    if(calibrate[0]){
-                        chestCompSens.calibrate(notification);
-                        calibrate[0]=false;
-                    }else {
-                        //put this code in all IMUs above the one we're measuring
-                        chestCompSens.determineCompensation(notification, constraintLayout, handMeasSens.stimming);
-                    }
+
+                    chestCompSens.determineCompensation(notification,constraintLayout,handMeasSens.stimming);
+
                 }else if(notification.gatt.equals("bicep")) {
-                    if(calibrate[1]){
-                        bicepCompSens.calibrate(notification);
-                        calibrate[1]=false;
-                    }else {
-                        //put this code in all IMUs above the one we're measuring
-                        bicepCompSens.determineCompensation(notification, constraintLayout, handMeasSens.stimming);
-                    }
+
+                    bicepCompSens.determineCompensation(notification,constraintLayout,handMeasSens.stimming);
                 }else if(notification.gatt.equals("wrist")) {
-                    if(calibrate[2]){
-                        wristCompSens.calibrate(notification);
-                        calibrate[2]=false;
-                    }else {
-                        //put this code at the IMU we're measuring, and choose valueX,Y,Z based on axis
-                        wristCompSens.determineCompensation(notification, constraintLayout, handMeasSens.stimming);
-                    }
+                    wristCompSens.determineCompensation(notification, constraintLayout, handMeasSens.stimming);
                 }
                 else if(notification.gatt.equals("hand")){
-                    if(calibrate[3]){
-                        handMeasSens.calibrate((int)notification.valueX);
-                        calibrate[3]=false;
-                    }else {
-                        //handMeasSens.setText((int) notification.valueX);
-                        //make it or because we want to know if there is any compensation, ie if any of the compensations is true
-                        handMeasSens.determineStim((int) notification.valueX, constraintLayout, chestCompSens.compensating || bicepCompSens.compensating || wristCompSens.compensating);
-                    }
+                    handMeasSens.determineStim((int)notification.valueX, constraintLayout, chestCompSens.compensating||bicepCompSens.compensating);
                 }
 
             }
