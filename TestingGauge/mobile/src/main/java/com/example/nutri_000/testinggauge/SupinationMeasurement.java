@@ -79,7 +79,7 @@ public class SupinationMeasurement extends AppCompatActivity {
                 }else if(notification.gatt.equals("wrist")) {
                     //put this code at the IMU we're measuring, and choose valueX,Y,Z based on axis
                     //wristMeasSens.setText((int)notification.valueY);
-                    wristMeasSens.determineStim((int)notification.valueX, constraintLayout, chestCompSens.compensating||bicepCompSens.compensating);
+                    wristMeasSens.determineStim((int)notification.valueY, constraintLayout, chestCompSens.compensating||bicepCompSens.compensating);
                 }
                 else if(notification.gatt.equals("hand")){
                     //leave IMUs below the measured IMU blank

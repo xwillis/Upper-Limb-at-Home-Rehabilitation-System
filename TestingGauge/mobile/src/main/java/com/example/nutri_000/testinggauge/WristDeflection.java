@@ -86,7 +86,7 @@ public class WristDeflection extends AppCompatActivity {
                     wristCompSens.determineCompensation(notification, constraintLayout, handMeasSens.stimming);
                 }
                 else if(notification.gatt.equals("hand")){
-                    handMeasSens.determineStim((int)notification.valueY, constraintLayout, chestCompSens.compensating||bicepCompSens.compensating);
+                    handMeasSens.determineStim((int)notification.valueZ, constraintLayout, chestCompSens.compensating||bicepCompSens.compensating);
                 }
 
             }
