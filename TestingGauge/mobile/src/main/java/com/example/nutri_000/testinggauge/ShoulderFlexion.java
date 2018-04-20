@@ -66,6 +66,7 @@ public class ShoulderFlexion extends AppCompatActivity {
 
                 }else if(notification.gatt.equals("bicep")) {
                     //put this code in all IMUs above the one we're measuring
+                    notification.valueZ=mapToValues((int)notification.valueZ);
                     bicepMeasSens.determineStim((int)notification.valueZ,constraintLayout, chestCompSens.compensating);
                 }else if(notification.gatt.equals("wrist")) {
                     //leave IMUs below the measured IMU blank
@@ -78,9 +79,13 @@ public class ShoulderFlexion extends AppCompatActivity {
         }
     };
 
-
-
-
+    public int mapToValues(int value){
+        value=-value;
+        if(value<-180){
+            value = value+360;
+        }
+        return value;
+    }
     public void returnToMain(View v){
         unregisterReceiver(broadcastReceiver);
         finish();

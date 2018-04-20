@@ -75,6 +75,7 @@ public class WristDeflection extends AppCompatActivity {
                 // Log.v(tag,"You have mail event");
                 BleNotification notification = intent.getParcelableExtra("notifyObject");
 
+
                 if (notification.gatt.equals("chest")) {
 
                     chestCompSens.determineCompensation(notification,constraintLayout,handMeasSens.stimming);
@@ -86,12 +87,21 @@ public class WristDeflection extends AppCompatActivity {
                     wristCompSens.determineCompensation(notification, constraintLayout, handMeasSens.stimming);
                 }
                 else if(notification.gatt.equals("hand")){
+                    notification.valueZ=mapToValues((int)notification.valueZ);
                     handMeasSens.determineStim((int)notification.valueZ, constraintLayout, chestCompSens.compensating||bicepCompSens.compensating);
                 }
 
             }
         }
     };
+    //todo test mapping
+    public int mapToValues(int value){
+        if(value>180){
+            value=value-360;
+        }
+        return value;
+
+    }
     public void returnToMain(View v){
         unregisterReceiver(broadcastReceiver);
         finish();

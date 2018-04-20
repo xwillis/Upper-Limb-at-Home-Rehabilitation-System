@@ -69,6 +69,7 @@ public class ShoulderAbduction extends AppCompatActivity {
                 }else if(notification.gatt.equals("bicep")) {
                     //put this code at the IMU we're measuring, and choose valueX,Y,Z based on axis
                     //bicepMeasSens.setText((int)notification.valueX);
+                    notification.valueX=mapToValues((int)notification.valueX);
                     bicepMeasSens.determineStim((int)notification.valueX, constraintLayout, chestCompSens.compensating);
                 }
                 else if(notification.gatt.equals("hand")){
@@ -81,6 +82,10 @@ public class ShoulderAbduction extends AppCompatActivity {
             }
         }
     };
+    public int mapToValues(int value){
+        value=-value;
+        return value;
+    }
     public void returnToMain(View v){
         unregisterReceiver(broadcastReceiver);
         finish();
