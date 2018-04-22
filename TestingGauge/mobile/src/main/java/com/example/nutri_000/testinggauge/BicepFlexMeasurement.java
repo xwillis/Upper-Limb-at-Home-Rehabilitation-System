@@ -23,6 +23,8 @@ public class BicepFlexMeasurement extends AppCompatActivity {
     private CompensationSensor chestCompSens;
     private CompensationSensor bicepCompSens;
 
+    private boolean[] calibrate={false,false,false,false};
+
     ConstraintLayout constraintLayout;
     ImageButton imageButton;
 
@@ -71,13 +73,23 @@ public class BicepFlexMeasurement extends AppCompatActivity {
                 BleNotification notification = intent.getParcelableExtra("notifyObject");
 
                 if (notification.gatt.equals("chest")) {
-
+                    if(calibrate[0]){
+                        chestCompSens.calibrate(notification);
+                        calibrate[0]=false;
+                    }
                     chestCompSens.determineCompensation(notification,constraintLayout,wristMeasSens.stimming);
 
                 }else if(notification.gatt.equals("bicep")) {
-
+                    if(calibrate[1]){
+                        bicepCompSens.calibrate(notification);
+                        calibrate[1]=false;
+                    }
                     bicepCompSens.determineCompensation(notification,constraintLayout,wristMeasSens.stimming);
                 }else if(notification.gatt.equals("wrist")) {
+                   if(calibrate[2]){
+                       wristMeasSens.calibrate((int)notification.valueX);
+                       calibrate[2]=false;
+                   }
                     wristMeasSens.determineStim((int)notification.valueX, constraintLayout, chestCompSens.compensating||bicepCompSens.compensating);
                 }
                 else if(notification.gatt.equals("hand")){
@@ -87,6 +99,21 @@ public class BicepFlexMeasurement extends AppCompatActivity {
             }
         }
     };
+    public void calibrateChest(View v){
+        calibrateSens(0);
+    }
+    public void calibrateBicep(View v){
+        calibrateSens(1);
+    }
+    public void calibrateWrist(View v){
+        calibrateSens(2);
+    }
+    public void calibrateHand(View v){
+        calibrateSens(3);
+    }
+    public void calibrateSens(int sensor){
+        calibrate[sensor]=true;
+    }
 
 
     public void returnToMain(View v){

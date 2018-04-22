@@ -21,6 +21,8 @@ public class SupinationMeasurement extends AppCompatActivity {
     private CompensationSensor chestCompSens;
     private CompensationSensor bicepCompSens;
 
+    private boolean[] calibrate={false,false,false,false};
+
     ConstraintLayout constraintLayout;
     ImageButton imageButton;
 
@@ -71,14 +73,26 @@ public class SupinationMeasurement extends AppCompatActivity {
                 // Log.v(tag, "notification gatt is "+notification.gatt);
                 if (notification.gatt.equals("chest")) {
                     //put this code in all IMUs above the one we're measuring
+                    if(calibrate[0]){
+                        chestCompSens.calibrate(notification);
+                        calibrate[0]=false;
+                    }
                     chestCompSens.determineCompensation(notification, constraintLayout, wristMeasSens.stimming);
 
                 }else if(notification.gatt.equals("bicep")) {
                     //put this code in all IMUs above the one we're measuring
+                    if(calibrate[1]){
+                        bicepCompSens.calibrate(notification);
+                        calibrate[1]=false;
+                    }
                     bicepCompSens.determineCompensation(notification, constraintLayout, wristMeasSens.stimming);
                 }else if(notification.gatt.equals("wrist")) {
                     //put this code at the IMU we're measuring, and choose valueX,Y,Z based on axis
                     //wristMeasSens.setText((int)notification.valueY);
+                    if(calibrate[2]){
+                        wristMeasSens.calibrate((int)notification.valueY);
+                        calibrate[2]=false;
+                    }
                     wristMeasSens.determineStim((int)notification.valueY, constraintLayout, chestCompSens.compensating||bicepCompSens.compensating);
                 }
                 else if(notification.gatt.equals("hand")){
@@ -88,6 +102,21 @@ public class SupinationMeasurement extends AppCompatActivity {
             }
         }
     };
+    public void calibrateChest(View v){
+        calibrateSens(0);
+    }
+    public void calibrateBicep(View v){
+        calibrateSens(1);
+    }
+    public void calibrateWrist(View v){
+        calibrateSens(2);
+    }
+    public void calibrateHand(View v){
+        calibrateSens(3);
+    }
+    public void calibrateSens(int sensor){
+        calibrate[sensor]=true;
+    }
 
     public void returnToMain(View v){
         unregisterReceiver(broadcastReceiver);

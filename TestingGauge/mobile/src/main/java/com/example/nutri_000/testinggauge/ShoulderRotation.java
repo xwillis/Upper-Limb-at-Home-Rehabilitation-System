@@ -20,6 +20,8 @@ public class ShoulderRotation extends AppCompatActivity {
     private MeasurementSensor bicepMeasSens;
     private CompensationSensor chestCompSens;
 
+    private boolean[] calibrate={false,false,false,false};
+
     ConstraintLayout constraintLayout;
     ImageButton imageButton;
 
@@ -62,9 +64,17 @@ public class ShoulderRotation extends AppCompatActivity {
                 // Log.v(tag, "notification gatt is "+notification.gatt);
                 if (notification.gatt.equals("chest")) {
                     //put this code in all IMUs above the one we're measuring
+                    if(calibrate[0]){
+                        chestCompSens.calibrate(notification);
+                        calibrate[0]=false;
+                    }
                     chestCompSens.determineCompensation(notification,constraintLayout,bicepMeasSens.stimming);
 
                 }else if(notification.gatt.equals("bicep")) {
+                    if(calibrate[1]){
+                        bicepMeasSens.calibrate((int)notification.valueY);
+                        calibrate[1]=false;
+                    }
                     //put this code at the IMU we're measuring, and choose valueX,Y,Z based on axis
                     bicepMeasSens.determineStim((int)notification.valueY,constraintLayout,chestCompSens.compensating);
                 }else if(notification.gatt.equals("wrist")) {
@@ -77,6 +87,21 @@ public class ShoulderRotation extends AppCompatActivity {
             }
         }
     };
+    public void calibrateChest(View v){
+        calibrateSens(0);
+    }
+    public void calibrateBicep(View v){
+        calibrateSens(1);
+    }
+    public void calibrateWrist(View v){
+        calibrateSens(2);
+    }
+    public void calibrateHand(View v){
+        calibrateSens(3);
+    }
+    public void calibrateSens(int sensor){
+        calibrate[sensor]=true;
+    }
 
 
 

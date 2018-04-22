@@ -77,16 +77,32 @@ public class WristFlexion extends AppCompatActivity {
                 BleNotification notification = intent.getParcelableExtra("notifyObject");
 
                 if (notification.gatt.equals("chest")) {
+                    if(calibrate[0]){
+                        chestCompSens.calibrate(notification);
+                        calibrate[0]=false;
+                    }
 
                     chestCompSens.determineCompensation(notification,constraintLayout,handMeasSens.stimming);
 
                 }else if(notification.gatt.equals("bicep")) {
+                    if(calibrate[1]){
+                        bicepCompSens.calibrate(notification);
+                        calibrate[1]=false;
+                    }
 
                     bicepCompSens.determineCompensation(notification,constraintLayout,handMeasSens.stimming);
                 }else if(notification.gatt.equals("wrist")) {
+                    if(calibrate[2]){
+                        wristCompSens.calibrate(notification);
+                        calibrate[2]=false;
+                    }
                     wristCompSens.determineCompensation(notification, constraintLayout, handMeasSens.stimming);
                 }
                 else if(notification.gatt.equals("hand")){
+                    if(calibrate[3]){
+                        handMeasSens.calibrate((int) notification.valueX);
+                        calibrate[3]=false;
+                    }
                     handMeasSens.determineStim((int)notification.valueX, constraintLayout, chestCompSens.compensating||bicepCompSens.compensating);
                 }
 

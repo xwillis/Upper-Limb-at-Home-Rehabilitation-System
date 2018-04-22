@@ -22,6 +22,8 @@ public class WristDeflection extends AppCompatActivity {
     private CompensationSensor bicepCompSens;
     private CompensationSensor wristCompSens;
 
+    private boolean[] calibrate={false,false,false,false};
+
     ConstraintLayout constraintLayout;
     ImageButton imageButton;
 
@@ -77,23 +79,54 @@ public class WristDeflection extends AppCompatActivity {
 
 
                 if (notification.gatt.equals("chest")) {
+                    if(calibrate[0]){
+                        chestCompSens.calibrate(notification);
+                        calibrate[0]=false;
+                    }
 
                     chestCompSens.determineCompensation(notification,constraintLayout,handMeasSens.stimming);
 
                 }else if(notification.gatt.equals("bicep")) {
+                    if(calibrate[1]){
+                        bicepCompSens.calibrate(notification);
+                        calibrate[1]=false;
+                    }
 
                     bicepCompSens.determineCompensation(notification,constraintLayout,handMeasSens.stimming);
                 }else if(notification.gatt.equals("wrist")) {
+                    if(calibrate[2]){
+                        wristCompSens.calibrate(notification);
+                        calibrate[2]=false;
+                    }
                     wristCompSens.determineCompensation(notification, constraintLayout, handMeasSens.stimming);
                 }
                 else if(notification.gatt.equals("hand")){
                     notification.valueZ=mapToValues((int)notification.valueZ);
+                    if(calibrate[3]){
+                        handMeasSens.calibrate((int)notification.valueZ);
+                        calibrate[3]=false;
+                    }
                     handMeasSens.determineStim((int)notification.valueZ, constraintLayout, chestCompSens.compensating||bicepCompSens.compensating);
                 }
 
             }
         }
     };
+    public void calibrateChest(View v){
+        calibrateSens(0);
+    }
+    public void calibrateBicep(View v){
+        calibrateSens(1);
+    }
+    public void calibrateWrist(View v){
+        calibrateSens(2);
+    }
+    public void calibrateHand(View v){
+        calibrateSens(3);
+    }
+    public void calibrateSens(int sensor){
+        calibrate[sensor]=true;
+    }
     //todo test mapping
     public int mapToValues(int value){
         if(value>180){
