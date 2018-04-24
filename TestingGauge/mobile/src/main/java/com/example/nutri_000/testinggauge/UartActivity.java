@@ -633,20 +633,16 @@ public class UartActivity extends UartInterfaceActivity implements MqttManager.M
             if (characteristic.getUuid().toString().equalsIgnoreCase(UUID_RX)) {
                 final byte[] bytes = characteristic.getValue();
 
-                //fill new array with all the resistance values
-                //byte[] allVals = new byte[60];
-                //int ndx = 0;
-                //fillData(bytes);
+                /*
+                fill new array with all the resistance values
+                for instance first sample from BLE is of length 20 so fill in those first
+                20 values into a new [] then the next 20 values fill in the next 20 empty values
+                until the new [] of length 60 is full
 
-                //once all resistance vals are stored store each resistance individually
-                //in new arrays
-                //if(allVals.length==60){
-                //    resistorArrays(allVals);
-                //}
+                */
 
-                //call method that stores five resistance values separately and then
-                // calls calibration curve line
-                //resistorArrays(bytes);
+                fillData(bytes);
+
 
                 mReceivedBytes += bytes.length;
 
@@ -689,6 +685,7 @@ public class UartActivity extends UartInterfaceActivity implements MqttManager.M
         for(int i=0;i<newData.length;i++){
             if(counter==60){
                 counter=0;
+                //separate the values in the array into individual resistance values
                 resistorArrays(data);
             }
             data[counter]=newData[i];
