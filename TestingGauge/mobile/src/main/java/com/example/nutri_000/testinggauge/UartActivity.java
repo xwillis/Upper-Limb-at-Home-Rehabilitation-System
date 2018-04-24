@@ -616,6 +616,15 @@ public class UartActivity extends UartInterfaceActivity implements MqttManager.M
         enableRxNotifications();
     }
 
+    public static int toInt(byte[] bytes, int offset) {
+        int ret = 0;
+        for (int i=0; i<4 && i+offset<bytes.length; i++) {
+            ret <<= 8;
+            ret |= (int)bytes[i] & 0xFF;
+        }
+        return ret;
+    }
+
     @Override
     public synchronized void onDataAvailable(BluetoothGattCharacteristic characteristic) {
         super.onDataAvailable(characteristic);
@@ -624,45 +633,20 @@ public class UartActivity extends UartInterfaceActivity implements MqttManager.M
             if (characteristic.getUuid().toString().equalsIgnoreCase(UUID_RX)) {
                 final byte[] bytes = characteristic.getValue();
 
-                //look for 0xFF
-                int MSB = bytes[0] << 8;
-                int LSB = bytes[0] & 0x000000FF;//convert the first two entries to doubles
-                int val = MSB | LSB;
-                float value = val * 0.0625f;
+                //fill new array with all the resistance values
+                //byte[] allVals = new byte[60];
+                //int ndx = 0;
+                //fillData(bytes);
 
-                System.out.println("Value: " + value);
+                //once all resistance vals are stored store each resistance individually
+                //in new arrays
+                //if(allVals.length==60){
+                //    resistorArrays(allVals);
+                //}
 
-                //convert bytes to float value
-                //ByteBuffer buf = ByteBuffer.wrap(bytes);
-                //float value = ByteBuffer.wrap(bytes).getFloat();
-                //float value = byteValue(bytes);
-                //System.out.println("byteValue: " + value);
-                //display bytes received to strings
-                 //String s = new String(bytes);
-                //System.out.println("Text Decrypted: " + s);
-
-                /*
-                //convert flex sensor resistance value received to int
-                //float resistance = Float.parseFloat(s);
-
-                //store the first five resistance values in an array
-                //thumb, index finger, middle finger, ring finger, pinky
-                flexSensorArray=new double[10];
-                angleArray = new double[10];
-                for (int i =0;i<5;i++){
-                    float resistance = Float.parseFloat(s);
-                    Log.v(tag, "Calibrating flex sensors");
-                    //store resistance values in array
-                    flexSensorArray[i] = resistance;
-                    System.out.println("flexSensor array value: " + flexSensorArray[i] + " value: " + i);
-                    //pass resistance values into corresponding calibration curve equations
-                    angleArray[i] = flexSensorCalibration(flexSensorArray[i], flexSensor[i]);
-                    System.out.println("Flex sensor: " + flexSensor[i] + " Angle: " + angleArray[i]);
-
-                }*/
-
-
-
+                //call method that stores five resistance values separately and then
+                // calls calibration curve line
+                //resistorArrays(bytes);
 
                 mReceivedBytes += bytes.length;
 
@@ -696,6 +680,19 @@ public class UartActivity extends UartInterfaceActivity implements MqttManager.M
                     mMqttManager.publish(topic, text, qos);
                 }
             }
+        }
+    }
+
+    int counter=0;
+    byte[] data = new byte[60];
+    public void fillData(byte[] newData){
+        for(int i=0;i<newData.length;i++){
+            if(counter==60){
+                counter=0;
+                resistorArrays(data);
+            }
+            data[counter]=newData[i];
+            counter++;
         }
     }
 
@@ -894,6 +891,105 @@ public class UartActivity extends UartInterfaceActivity implements MqttManager.M
         }
     }
     // endregion
+
+    //store bytes[] into new []
+    public void resistorArrays(byte[] bytes){
+        byte[] resOne = new byte[8];
+        byte[] resTwo = new byte[8];
+        byte[] resThree = new byte[8];
+        byte[] resFour = new byte[8];
+        byte[] resFive = new byte[8];
+
+
+        //scan through bytes array
+        for(int i=0;i<bytes.length;i++) {
+            //look for 0xff
+            if(bytes[i]==50&&bytes[i+1]==53&&bytes[i+2]==53){
+                //look for resistance 1
+                if(bytes[i+3]==49){
+                    for(int j=0; j<8; j++){
+                        //store bytes into new array
+                        resOne[j] = bytes[i+3+j+1];
+                    }
+                }
+                //look for resistance 2
+                if(bytes[i+3]==50){
+                    for(int j=0; j<8; j++){
+                        //store bytes into new array
+                        resTwo[j] = bytes[i+3+j+1];
+                    }
+                }
+                //look for resistance 3
+                if(bytes[i+3]==51){
+                    for(int j=0; j<8; j++){
+                        //store bytes into new array
+                        resThree[j] = bytes[i+3+j+1];
+                    }
+                }
+                //look for resistance 4
+                if(bytes[i+3]==52){
+                    for(int j=0; j<8; j++){
+                        //store bytes into new array
+                        resFour[j] = bytes[i+3+j+1];
+                    }
+                }
+                //look for resistance 5
+                if(bytes[i+3]==53){
+                    for(int j=0; j<8; j++){
+                        //store bytes into new array
+                        resFive[j] = bytes[i+3+j+1];
+                    }
+                }
+            }
+        }
+
+        //Convert byte[] into string
+        String R1 = new String(resOne);
+        String R2 = new String(resTwo);
+        String R3 = new String(resThree);
+        String R4 = new String(resFour);
+        String R5 = new String(resFive);
+
+        /*
+        //Display output
+        System.out.println("Res 1: "+R1);
+        System.out.println("Res 2: "+R2);
+        System.out.println("Res 3: "+R3);
+        System.out.println("Res 4: "+R4);
+        System.out.println("Res 5: "+R5);*/
+
+        //Convert string into double
+        double res1 = Double.parseDouble(R1);
+        double res2 = Double.parseDouble(R2);
+        double res3 = Double.parseDouble(R3);
+        double res4 = Double.parseDouble(R4);
+        double res5 = Double.parseDouble(R5);
+
+        /*
+        //Display double values
+        System.out.println("Double Res 1: "+res1);
+        System.out.println("Double Res 2: "+res2);
+        System.out.println("Double Res 3: "+res3);
+        System.out.println("Double Res 4: "+res4);
+        System.out.println("Double Res 5: "+res5);*/
+
+        //Pass the double values of resistance into calibration curve equations
+        double angle1 = flexSensorCalibration(res1,19)*-1;
+        double angle2 = flexSensorCalibration(res2,22)*-1;
+        double angle3 = flexSensorCalibration(res3,411)*-1;
+        double angle4 = flexSensorCalibration(res4,4)*-1;
+        double angle5 = flexSensorCalibration(res5,41)*-1;
+
+
+        //Display angle values
+        System.out.println("Angle 1: "+angle1);
+        System.out.println("Angle 2: "+angle2);
+        System.out.println("Angle 3: "+angle3);
+        System.out.println("Angle 4: "+angle4);
+        System.out.println("Angle 5: "+angle5);
+
+
+}
 
     //flex sensor calibration curve equations
     public double flexSensorCalibration(double resistance, int flexSensor){
