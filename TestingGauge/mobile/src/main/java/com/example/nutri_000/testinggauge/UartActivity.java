@@ -119,6 +119,10 @@ public class UartActivity extends UartInterfaceActivity implements MqttManager.M
     double angle;
     double[] angleArray;
     double[] flexSensorArray;
+    //ximone
+    //declare our data aray to hold our data here
+    byte[] data=new byte[60];
+    int counter=0;
 
 
     @Override
@@ -632,15 +636,8 @@ public class UartActivity extends UartInterfaceActivity implements MqttManager.M
         if (characteristic.getService().getUuid().toString().equalsIgnoreCase(UUID_SERVICE)) {
             if (characteristic.getUuid().toString().equalsIgnoreCase(UUID_RX)) {
                 final byte[] bytes = characteristic.getValue();
-
-                /*
-                fill new array with all the resistance values
-                for instance first sample from BLE is of length 20 so fill in those first
-                20 values into a new [] then the next 20 values fill in the next 20 empty values
-                until the new [] of length 60 is full
-
-                */
-
+                //ximone
+                //here we are transferring bytes into class variable data with this method
                 fillData(bytes);
 
 
@@ -678,18 +675,19 @@ public class UartActivity extends UartInterfaceActivity implements MqttManager.M
             }
         }
     }
-
-    int counter=0;
-    byte[] data = new byte[60];
+    //ximone
+    //hmm so this should have been ok but i declared it at the top just in case that was the problem
+    //int counter=0;
+    //byte[] data = new byte[60];
     public void fillData(byte[] newData){
         for(int i=0;i<newData.length;i++){
+            data[counter]=newData[i];
+            counter++;
             if(counter==60){
                 counter=0;
                 //separate the values in the array into individual resistance values
                 resistorArrays(data);
             }
-            data[counter]=newData[i];
-            counter++;
         }
     }
 
