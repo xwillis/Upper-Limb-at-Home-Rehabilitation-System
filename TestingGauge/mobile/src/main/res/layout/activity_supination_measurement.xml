@@ -378,15 +378,21 @@
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/progressBarCompBicepZ" />
-
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/calButWrist"
+                android:text="calibrate wrist"
+                android:onClick="calibrateWrist"
+                app:layout_constraintTop_toBottomOf="@id/armPic"/>
             <TextView
                 android:id="@+id/measuredValue"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Arm Value"
+                android:text="Wrist Value"
                 android:textColor="#000000"
                 android:textSize="20dp"
-                app:layout_constraintTop_toBottomOf="@id/armPic"/>
+                app:layout_constraintTop_toBottomOf="@id/calButWrist"/>
             <ProgressBar
                 android:id="@+id/progressBarMeasuredPos"
                 style="@android:style/Widget.ProgressBar.Horizontal"
