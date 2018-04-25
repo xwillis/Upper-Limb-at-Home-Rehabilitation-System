@@ -103,7 +103,7 @@ public class WristFlexion extends AppCompatActivity {
                         handMeasSens.calibrate((int) notification.valueX);
                         calibrate[3]=false;
                     }
-                    handMeasSens.determineStim((int)notification.valueX, constraintLayout, chestCompSens.compensating||bicepCompSens.compensating);
+                    handMeasSens.determineStim((int)notification.valueX, constraintLayout, chestCompSens.compensating||bicepCompSens.compensating||wristCompSens.compensating);
                 }
 
             }
