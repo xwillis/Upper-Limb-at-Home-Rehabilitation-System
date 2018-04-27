@@ -37,11 +37,11 @@ public class MeasurementSensor {
     }
 
     public void setProgressValues(int value){
-        if(value>0){
+        if(value-offset>0){
             progressBars[1].setProgress(value-offset);
             progressBars[0].setProgress(0);
         }else{
-            progressBars[0].setProgress(-1*value-offset);
+            progressBars[0].setProgress(-1*(value-offset));
             progressBars[1].setProgress(0);
         }
         textView.setText(value-offset+"/"+seekBars[1].getProgress()+" or "+(-1)*seekBars[0].getProgress());
