@@ -62,13 +62,9 @@ public class CompensationSensor {
         int x=(int)notification.valueX-offsets[0];
         int y=(int)notification.valueY-offsets[1];
         int z=(int)notification.valueZ-offsets[2];
-        if(x> seekBars[1][0].getProgress()||x<-1* seekBars[0][0].getProgress()){
-            constraintLayout.setBackgroundColor(Color.parseColor("#cc0000"));
-            compensating=true;
-        }else if(y> seekBars[1][1].getProgress()||y<-1* seekBars[0][1].getProgress()){
-            constraintLayout.setBackgroundColor(Color.parseColor("#cc0000"));
-            compensating=true;
-        }else if(z> seekBars[0][2].getProgress()){
+        if(x>= seekBars[1][0].getProgress()||x<=-1* seekBars[0][0].getProgress()
+                ||y>= seekBars[1][1].getProgress()||y<=-1* seekBars[0][1].getProgress()
+                ||z>= seekBars[0][2].getProgress()){
             constraintLayout.setBackgroundColor(Color.parseColor("#cc0000"));
             compensating=true;
         }else {

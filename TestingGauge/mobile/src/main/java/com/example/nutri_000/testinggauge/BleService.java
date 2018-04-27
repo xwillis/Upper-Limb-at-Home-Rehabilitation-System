@@ -39,7 +39,7 @@ public class BleService extends Service {
     public boolean searchingFromDetails = false;
     public boolean scanning = true;
     String TAG = "bleService";
-    String[] approvedDevices = new String[6];
+    String[] approvedDevices = new String[8];
     private IBinder bleBinder = new BleBinder();
     Intent intent;
     public String[] deviceIDs = new String[30];
@@ -78,7 +78,10 @@ public class BleService extends Service {
         approvedDevices[1] = sharedPreferences.getString("device2","FE:33:AE:91:13:CA");//the conformally coated IMU
         approvedDevices[2] = sharedPreferences.getString("device3","DD:70:D1:12:A3:21");//Noemi's one that sometimes doesn't show up
         approvedDevices[3] = sharedPreferences.getString("device4","F5:F8:64:BE:31:DF");//microHDMI one
-        approvedDevices[4] = sharedPreferences.getString("device5","0000");
+        approvedDevices[4] = sharedPreferences.getString("device5","DE:46:3D:65:3D:0E");
+        approvedDevices[5] = sharedPreferences.getString("device6","F7:03:AA:CD:CA:7B");
+        approvedDevices[6] = sharedPreferences.getString("device7","DC:90:F3:81:69:2B");
+        approvedDevices[7] = sharedPreferences.getString("device8","CF:5D:38:9B:7C:2A");
     }
 
     public int onStartCommand(Intent intent, int flags, int startId){
