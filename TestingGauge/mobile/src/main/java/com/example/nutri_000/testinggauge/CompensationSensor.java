@@ -59,12 +59,12 @@ public class CompensationSensor {
         textViews[2].setText(z+"/"+seekBars[0][2].getProgress());
     }
     public void determineCompensation(BleNotification notification, ConstraintLayout constraintLayout, boolean stimming){
-        int x=(int)notification.valueX-offsets[0];
-        int y=(int)notification.valueY-offsets[1];
-        int z=(int)notification.valueZ-offsets[2];
-        if(x>= seekBars[1][0].getProgress()||x<=-1* seekBars[0][0].getProgress()
-                ||y>= seekBars[1][1].getProgress()||y<=-1* seekBars[0][1].getProgress()
-                ||z>= seekBars[0][2].getProgress()){
+        notification.valueX=(int)notification.valueX-offsets[0];
+        notification.valueY=(int)notification.valueY-offsets[1];
+        notification.valueZ=(int)notification.valueZ-offsets[2];
+        if(notification.valueX>= seekBars[1][0].getProgress()||notification.valueX<=-1* seekBars[0][0].getProgress()
+                ||notification.valueY>= seekBars[1][1].getProgress()||notification.valueY<=-1* seekBars[0][1].getProgress()
+                ||notification.valueZ>= seekBars[0][2].getProgress()){
             constraintLayout.setBackgroundColor(Color.parseColor("#cc0000"));
             compensating=true;
         }else {

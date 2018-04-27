@@ -78,7 +78,7 @@ public class BicepFlexMeasurement extends AppCompatActivity {
                         chestCompSens.calibrate(notification);
                         calibrate[0]=false;
                     }
-                    Log.d(tag,"about to determine chest, wrist is "+wristMeasSens.stimming);
+                    //Log.d(tag,"about to determine chest, wrist is "+wristMeasSens.stimming);
                     chestCompSens.determineCompensation(notification,constraintLayout,wristMeasSens.stimming);
 
                 }else if(notification.gatt.equals("bicep")) {
@@ -86,14 +86,14 @@ public class BicepFlexMeasurement extends AppCompatActivity {
                         bicepCompSens.calibrate(notification);
                         calibrate[1]=false;
                     }
-                    Log.d(tag,"about to determine bicep, wrist is "+wristMeasSens.stimming);
+                    //Log.d(tag,"about to determine bicep, wrist is "+wristMeasSens.stimming);
                     bicepCompSens.determineCompensation(notification,constraintLayout,wristMeasSens.stimming);
                 }else if(notification.gatt.equals("wrist")) {
                    if(calibrate[2]){
                        wristMeasSens.calibrate((int)notification.valueX);
                        calibrate[2]=false;
                    }
-                   Log.d(tag, "about to determine stim, chest is "+chestCompSens.compensating+" and bicep is "+bicepCompSens.compensating);
+                   //Log.d(tag, "about to determine stim, chest is "+chestCompSens.compensating+" and bicep is "+bicepCompSens.compensating);
                     wristMeasSens.determineStim((int)notification.valueX, constraintLayout, chestCompSens.compensating||bicepCompSens.compensating);
                 }
                 else if(notification.gatt.equals("hand")){
